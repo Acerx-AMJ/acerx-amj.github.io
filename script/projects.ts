@@ -6,14 +6,17 @@ interface Project {
 }
 
 // Too lazy to use JSON
-const projects: Array<Project> = [
-   {
-      title: "Sandbox-2D",
-      description: "Build whatever your heart desires, survive the environment or simply play around - it's up to you. Sandbox-2D is a sandbox survival game where you can build, destroy and explore.",
-      image: "../assets/sandbox2d_12.png",
-      link: "../projects/sandbox2d.html",
-   }
-]
+const projects: Array<Project> = [{
+   title: "Sandbox-2D",
+   description: "Build whatever your heart desires, survive the environment or simply play around - it's up to you. Sandbox-2D is a sandbox survival game where you can build, destroy and explore.",
+   image: "../assets/sandbox2d_12.png",
+   link: "../projects/sandbox2d.html",
+}, {
+   title: "Block Placer",
+   description: "Game heavily inspired by Tetris. Go solo, co-op or battle against a friend!",
+   image: "../assets/block_placer_4.png",
+   link: "../projects/block_placer.html",
+}]
 
 document.addEventListener("DOMContentLoaded", () => {
    const projectdiv = document.getElementById("projects")
