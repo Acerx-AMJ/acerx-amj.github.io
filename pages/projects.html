@@ -5,21 +5,21 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Projects</title>
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
    </head>
 
-   <body>
-      <div class="topbar">
-         <a class="topbar-enabled" href="../index.html">Home</a>
-         <a class="topbar-disabled">Projects</a>
-         <a class="topbar-enabled" href="blog.html">Blog</a>
-         <a class="topbar-enabled" href="about.html">About</a>
+   <body class="bg-zinc-900">
+      <div class="flex flex-row items-center justify-center">
+         <a class="mx-5 my-3 font-medium text-sky-400 hover:underline" href="../index.html">Home</a>
+         <a class="mx-5 my-3 font-medium text-zinc-400">Projects</a>
+         <a class="mx-5 my-3 font-medium text-sky-400 hover:underline" href="blog.html">Blog</a>
+         <a class="mx-5 my-3 font-medium text-sky-400 hover:underline" href="about.html">About</a>
       </div>
 
-      <h1>Projects</h1>
-      <p>Showcase of my awesome projects!</p>
+      <h1 class="my-5 text-center text-heading text-4xl text-zinc-50 font-bold">Projects</h1>
+      <p class="mx-5 text-body text-zinc-50"><span style="margin-left:20px"></span>Showcase of my awesome projects!</p>
 
-      <div id="links"></div>
-      <div id="projects"></div>
+      <div class="mx-5 grid grid-cols-1" id="projects"></div>
 
       <script src="../source/projects.js"></script>
    </body>
