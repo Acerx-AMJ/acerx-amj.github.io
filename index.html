@@ -5,16 +5,17 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Home</title>
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
    </head>
 
-   <body>
-      <div class="topbar">
-         <a class="topbar-disabled">Home</a>
-         <a class="topbar-enabled" href="pages/projects.html">Projects</a>
-         <a class="topbar-enabled" href="pages/blog.html">Blog</a>
-         <a class="topbar-enabled" href="pages/about.html">About</a>
+   <body class="bg-zinc-900">
+      <div class="flex flex-row items-center justify-center">
+         <a class="mx-5 my-3 font-medium text-zinc-400">Home</a>
+         <a class="mx-5 my-3 font-medium text-sky-400 hover:underline" href="pages/projects.html">Projects</a>
+         <a class="mx-5 my-3 font-medium text-sky-400 hover:underline" href="pages/blog.html">Blog</a>
+         <a class="mx-5 my-3 font-medium text-sky-400 hover:underline" href="pages/about.html">About</a>
       </div>
-      <h1>Welcome to My Website!</h1>
-      <p>Everything's WIP!</p>
+      <h1 class="text-center text-heading text-4xl text-zinc-50 font-bold">Welcome to My Website!</h1>
+      <p class="mx-5 text-body text-zinc-50"><span style="margin-left:20px"></span>Everything's WIP!</p>
    </body>
 </html>

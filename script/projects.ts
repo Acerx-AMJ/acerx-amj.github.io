@@ -20,6 +20,7 @@ const projects: Array<Project> = [{
 
 document.addEventListener("DOMContentLoaded", () => {
    const projectdiv = document.getElementById("projects")
+   const linkdiv = document.getElementById("links")
 
    // Load all projects dynamically
    for (const project of projects) {
@@ -40,5 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
       div.appendChild(image)
 
       projectdiv.appendChild(div)
+      linkdiv.appendChild(link)
    }
 })

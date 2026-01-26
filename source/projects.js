@@ -12,6 +12,7 @@ var projects = [{
     }];
 document.addEventListener("DOMContentLoaded", function () {
     var projectdiv = document.getElementById("projects");
+    var linkdiv = document.getElementById("links");
     // Load all projects dynamically
     for (var _i = 0, projects_1 = projects; _i < projects_1.length; _i++) {
         var project = projects_1[_i];
@@ -28,5 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
         image.src = project.image;
         div.appendChild(image);
         projectdiv.appendChild(div);
+        linkdiv.appendChild(link);
     }
 });
