@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let image = document.createElement("img")
         image.src = project.image
-        image.className = "p-5"
+        image.className = "p-5 rounded-4xl"
         rightdiv.appendChild(image)
 
         let link = document.createElement("a")
