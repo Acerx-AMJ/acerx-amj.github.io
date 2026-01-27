@@ -6,17 +6,18 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Sandbox 2D</title>
       <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
    </head>
 
-   <body class="bg-zinc-900">
+   <body class="bg-zinc-900 flex flex-col h-screen justify-between">
       <div class="flex flex-row items-center justify-center">
-         <a class="sm:mx-5 mx-2.5 my-3 font-medium text-sky-400 hover:underline" href="../index.html">Home</a>
+         <a class="sm:mx-5 mx-2.5 my-3 font-medium text-sky-400 hover:underline" href="../pages/index.html">Home</a>
          <a class="sm:mx-5 mx-2.5 my-3 font-medium text-sky-400 hover:underline" href="../pages/projects.html">Projects</a>
          <a class="sm:mx-5 mx-2.5 my-3 font-medium text-sky-400 hover:underline" href="../pages/blog.html">Blog</a>
          <a class="sm:mx-5 mx-2.5 my-3 font-medium text-sky-400 hover:underline" href="../pages/about.html">About</a>
       </div>
 
-      <div class="max-w-2xl mx-auto">
+      <div class="max-w-2xl mx-auto mb-auto">
          <h1 class="my-5 text-center text-heading text-4xl text-zinc-50 font-bold">Sandbox-2D</h1>
          <img class="mx-auto" src="../assets/sandbox2d_12.png"/>
 
@@ -50,8 +51,14 @@
             <img src="../assets/sandbox2d_8.png"/> 
             <img src="../assets/sandbox2d_12.png"/> 
          </div>
-
          <script src="../source/gallery.js"></script>
       </div>
+
+      <div id="footer"></div>
+      <script>
+         $('#footer').load('../templates/footer.html', function() {
+            $('#copyright-notice')[0].innerText = `© ${new Date().getFullYear()} DANIEL VISHNEVSKY`
+         })
+      </script>
    </body>
 </html>
