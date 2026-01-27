@@ -14,9 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       element.addEventListener("mouseover", () => {
          image.src = link.image
-         image.style.display = "inline"
+         image.style.display = "block"
          image.style.pointerEvents = "none"
-         image.style.opacity = "100%"
 
          let rect = element.getBoundingClientRect()
          let img = image.getBoundingClientRect()
@@ -27,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       element.addEventListener("mouseout", () => {
          image.style.display = "none"
-         image.style.opacity = "0%"
       })
    }
 })
