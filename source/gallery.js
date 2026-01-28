@@ -20,13 +20,14 @@ function setImage(screen, index) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-   const gallery = document.getElementById("gallery")
    const screen = document.getElementById("screen")
+   const gallery = document.getElementById("gallery")
+   gallery.className = "place-items-center grid grid-cols-2 p-5 my-5 bg-zinc-800 rounded-xl shadow-lg shadow-zinc-950";
 
    for (let i = 0; i < gallery.children.length; i++) {
       let image = gallery.children[i]
       imageList.push(image)
-      image.className = "cursor-pointer p-1"
+      image.className = "cursor-pointer p-1 rounded-xl hover:scale-103 transition transition-duration-100"
 
       image.addEventListener("click", () => {
          if (selectedImage != null) {
