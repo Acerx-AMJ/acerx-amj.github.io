@@ -1,14 +1,19 @@
 // Too lazy to use JSON
 const projects = [{
     title: "Sandbox-2D",
-    description: "Build whatever your heart desires, survive the environment or simply play around - it's up to you. Sandbox-2D is a sandbox survival game where you can build, destroy and explore.",
+    description: "Build whatever your heart desires, survive the environment or simply play around - it's up to you. Sandbox-2D is a sandbox survival game where you can build, destroy and explore. Made with C++ and Raylib.",
     image: "../assets/sandbox2d_12.png",
     link: "../projects/sandbox2d.html",
 }, {
     title: "Block Placer",
-    description: "Game heavily inspired by Tetris. Go solo, co-op or battle against a friend!",
+    description: "Game heavily inspired by Tetris. Play solo, battle against friends in versus or work together in co-op mode! Made with C++ and Raylib.",
     image: "../assets/block_placer_4.png",
     link: "../projects/block_placer.html",
+}, {
+    title: "Pong",
+    description: "Pong. What more is there to say? Battle against a friend or go against a bot of 4 different difficulties. Made with C++ and SFML.",
+    image: "../assets/pong_2.png",
+    link: "../projects/pong.html"
 }]
 
 document.addEventListener("DOMContentLoaded", () => {
