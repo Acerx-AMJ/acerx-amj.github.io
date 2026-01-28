@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const project of projects) {
         // Create the divs
         let div = document.createElement("div")
-        div.className = "m-5 py-4 px-2 bg-zinc-800 rounded-xl transition transition-duration-100 hover:bg-gray-800"
+        div.className = "m-5 py-4 px-2 bg-zinc-800 rounded-xl transition transition-duration-100 hover:scale-103 hover:bg-gray-800"
 
         // Create the elements
         let header = document.createElement("h1")
@@ -35,7 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let image = document.createElement("img")
         image.src = project.image
         image.className = "p-5 rounded-4xl"
-        div.appendChild(image)
+
+        let imagelink = document.createElement("a")
+        imagelink.href = project.link
+        imagelink.appendChild(image)
+        div.appendChild(imagelink)
 
         let description = document.createElement("p")
         description.innerHTML = `<span style="margin-left:20px"></span>${project.description}`

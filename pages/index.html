@@ -11,12 +11,7 @@
    </head>
 
    <body class="bg-zinc-900 flex flex-col h-screen justify-between">
-      <header class="flex flex-row items-center justify-center">
-         <a class="sm:mx-5 mx-2.5 my-3 font-medium text-zinc-400">Home</a>
-         <a class="sm:mx-5 mx-2.5 my-3 font-medium text-sky-400 hover:underline" href="projects.html">Projects</a>
-         <a class="sm:mx-5 mx-2.5 my-3 font-medium text-sky-400 hover:underline" href="blog.html">Blog</a>
-         <a class="sm:mx-5 mx-2.5 my-3 font-medium text-sky-400 hover:underline" href="about.html">About</a>
-      </header>
+      <header id="header"></header>
 
       <div class="max-w-2xl mx-auto mb-auto">
          <h1 class="my-5 text-center text-heading text-4xl text-zinc-50 font-bold">Welcome to My Website!</h1>
@@ -25,6 +20,10 @@
 
       <div id="footer"></div>
       <script>
+         $('#header').load('../templates/header.html', function() {
+            $('#link-to-home')[0].className = "sm:mx-5 mx-2.5 my-3 font-medium text-zinc-400 pointer-events-none"
+         })
+
          $('#footer').load('../templates/footer.html', function() {
             $('#copyright-notice')[0].innerText = `© ${new Date().getFullYear()} DANIEL VISHNEVSKY`
          })
