@@ -1,3 +1,5 @@
+let imageList = []
+let imageIndex = 0
 let selectedImage = null
 
 function setImageToNull(screen) {
@@ -8,34 +10,45 @@ function setImageToNull(screen) {
    selectedImage = null
 }
 
-function setImage(screen, image) {
+function setImage(screen, index) {
    document.documentElement.style.overflow = "hidden"
    screen.classList = "h-full w-full fixed block bg-zinc-900 top-0 left-0"
 
-   image.className = "cursor-pointer p-1 h-full w-full object-contain top-0 left-0 fixed mx-auto inset-x-0"
-   selectedImage = image
+   imageIndex = index
+   selectedImage = imageList[imageIndex]
+   selectedImage.className = "cursor-pointer p-1 h-full w-full object-contain top-0 left-0 fixed mx-auto inset-x-0"
 }
 
 document.addEventListener("DOMContentLoaded", () => {
    const gallery = document.getElementById("gallery")
    const screen = document.getElementById("screen")
 
-   for (const image of gallery.children) {
+   for (let i = 0; i < gallery.children.length; i++) {
+      let image = gallery.children[i]
+      imageList.push(image)
       image.className = "cursor-pointer p-1"
 
       image.addEventListener("click", () => {
          if (selectedImage != null) {
             setImageToNull(screen)
          } else {
-            setImage(screen, image)
+            setImage(screen, i)
          }
       })
    }
 
    document.addEventListener("keyup", function(event) {
+      if (selectedImage == null) return
+      
       let key = event.key || event.keyCode
-      if (selectedImage != null && key == "Escape") {
+      if (key == "Escape") {
          setImageToNull(screen)
+      } else if (key == "ArrowRight") {
+         setImageToNull(screen)
+         setImage(screen, (imageIndex + 1) % imageList.length)
+      } else if (key == "ArrowLeft") {
+         setImageToNull(screen)
+         setImage(screen, (imageIndex == 0 ? imageList.length - 1 : imageIndex - 1))
       }
    })
 })
