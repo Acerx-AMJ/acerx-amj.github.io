@@ -18,6 +18,8 @@ const projects = [{
 
 document.addEventListener("DOMContentLoaded", () => {
     const projectdiv = document.getElementById("projects")
+    const searchbar = document.getElementById("search-bar")
+    const badsearch = document.getElementById("bad-search")
 
     // Load all projects dynamically
     for (const project of projects) {
@@ -49,4 +51,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         projectdiv.appendChild(div)
     }
+
+    searchbar.addEventListener('input', function() {
+        const search = searchbar.value.toLowerCase()
+        let count = 0
+        
+        for (const project of projectdiv.children) {
+            if (project.getElementsByTagName("h2")[0].innerText.toLowerCase().includes(search)
+             || project.getElementsByTagName("p" )[0].innerText.toLowerCase().includes(search)) {
+                project.style.display = "block"
+                count += 1
+            } else {
+                project.style.display = "none"
+            }
+        }
+        badsearch.style.display = (count == 0 ? "block" : "none")
+    })
 })

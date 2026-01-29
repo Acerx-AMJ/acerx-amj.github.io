@@ -192,6 +192,33 @@ footer div {
    margin-bottom: 5px;
 }
 
+#bad-search {
+   text-align: center;
+   display: none;
+   color: var(--lighter-gray);
+}
+
+#search-bar {
+   width: 100%;
+   padding: 5px;
+   box-sizing: border-box;
+   text-align: left;
+   margin-block: 12.5px;
+   border-radius: 12.5px;
+   background-color: var(--light-gray);
+   border: 1.5px solid;
+   border-color: var(--lighter-gray);
+   color: var(--white);
+   font-family: var(--font);
+   box-shadow: 1.5px 3px 5px var(--black), -1.5px 3px 5px var(--black);
+   transition: background-color 100ms, border-color 100ms;
+}
+
+#search-bar:focus {
+   background-color: var(--dark-blue);
+   border-color: var(--blue);
+}
+
 /*
    Project page specifics
 */
