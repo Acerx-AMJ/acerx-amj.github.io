@@ -5,31 +5,37 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Projects</title>
-
-      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="../style/style.css">
    </head>
 
-   <body class="bg-zinc-900 flex flex-col h-screen justify-between">
-      <div id="header"></div>
+   <body>
+      <header>
+         <a href="../pages/index.html">Home</a>
+         <a class="link-disabled">Projects</a>
+         <a href="../pages/blog.html">Blog</a>
+         <a href="../pages/about.html">About</a>
+      </header>
 
-      <div class="max-w-2xl mx-auto mb-auto">
-         <h1 class="my-5 text-center text-heading text-4xl text-zinc-50 font-bold">Projects</h1>
-         <p class="text-body text-zinc-50"><span style="margin-left:20px"></span>You'll find a list of my projects here including projects I have not published on Github, but most of them are and their source-code can be found <a class="font-medium text-sky-400 hover:underline" href="https://github.com/Acerx-AMJ">here</a>.</p>
+      <article>
+         <h1>Projects</h1>
+         <p><span></span>You'll find a list of my projects here including projects I have not published on Github, but most of them are and their source-code can be found <a href="https://github.com/Acerx-AMJ">here</a>.</p>
 
-         <div class="grid grid-cols-1" id="projects"></div>
+         <div id="projects"></div>
          <script src="../source/projects.js"></script>
-      </div>
+      </article>
 
-      <div id="footer"></div>
-      <script>
-         $('#header').load('../templates/header.html', function() {
-            $('#link-to-projects')[0].className = "sm:mx-5 mx-2.5 my-3 font-medium text-zinc-400 pointer-events-none"
-         })
+      <footer>
+         <h1 id="copyright-notice"></h1>
+         <p>This project is licensed under MIT License. See the full license <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io/blob/main/LICENSE">here</a>.</p>
 
-         $('#footer').load('../templates/footer.html', function() {
-            $('#copyright-notice')[0].innerText = `© ${new Date().getFullYear()} DANIEL VISHNEVSKY`
-         })
-      </script>
+         <div>
+            <a href="mailto:&#097;&#106;&#109;&#046;&#097;&#099;&#101;&#114;&#120;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">Email</a>
+            <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io">Source</a>
+            <a href="https://github.com/Acerx-AMJ">Github</a>
+            <a href="https://acerxamj.itch.io/">Itch.io</a>
+            <a href="https://www.youtube.com/@Acerx-AMJ">Youtube</a>
+         </div>
+         <script src="../source/footer.js"></script>
+      </footer>
    </body>
 </html>

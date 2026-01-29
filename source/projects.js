@@ -23,18 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const project of projects) {
         // Create the divs
         let div = document.createElement("div")
-        div.className = "my-5 p-4 bg-zinc-800 rounded-xl transition transition-duration-100 hover:scale-103 hover:bg-gray-800 shadow-lg shadow-zinc-950 hover:shadow-gray-950"
 
         // Create the elements
-        let header = document.createElement("h1")
+        let header = document.createElement("h2")
         header.href = project.link
         header.innerText = project.title
-        header.className = "mt-3 text-heading text-3xl font-bold text-zinc-50"
         div.appendChild(header)
 
         let image = document.createElement("img")
         image.src = project.image
-        image.className = "my-5 rounded-xl"
 
         let imagelink = document.createElement("a")
         imagelink.href = project.link
@@ -42,14 +39,12 @@ document.addEventListener("DOMContentLoaded", () => {
         div.appendChild(imagelink)
 
         let description = document.createElement("p")
-        description.innerHTML = `<span style="margin-left:20px"></span>${project.description}`
-        description.className = "text-body text-zinc-50"
+        description.innerHTML = `<span></span>${project.description}`
         div.appendChild(description)
 
         let link = document.createElement("a")
         link.href = project.link
         link.innerText = "Learn More"
-        link.className = "my-3 font-medium text-sky-400 hover:underline"
         div.appendChild(link)
 
         projectdiv.appendChild(div)

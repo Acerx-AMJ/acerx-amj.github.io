@@ -5,26 +5,29 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Pong</title>
-
-      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="../style/style.css">
    </head>
 
-   <body class="bg-zinc-900 flex flex-col h-screen justify-between">
-      <div id="header"></div>
+   <body>
+      <header>
+         <a href="../pages/index.html">Home</a>
+         <a href="../pages/projects.html">Projects</a>
+         <a href="../pages/blog.html">Blog</a>
+         <a href="../pages/about.html">About</a>
+      </header>
 
-      <div class="max-w-2xl mx-auto mb-auto">
-         <h1 class="mt-5 text-center text-heading text-4xl text-zinc-50 font-bold">Pong</h1>
-         <p class="my-2 text-center text-heading text-zinc-400">Daniel Vishnevsky</p>
-         <img class="mx-auto rounded-xl" src="../assets/pong_2.png"/>
+      <article>
+         <h1>Pong</h1>
+         <h3>Daniel Vishnevsky</h3>
+         <img src="../assets/pong_2.png"/>
 
-         <h3 class="my-5 text-heading text-3xl text-zinc-50 font-bold">About</h3>
-         <p class="text-body text-zinc-50"><span style="margin-left:20px"></span>At first it was my first ever graphical game made with C++ and I used pure SFML. It didn't feature things like bots yet and looked more crude. But after making my own library CX, which was based on SFML, but made it more convenient and easier to use, I ported it to my new library to see how it felt to use. It was still heavily object-oriented, but it was better than what SFML could provide for me. Eventually I fully remade it and even added more features. This project taught me game development and SFML. To learn something, you have to take the smaller steps first.</p>
+         <h2>About</h2>
+         <p><span></span>At first it was my first ever graphical game made with C++ and I used pure SFML. It didn't feature things like bots yet and looked more crude. But after making my own library CX, which was based on SFML, but made it more convenient and easier to use, I ported it to my new library to see how it felt to use. It was still heavily object-oriented, but it was better than what SFML could provide for me. Eventually I fully remade it and even added more features. This project taught me game development and SFML. To learn something, you have to take the smaller steps first.</p>
 
-         <h3 class="my-5 text-heading text-3xl text-zinc-50 font-bold">Features</h3>
-         <p class="text-body text-zinc-50"><span style="margin-left:20px"></span>This project features two modes - versus and versus bot mode. You can choose to play with a friend on the same machine or play against 4 different difficulties of bots. I also worked on a lot of little things like getting it to feel good with bouncing off of walls and slightly slippery movement. The ball moves faster the longer the game goes, but it doesn't phase through the paddles. I'm really proud of making a bot that is almost impossible to beat, it uses raycasting from my library to predict where the ball will go.</p>
+         <h2>Features</h2>
+         <p><span></span>This project features two modes - versus and versus bot mode. You can choose to play with a friend on the same machine or play against 4 different difficulties of bots. I also worked on a lot of little things like getting it to feel good with bouncing off of walls and slightly slippery movement. The ball moves faster the longer the game goes, but it doesn't phase through the paddles. I'm really proud of making a bot that is almost impossible to beat, it uses raycasting from my library to predict where the ball will go.</p>
 
-         <h3 class="my-5 text-heading text-3xl text-zinc-50 font-bold">Gallery</h3>
+         <h2>Gallery</h2>
          <div id="screen"></div>
          <div id="gallery">
             <img src="../assets/pong_1.png"/> 
@@ -35,14 +38,20 @@
             <img src="../assets/pong_6.png"/> 
          </div>
          <script src="../source/gallery.js"></script>
-      </div>
+      </article>
 
-      <div id="footer"></div>
-      <script>
-         $('#header').load('../templates/header.html')
-         $('#footer').load('../templates/footer.html', function() {
-            $('#copyright-notice')[0].innerText = `© ${new Date().getFullYear()} DANIEL VISHNEVSKY`
-         })
-      </script>
+      <footer>
+         <h1 id="copyright-notice"></h1>
+         <p>This project is licensed under MIT License. See the full license <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io/blob/main/LICENSE">here</a>.</p>
+
+         <div>
+            <a href="mailto:&#097;&#106;&#109;&#046;&#097;&#099;&#101;&#114;&#120;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">Email</a>
+            <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io">Source</a>
+            <a href="https://github.com/Acerx-AMJ">Github</a>
+            <a href="https://acerxamj.itch.io/">Itch.io</a>
+            <a href="https://www.youtube.com/@Acerx-AMJ">Youtube</a>
+         </div>
+         <script src="../source/footer.js"></script>
+      </footer>
    </body>
 </html>

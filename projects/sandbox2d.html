@@ -5,35 +5,37 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Sandbox 2D</title>
-
-      <link href="../style/style.css" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="../style/style.css">
    </head>
 
-   <body class="bg-zinc-900 flex flex-col h-screen justify-between">
-      <div id="header"></div>
+   <body>
+      <header>
+         <a href="../pages/index.html">Home</a>
+         <a href="../pages/projects.html">Projects</a>
+         <a href="../pages/blog.html">Blog</a>
+         <a href="../pages/about.html">About</a>
+      </header>
 
-      <div class="max-w-2xl mx-auto mb-auto">
-         <h1 class="mt-5 text-center text-heading text-4xl text-zinc-50 font-bold">Sandbox-2D</h1>
-         <p class="my-2 text-center text-heading text-zinc-400">Daniel Vishnevsky</p>
-         <img class="mx-auto rounded-xl" src="../assets/sandbox2d_12.png"/>
+      <article>
+         <h1>Sandbox-2D</h1>
+         <h3>Daniel Vishnevsky</h3>
+         <img src="../assets/sandbox2d_12.png"/>
 
-         <h3 class="my-5 text-heading text-3xl text-zinc-50 font-bold">About</h3>
-         <p class="text-body text-zinc-50"><span style="margin-left:20px"></span>Sandbox-2D is a sandbox survival game where the player can build, survive or simply play around. It is a 2D fantasy sidescrolling tile game.</p>
+         <h2>About</h2>
+         <p><span></span>Sandbox-2D is a sandbox survival game where the player can build, survive or simply play around. It is a 2D fantasy sidescrolling tile game.</p>
 
-         <h3 class="my-5 text-heading text-3xl text-zinc-50 font-bold">Features</h3>
-         <p class="text-body text-zinc-50"><span style="margin-left:20px"></span>Sandbox-2D has features too many to name. But I'll still list some of the bigger ones. First, world generation featuring a variety of biomes based on temperature and humidity. Each world is different and there's also an option to generate a flat world. Second, player controller - the player can move around, interact with the environment and get hurt by different hazards. The player also has the ability to break and place blocks.</p>
-         <p class="text-body text-zinc-50"><span style="margin-left:20px"></span>There are also a lot of features under physics and the renderer. The game handles sand, dirt and liquid physics. And the game handles 4 layers: background, furniture, liquids and blocks. Each layer interacts with the player or the other layers and are interconnected.</p>
+         <h2>Features</h2>
+         <p><span></span>Sandbox-2D has features too many to name. But I'll still list some of the bigger ones. First, world generation featuring a variety of biomes based on temperature and humidity. Each world is different and there's also an option to generate a flat world. Second, player controller - the player can move around, interact with the environment and get hurt by different hazards. The player also has the ability to break and place blocks.</p>
+         <p><span></span>There are also a lot of features under physics and the renderer. The game handles sand, dirt and liquid physics. And the game handles 4 layers: background, furniture, liquids and blocks. Each layer interacts with the player or the other layers and are interconnected.</p>
  
-         <h3 class="my-5 text-heading text-3xl text-zinc-50 font-bold">Development</h3>
-         <p class="text-body text-zinc-50"><span style="margin-left:20px"></span>I made Sandbox-2D with C++ and Raylib and my primary goal was to learn how to structure and design a big game. While I'll rather classify this as a medium-scale project, I still think it has taught me everything I wanted and even more. I learned DoD and simple design and no other project has taught me as much as this one. I started working on Sandbox-2D on November 8th and I'm still doing so to this day.</p>
-         <p class="text-body text-zinc-50"><span style="margin-left:20px"></span>I've used Git since day one so all commit history is available at <a class="my-3 font-medium text-sky-400 hover:underline" href="https://github.com/Acerx-AMJ/Sandbox-2D/commits/main/">Github</a>. I've tried to implement the simplest thing I could and then slowly add features to it and in the gallery I posted pictures in a chronological order so it's easier to see the big changes I've made to the game. I'm really proud about the state it's in right now and it's the biggest project I've ever made. If I had to start fresh then I'd try to make the code even simpler than it is right now.</p>
+         <h2>Development</h2>
+         <p><span></span>I made Sandbox-2D with C++ and Raylib and my primary goal was to learn how to structure and design a big game. While I'll rather classify this as a medium-scale project, I still think it has taught me everything I wanted and even more. I learned DoD and simple design and no other project has taught me as much as this one. I started working on Sandbox-2D on November 8th and I'm still doing so to this day.</p>
+         <p><span></span>I've used Git since day one so all commit history is available at <a href="https://github.com/Acerx-AMJ/Sandbox-2D/commits/main/">Github</a>. I've tried to implement the simplest thing I could and then slowly add features to it and in the gallery I posted pictures in a chronological order so it's easier to see the big changes I've made to the game. I'm really proud about the state it's in right now and it's the biggest project I've ever made. If I had to start fresh then I'd try to make the code even simpler than it is right now.</p>
          
-         <h3 class="my-5 text-heading text-3xl text-zinc-50 font-bold">Play</h3>
-         <p class="text-body text-zinc-50"><span style="margin-left:20px"></span>The game is available completely for free on Windows, Linux and MacOS on <a class="my-3 font-medium text-sky-400 hover:underline" href="https://acerxamj.itch.io/sandbox-2d">Itch.io</a>. It is also open-source on <a class="my-3 font-medium text-sky-400 hover:underline" href="https://github.com/Acerx-AMJ/Sandbox-2D">Github</a> and licensed under the MIT License. A playlist of videos can be found on <a class="my-3 font-medium text-sky-400 hover:underline" href="https://youtube.com/playlist?list=PL1QtXajvJAXc7bSy8mtwEIBQS9Clc-mjv&si=XDiw9BTXAgHvQVMk">Youtube</a>.</p>
+         <h2>Play</h2>
+         <p><span></span>The game is available completely for free on Windows, Linux and MacOS on <a href="https://acerxamj.itch.io/sandbox-2d">Itch.io</a>. It is also open-source on <a href="https://github.com/Acerx-AMJ/Sandbox-2D">Github</a> and licensed under the MIT License. A playlist of videos can be found on <a href="https://youtube.com/playlist?list=PL1QtXajvJAXc7bSy8mtwEIBQS9Clc-mjv&si=XDiw9BTXAgHvQVMk">Youtube</a>.</p>
 
-         <h3 class="my-5 text-heading text-3xl text-zinc-50 font-bold">Gallery</h3>
+         <h2>Gallery</h2>
          <div id="screen"></div>
          <div id="gallery" class="">
             <img src="../assets/sandbox2d_9.png"/> 
@@ -50,14 +52,20 @@
             <img src="../assets/sandbox2d_12.png"/> 
          </div>
          <script src="../source/gallery.js"></script>
-      </div>
+      </article>
 
-      <div id="footer"></div>
-      <script>
-         $('#header').load('../templates/header.html')
-         $('#footer').load('../templates/footer.html', function() {
-            $('#copyright-notice')[0].innerText = `© ${new Date().getFullYear()} DANIEL VISHNEVSKY`
-         })
-      </script>
+      <footer>
+         <h1 id="copyright-notice"></h1>
+         <p>This project is licensed under MIT License. See the full license <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io/blob/main/LICENSE">here</a>.</p>
+
+         <div>
+            <a href="mailto:&#097;&#106;&#109;&#046;&#097;&#099;&#101;&#114;&#120;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">Email</a>
+            <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io">Source</a>
+            <a href="https://github.com/Acerx-AMJ">Github</a>
+            <a href="https://acerxamj.itch.io/">Itch.io</a>
+            <a href="https://www.youtube.com/@Acerx-AMJ">Youtube</a>
+         </div>
+         <script src="../source/footer.js"></script>
+      </footer>
    </body>
 </html>
