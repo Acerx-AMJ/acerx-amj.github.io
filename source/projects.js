@@ -21,50 +21,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchbar = document.getElementById("search-bar")
     const badsearch = document.getElementById("bad-search")
 
-    // Load all projects dynamically
     for (const project of projects) {
-        // Create the divs
-        let div = document.createElement("div")
-
-        // Create the elements
-        let header = document.createElement("h2")
-        header.href = project.link
-        header.innerText = project.title
-        div.appendChild(header)
-
-        let image = document.createElement("img")
-        image.src = project.image
-
-        let imagelink = document.createElement("a")
-        imagelink.href = project.link
-        imagelink.appendChild(image)
-        div.appendChild(imagelink)
-
-        let description = document.createElement("p")
-        description.innerHTML = `<span></span>${project.description}`
-        div.appendChild(description)
-
-        let link = document.createElement("a")
-        link.href = project.link
-        link.innerText = "Learn More"
-        div.appendChild(link)
-
-        projectdiv.appendChild(div)
+        projectdiv.innerHTML += `
+        <div>
+            <h2>${project.title}</h2>
+            <a href="${project.link}"><img src="${project.image}"/></a>
+            <p>${project.description}</p>
+            <a href="${project.link}">Learn More</a>
+        </div>
+        `
     }
 
     searchbar.addEventListener('input', function() {
         const search = searchbar.value.toLowerCase()
-        let count = 0
+        let foundany = false
         
         for (const project of projectdiv.children) {
-            if (project.getElementsByTagName("h2")[0].innerText.toLowerCase().includes(search)
-             || project.getElementsByTagName("p" )[0].innerText.toLowerCase().includes(search)) {
-                project.style.display = "block"
-                count += 1
-            } else {
-                project.style.display = "none"
-            }
+            const found = project.getElementsByTagName("h2")[0].innerText.toLowerCase().includes(search)
+                       || project.getElementsByTagName("p" )[0].innerText.toLowerCase().includes(search)
+            project.style.display = (found ? "block" : "none")
+            foundany = foundany || found
         }
-        badsearch.style.display = (count == 0 ? "block" : "none")
+        badsearch.style.display = (foundany ? "none" : "block")
     })
 })
