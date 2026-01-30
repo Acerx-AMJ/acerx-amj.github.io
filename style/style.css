@@ -45,6 +45,7 @@ a:hover:not(.link-disabled) {
 }
 
 :not(p) > a {
+   user-select: none;
    margin-block: 1.2rem;
    margin-inline: 0.7rem;
 
@@ -55,6 +56,7 @@ a:hover:not(.link-disabled) {
 
 img {
    display: block;
+   user-select: none;
    width: 100%;
    border-radius: 12.5px;
 }
@@ -234,17 +236,19 @@ footer div {
    margin-block: 7.5px;
 }
 
-#gallery img {
+#gallery img, #screen img {
    cursor: pointer;
    padding: 1;
    transition: scale 100ms;
+   z-index: 1000;
 }
 
-#gallery img:not(.selected-img):hover {
+#gallery img:not(.selected-img):hover,
+#screen  img:not(.selected-img):hover {
    scale: 1.03
 }
 
-#gallery img.selected-img {
+#gallery img.selected-img, #screen img.selected-img {
    max-width: 100%;
    max-height: 100%;
    bottom: 0;
@@ -262,10 +266,33 @@ footer div {
    height: 100vh;
    width: 100vw;
    position: fixed;
-   display: none;
    background-color: var(--gray);
    top: 0;
    left: 0;
    margin: 0;
    padding: 0;
+}
+
+#left-arrow, #right-arrow {
+   position: fixed;
+   display: none;
+   width: 3.5rem;
+   height: 3.5rem;
+   top: 50vh;
+}
+
+#left-arrow:hover, #right-arrow:hover {
+   scale: 1.1 !important;
+}
+
+#left-arrow:active, #right-arrow:active {
+   scale: 0.9 !important;
+}
+
+#left-arrow {
+   left: 0;
+}
+
+#right-arrow {
+   right: 0;
 }
