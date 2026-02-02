@@ -121,12 +121,16 @@ article h3 {
    color: var(--lighter-gray);
 }
 
-article p {
+article p, article li {
    font-family: var(--font);
    color: var(--white);
    font-size: 1rem;
    line-height: 1.5;
    margin-block: 5px;
+}
+
+article li {
+   line-height: 1rem;
 }
 
 article p span {
@@ -145,7 +149,7 @@ footer {
    width: 100vw;
    height: 140px;
    padding-top: 20px;
-   margin-top: 20px;
+   margin-top: 100px;
 }
 
 footer h1, footer p {
@@ -164,17 +168,17 @@ footer div {
 }
 
 /*
-   projects.html specifics
+   projects.html and blog.html specifics
 */
 
-#projects {
+#projects, #blogs {
    display: flex;
    flex-direction: column;
    justify-content: center;
    gap: 15px;
 }
 
-#projects div {
+#projects div, #blogs div {
    margin-block: 10px;
    padding: 20px;
    background-color: var(--light-gray);
@@ -183,7 +187,7 @@ footer div {
    transition: scale 100ms, background-color 100ms, box-shadow 100ms;
 }
 
-#projects div:hover {
+#projects div:hover, #blogs div:hover {
    scale: 1.03;
    background-color: var(--dark-blue);
    box-shadow: 3px 7.5px 10px var(--darker-blue), -3px 7.5px 10px var(--darker-blue);
@@ -192,6 +196,14 @@ footer div {
 #projects a {
    margin: 0;
    margin-bottom: 5px;
+}
+
+#blogs a {
+   margin: 0;
+}
+
+#blogs a:hover {
+   text-decoration: none;
 }
 
 #bad-search {
