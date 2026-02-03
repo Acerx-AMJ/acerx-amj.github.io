@@ -19,46 +19,6 @@ const projects = [{
     description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
     image: "../assets/astral_surge_3.png",
     link: "../projects/astral_surge.html",
-}, {
-    title: "Astral Surge",
-    description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
-    image: "../assets/astral_surge_3.png",
-    link: "../projects/astral_surge.html",
-}, {
-    title: "Astral Surge",
-    description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
-    image: "../assets/astral_surge_3.png",
-    link: "../projects/astral_surge.html",
-}, {
-    title: "Astral Surge",
-    description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
-    image: "../assets/astral_surge_3.png",
-    link: "../projects/astral_surge.html",
-}, {
-    title: "Astral Surge",
-    description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
-    image: "../assets/astral_surge_3.png",
-    link: "../projects/astral_surge.html",
-}, {
-    title: "Astral Surge",
-    description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
-    image: "../assets/astral_surge_3.png",
-    link: "../projects/astral_surge.html",
-}, {
-    title: "Astral Surge",
-    description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
-    image: "../assets/astral_surge_3.png",
-    link: "../projects/astral_surge.html",
-}, {
-    title: "Astral Surge",
-    description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
-    image: "../assets/astral_surge_3.png",
-    link: "../projects/astral_surge.html",
-}, {
-    title: "Astral Surge",
-    description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
-    image: "../assets/astral_surge_3.png",
-    link: "../projects/astral_surge.html",
 }]
 
 document.addEventListener("DOMContentLoaded", () => {
