@@ -47,7 +47,7 @@ a:hover:not(.link-disabled) {
 :not(p) > a {
    user-select: none;
    margin-block: 1.2rem;
-   margin-inline: 0.7rem;
+   margin-inline: 0.4rem;
 
    @media (width >= 40rem) {
       margin-inline: 1.4rem;
@@ -169,17 +169,21 @@ footer div {
 }
 
 /*
-   projects.html and blog.html specifics
+   index.html, projects.html and blog.html specifics
 */
 
-#projects, #blogs {
+#pages {
+   margin-block: 30px;
+}
+
+#projects, #blogs, #pages {
    display: flex;
    flex-direction: column;
    justify-content: center;
    gap: 15px;
 }
 
-#projects div, #blogs div {
+#projects div, #blogs div, #pages a {
    margin-block: 10px;
    padding: 20px;
    background-color: var(--light-gray);
@@ -188,7 +192,7 @@ footer div {
    transition: scale 100ms, background-color 100ms, box-shadow 100ms;
 }
 
-#projects div:hover, #blogs div:hover {
+#projects div:hover, #blogs div:hover, #pages a:hover {
    scale: 1.03;
    background-color: var(--dark-blue);
    box-shadow: 3px 7.5px 10px var(--darker-blue), -3px 7.5px 10px var(--darker-blue);
@@ -199,11 +203,11 @@ footer div {
    margin-bottom: 5px;
 }
 
-#blogs a {
+#blogs a, #pages a {
    margin: 0;
 }
 
-#blogs a:hover {
+#blogs a:hover, #pages a:hover {
    text-decoration: none;
 }
 
