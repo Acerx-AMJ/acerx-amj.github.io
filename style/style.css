@@ -5,6 +5,7 @@
 
 :root {
    --blue: oklch(74.6% 0.16 232.661);
+   --dark-blue-2: oklch(42.4% 0.199 265.638);
    --dark-blue: oklch(27.8% 0.033 256.848);
    --darker-blue: oklch(13% 0.028 261.692);
 
@@ -76,7 +77,7 @@ header {
 */
 
 body {
-   background-color: var(--gray);
+   background-color: var(--black);
    display: flex;
    flex-direction: column;
    justify-content: space-between;
@@ -122,16 +123,18 @@ article h3 {
    color: var(--lighter-gray);
 }
 
-article p, article li {
+article pre {
+   font-family: var(--font);
+   font-size: 0.9rem;
+   color: var(--lighter-gray);
+}
+
+article p {
    font-family: var(--font);
    color: var(--white);
    font-size: 1rem;
    line-height: 1.5;
    margin-block: 5px;
-}
-
-article li {
-   line-height: 1rem;
 }
 
 article p span {
@@ -143,29 +146,31 @@ article p span {
 */
 
 footer {
-   background-color: var(--black);
+   /* background-color: var(--gray); */
    margin: 0;
    padding: 0;
 
    width: 100vw;
-   height: 140px;
+   height: 100px;
    padding-top: 20px;
    margin-top: 125px;
 }
 
-footer h1, footer p {
+footer a {
+   margin-block: 0px;
+}
+
+footer p {
    text-align: center;
    font-family: var(--font);
-   color: var(--white);
-   font-size: 1.05rem;
-   letter-spacing: 0.075rem;
-   margin-block: 5px;
+   color: var(--lighter-gray);
 }
 
 footer div {
    display: flex;
    flex-direction: row;
    justify-content: center;
+   margin-block: auto;
 }
 
 /*
@@ -186,14 +191,16 @@ footer div {
 #projects div, #blogs div, #pages a {
    margin-block: 10px;
    padding: 20px;
-   background-color: var(--light-gray);
+   background-color: var(--gray);
    border-radius: 12.5px;
-   box-shadow: 3px 7.5px 10px var(--black), -3px 7.5px 10px var(--black);
-   transition: scale 100ms, background-color 100ms, box-shadow 100ms;
+   border: 1.5px solid var(--light-gray);
+   box-shadow: 3px 7.5px 10px black, -3px 7.5px 10px black;
+   transition: scale 100ms, border 100ms, background-color 100ms, box-shadow 100ms;
 }
 
 #projects div:hover, #blogs div:hover, #pages a:hover {
-   scale: 1.03;
+   scale: 1.015;
+   border: 1.5px solid var(--blue);
    background-color: var(--dark-blue);
    box-shadow: 3px 7.5px 10px var(--darker-blue), -3px 7.5px 10px var(--darker-blue);
 }
@@ -224,16 +231,18 @@ footer div {
    text-align: left;
    margin-block: 12.5px;
    border-radius: 12.5px;
-   background-color: var(--light-gray);
+   background-color: var(--gray);
    border: 1.5px solid;
-   border-color: var(--lighter-gray);
+   border-color: var(--light-gray);
    color: var(--white);
    font-family: var(--font);
-   box-shadow: 1.5px 3px 5px var(--black), -1.5px 3px 5px var(--black);
-   transition: background-color 100ms, border-color 100ms;
+   box-shadow: 1.5px 3px 5px black, -1.5px 3px 5px black;
+   transition: background-color 100ms, border-color 100ms, box-shadow 100ms;
 }
 
 #search-bar:focus {
+   outline: none;
+   box-shadow: 1.5px 3px 5px var(--darker-blue), -1.5px 3px 5px var(--darker-blue);
    background-color: var(--dark-blue);
    border-color: var(--blue);
 }
@@ -275,9 +284,9 @@ footer div {
 */
 
 #gallery {
-   background-color: var(--light-gray);
+   background-color: var(--gray);
    border-radius: 12.5px;
-   box-shadow: 3px 7.5px 10px var(--black), -3px 7.5px 10px var(--black);
+   box-shadow: 3px 7.5px 10px black, -3px 7.5px 10px black;
    display: grid;
    grid-template-columns: 1fr 1fr;
    gap: 7.5px;
@@ -315,7 +324,7 @@ footer div {
    height: 100vh;
    width: 100vw;
    position: fixed;
-   background-color: var(--gray);
+   background-color: var(--black);
    top: 0;
    left: 0;
    margin: 0;

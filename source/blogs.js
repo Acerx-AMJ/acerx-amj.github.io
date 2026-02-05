@@ -3,7 +3,7 @@ const blogs = [{
    title: "How I Write C++",
    description: "I go over how I write C++, which guidelines I go by and where I learned all of this.",
    link: "../blogs/how_i_write_cpp.html",
-   date: "January 31, 2026"
+   date: "2026-01-31"
 }]
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,11 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     for (const project of blogs) {
         const div = document.createElement('div')
         div.innerHTML = `
-            <a href="${project.link}">
-                <pre>${project.date}</pre>
-                <h2>${project.title}</h2>
-                <p>${project.description}</p>
-            </a>`
+            <pre>${project.date}</pre>
+            <a href=${project.link}><h2>${project.title}</h2></a>
+            <p style="color:var(--lighter-gray);">${project.description}</p>
+            <a href=${project.link}>Learn More</a>`
 
         projectdiv.appendChild(div)
         allEntries.push(div)
