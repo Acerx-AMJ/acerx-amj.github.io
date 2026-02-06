@@ -18,16 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let filteredEntries = []
 
     for (const project of blogs) {
-        const div = document.createElement('div')
-        div.innerHTML = `
+        const link = document.createElement('a')
+        link.href = project.link
+        link.innerHTML = `
             <pre>${project.date}</pre>
-            <a href=${project.link}><h2>${project.title}</h2></a>
-            <p style="color:var(--lighter-gray);">${project.description}</p>
-            <a href=${project.link}>Learn More</a>`
+            <h2>${project.title}</h2>
+            <pre>${project.description}</pre>`
 
-        projectdiv.appendChild(div)
-        allEntries.push(div)
-        filteredEntries.push(div)
+        projectdiv.appendChild(link)
+        allEntries.push(link)
+        filteredEntries.push(link)
     }
 
     function showPage() {
