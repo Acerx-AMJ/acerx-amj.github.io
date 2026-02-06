@@ -354,3 +354,31 @@ footer div {
 #right-arrow {
    right: 0;
 }
+
+/*
+   Blog specifics
+*/
+
+.container {
+   margin-block: 10px;
+   padding: 10px;
+   background-color: var(--gray);
+   border-radius: 12.5px;
+   border: 1.5px solid var(--light-gray);
+   box-shadow: 3px 7.5px 10px black, -3px 7.5px 10px black;
+}
+
+.container-dark {
+   margin-block: 10px;
+   padding: 10px;
+   background-color: var(--black);
+   border-radius: 12.5px;
+   border: 1.5px solid var(--gray);
+   box-shadow: 3px 7.5px 10px black, -3px 7.5px 10px black;
+}
+
+.flex-row {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+}
