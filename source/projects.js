@@ -23,6 +23,12 @@ const projects = [{
     description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
     image: "../assets/astral_surge_3.png",
     link: "../projects/astral_surge.html",
+}, {
+    date: "Dec 2025",
+    title: "3D Toy Renderer",
+    description: "3D toy renderer capable of rendering 3D models from a list of vertices, lines and triangles. Made in 2 days with C and Raylib.",
+    image: "../assets/toy_renderer_1.png",
+    link: "../projects/toy_renderer.html",
 }]
 
 document.addEventListener("DOMContentLoaded", () => {
