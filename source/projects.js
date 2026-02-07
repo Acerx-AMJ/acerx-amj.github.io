@@ -6,17 +6,23 @@ const projects = [{
     image: "../assets/sandbox2d_12.png",
     link: "../projects/sandbox2d.html",
 }, {
+    date: "Dec 2025",
+    title: "3D Toy Renderer",
+    description: "3D toy renderer capable of rendering 3D models from a list of vertices, lines and triangles. Made in 2 days with C and Raylib.",
+    image: "../assets/toy_renderer_1.png",
+    link: "../projects/toy_renderer.html",
+}, {
     date: "Oct 2025",
     title: "Block Placer",
     description: "Game heavily inspired by Tetris. Play solo, battle against friends in versus or work together in co-op mode! Made with C++ and Raylib.",
     image: "../assets/block_placer_4.png",
     link: "../projects/block_placer.html",
 }, {
-    date: "Jan 2025",
-    title: "Pong",
-    description: "Pong. What more is there to say? Battle against a friend or go against a bot of 4 different difficulties. Made with C++ and SFML.",
-    image: "../assets/pong_2.png",
-    link: "../projects/pong.html"
+    date: "Sep 2025",
+    title: "Screen Simulation",
+    description: "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. Supports all RGB colors. Made with C++ and SFML.",
+    image: "../assets/screen_sim_1.png",
+    link: "../projects/screen_sim.html",
 }, {
     date: "Nov 2024 to Jun 2025",
     title: "Astral Surge",
@@ -24,11 +30,11 @@ const projects = [{
     image: "../assets/astral_surge_3.png",
     link: "../projects/astral_surge.html",
 }, {
-    date: "Dec 2025",
-    title: "3D Toy Renderer",
-    description: "3D toy renderer capable of rendering 3D models from a list of vertices, lines and triangles. Made in 2 days with C and Raylib.",
-    image: "../assets/toy_renderer_1.png",
-    link: "../projects/toy_renderer.html",
+    date: "Oct 2024 & Jan 2025",
+    title: "Pong",
+    description: "Pong. What more is there to say? Battle against a friend or go against a bot of 4 different difficulties. Made with C++ and SFML.",
+    image: "../assets/pong_2.png",
+    link: "../projects/pong.html"
 }]
 
 document.addEventListener("DOMContentLoaded", () => {
