@@ -35,6 +35,12 @@ const projects = [{
     description: "Pong. What more is there to say? Battle against a friend or go against a bot of 4 different difficulties. Made with C++ and SFML.",
     image: "../assets/pong_2.png",
     link: "../projects/pong.html"
+}, {
+    date: "Sep 2024 to Oct 2024",
+    title: "Abyss Descendant",
+    description: "Little terminal coin-collecting story game about fighting against an apocalypse. My first game made with C++.",
+    image: "../assets/abyss_descendant_2.png",
+    link: "../projects/abyss_descendant.html",
 }]
 
 document.addEventListener("DOMContentLoaded", () => {

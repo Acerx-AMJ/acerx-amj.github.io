@@ -205,13 +205,9 @@ footer div {
    box-shadow: 3px 7.5px 10px var(--darker-blue), -3px 7.5px 10px var(--darker-blue);
 }
 
-#projects a {
+#projects a, #blogs a, #pages a {
    margin: 0;
    margin-bottom: 5px;
-}
-
-#blogs a, #pages a {
-   margin: 0;
 }
 
 #projects a:hover, #blogs a:hover, #pages a:hover {

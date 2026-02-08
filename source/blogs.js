@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.innerHTML = `
             <pre>${project.date}</pre>
             <h2>${project.title}</h2>
-            <pre>${project.description}</pre>`
+            <p>${project.description}</p>`
 
         projectdiv.appendChild(link)
         allEntries.push(link)
