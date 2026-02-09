@@ -24,6 +24,12 @@ const projects = [{
     image: "../assets/screen_sim_1.png",
     link: "../projects/screen_sim.html",
 }, {
+    date: "Dec 2024 to Jun 2025",
+    title: "CX Library",
+    description: "Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user. Made with C++ and SFML.",
+    image: "../assets/cx_10.png",
+    link: "../projects/cx_lib.html",
+}, {
     date: "Nov 2024 to Jun 2025",
     title: "Astral Surge",
     description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
