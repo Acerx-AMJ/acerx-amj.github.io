@@ -19,13 +19,19 @@
       <article>
          <h2>Blog</h2>
          <p><span></span>Welcome to my blog! I go over topics like new updates for my projects, the technologies I like and dislike and my personal opinions on all sort of things. Take a look around!</p>
-
          <input type="text" id="search-bar" placeholder="Search For a Blog..." onfocus="this.select()"/>
          <p id="bad-search">No blogs match your search.</p>
          <div id="blogs"></div>
-
          <div id="project-buttons"></div>
          <script src="../source/blogs.js"></script>
+
+         <h2>Subscribe Now</h2>
+         <form action="https://buttondown.com/api/emails/embed-subscribe/Daniel-Vishnevsky" method="post" class="embeddable-buttondown-form" referrerpolicy="unsafe-url">
+         <label for="bd-email"><span></span>Subscribe to get notified when new blogs come out. Enter your email to subscribe, you can unsubscribe at any point: </label>
+         <input type="email" name="email" id="bd-email" placeholder="Enter Your Email..." onfocus="this.select()"/>
+         <input type="submit" value="Subscribe" id="subscribe"/>
+         <p><a href="https://buttondown.com/refer/Daniel-Vishnevsky" target="_blank" id="buttondown-link">Powered by Buttondown.</a></p>
+         </form>
       </article>
 
       <script src="../source/footer.js"></script>

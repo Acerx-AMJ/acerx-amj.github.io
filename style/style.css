@@ -129,7 +129,7 @@ article pre {
    color: var(--lighter-gray);
 }
 
-article p {
+article p, article label {
    font-family: var(--font);
    color: var(--white);
    font-size: 1rem;
@@ -137,7 +137,7 @@ article p {
    margin-block: 5px;
 }
 
-article p span {
+article span {
    margin-left: 25px;
 }
 
@@ -236,7 +236,21 @@ footer div {
    transition: background-color 100ms, border-color 100ms, box-shadow 100ms;
 }
 
-#search-bar:focus {
+#bd-email, #subscribe {
+   padding: 5px;
+   box-sizing: border-box;
+   text-align: left;
+   border-radius: 12.5px;
+   background-color: var(--gray);
+   border: 1.5px solid;
+   border-color: var(--light-gray);
+   color: var(--white);
+   font-family: var(--font);
+   box-shadow: 1.5px 3px 5px black, -1.5px 3px 5px black;
+   transition: background-color 100ms, border-color 100ms, box-shadow 100ms;
+}
+
+#search-bar:focus, #bd-email:focus, #subscribe:hover {
    outline: none;
    box-shadow: 1.5px 3px 5px var(--darker-blue), -1.5px 3px 5px var(--darker-blue);
    background-color: var(--dark-blue);
