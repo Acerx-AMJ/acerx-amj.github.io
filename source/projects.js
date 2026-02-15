@@ -24,6 +24,12 @@ const projects = [{
     image: "<img src=\"../assets/screen_sim_1.png\"/>",
     link: "../projects/screen_sim.html",
 }, {
+    date: "Aug 2025 to Sep 2025",
+    title: "CLL Interpreter",
+    description: "A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use. Made with C++.",
+    image: "<div class=\"container-dark flex-row\" style=\"box-shadow:none\"><pre class=\"mono\"><k>fn</k> <f>fibonacci</f>(n) {\n   <k>return</k> n <k>unless</k> n > 1\n   <f>fibonacci</f>(n - 1) + <f>fibonacci</f>(n - 2)\n}\n\n<k>fn</k> <f>main</f>() {\n   <f>println</f>(<f>fibonacci</f>(5))\n}</pre></div>",
+    link: "../projects/cll.html",
+}, {
     date: "Aug 2025 & Dec 2025",
     title: "Dfunge",
     description: "2D esoteric programming language based off Befunge-93 with file I/O, functions and other QOL elements. Made with C++.",

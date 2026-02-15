@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>CLL</title>
+      <link rel="stylesheet" href="../style/style.css">
+   </head>
+
+   <body>
+      <header>
+         <a href="../pages/index.html">Home</a>
+         <a href="../pages/projects.html">Projects</a>
+         <a href="../pages/blog.html">Blog</a>
+         <a href="../pages/about.html">About</a>
+      </header>
+
+      <article>
+         <h1>CLL</h1>
+         <h3>Daniel Vishnevsky</h3>
+         <div class="container-dark flex-row"><pre class="mono">
+<k>fn</k> <f>fibonacci</f>(n) {
+   <k>return</k> n <k>unless</k> n > 1
+   <f>fibonacci</f>(n - 1) + <f>fibonacci</f>(n - 2)
+}
+
+<k>fn</k> <f>main</f>() {
+   <f>println</f>(<f>fibonacci</f>(5))
+}</pre></div>
+
+         <h2>About</h2>
+         <p><span></span>A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use. Made with C++.</p>
+
+         <h2>Features</h2>
+         <p><span></span>CLL is a C like language with a basic standard library that supports functions, loops and arrays. It is really simple. Everything is an expression in the language which makes it really unique. It looks like an imperial language but is a functional one under the hood.</p>
+         <p><span></span>The infamous "Hello, World!" is really easy to write:</p>
+         <div class="container-dark"><pre class="mono"><f>println</f>(<t>"Hello, World!"</t>)</pre></div>
+         <p><span></span>Or if you want to be more correct:</p>
+         <div class="container-dark"><pre class="mono"><k>fn</k> <f>main</f>() {
+   <f>println</f>(<t>"Hello, World!"</t>)
+}</pre></div>
+         <p>I'm too lazy to give you many examples, so here is a huge file of everything found in CLL:</p>
+         <div class="container-dark"><pre class="mono"><c>// This is a single-line comment
+/*
+   This is a
+   multi-line
+   comment
+*/</c>
+
+<k>let</k> x, y, z = 29, -6.12, <k>null</k>
+<k>let</k> name = <t>"John"</t>
+<f>printfln</f>(<t>"Hello, {}!"</t>, name) <c>// -> Hello, John!</c>
+
+<f>assert</f>(1 + 1 == 2, <t>"Something's really wrong..."</t>)
+name = <f>input</f>(<t>"Input your name: "</t>) <c>// -> Input your name: [INPUT]</c>
+<f>printfln</f>(<t>"Hello, {}!"</t>, name) <c>// -> Hello, [INPUT]!</c>
+
+<k>con</k> myconstant = {
+   <k>return</k> 86
+}
+
+<k>delete</k> x, y, z <c>// They're not allocated, just delete the variables</c>
+<k>let</k> x <c>// Assign a completely new variable</c>
+<f>println</f>(<k>exists</k> x, <k>exists</k> y, <k>exists</k> z) <c>// -> true, false ,false</c>
+
+<k>do</k> {
+   <k>let</k> localvar = 20
+}
+<f>println</f>(<k>exists</k> localvar) <c>// -> false</c>
+
+<k>if</k> 1 + 1 == 2 <k>do</k>
+   <f>println</f>(<t>"1 + 1 is 2"</t>) <c>// -> 1 + 1 is 2</c>
+<k>else do</k>
+   <f>println</f>(<t>"1 + 1 is not 2"</t>) <c>// won't execute!</c>
+   
+<k>let</k> i = 10
+<k>while</k> i-- > 0 <k>do</k>
+   <f>println</f>(i) <c>// -> 9, 8, 7, 6, 5, 4, 3, 2, 1</c>
+
+<k>for</k> <k>let</k> i = 1; i <= 10; i++ <k>do</k>
+   <f>println</f>(i) <c>// -> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10</c>
+
+<k>for break</k> <c>// -> do nothing</c>
+
+<k>while</k> {
+   <k>let</k> ch = <f>inputch</f>()
+   <k>break unless</k> ch != <t>'y'</t> <c>// equivalent to if ch == 'y' do break</c>
+}
+
+<k>do</k> <f>println</f>(<t>"This will not print."</t>) <k>unless true</k>
+
+<f>println</f>(<t>"\e[31m This is red text! \e[0m"</t>)
+<f>println</f>(<t>"\e[32m This is green text! \e[0m"</t>)
+<f>println</f>(<t>"\e[34m This is blue text! \e[0m"</t>)
+
+<k>for</k> i <k>in</k> 0..10 <k>do</k>
+   <f>println</f>(i) <c>// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9</c>
+
+<k>let</k> a = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+<k>for</k> i <k>in</k> a <k>do</k>   
+   <f>println</f>(i) <c>// 1, 2, 3, 4, 5, 6, 7, 8, 9</c>
+<f>println</f>(a.<f>size</f>()) <c>// 9</c></pre></div>
+         <p><span></span>As can be seen in the example above CLL is a small scripting language that includes most of the necessary features for writing a quick little script.</p>
+         <h2>Development</h2>
+         <p><span></span>Started it out to achieve my dream of having my own real usable programming language and experimented a lot along the way, making it quite unique from the rest. I love how it came out but I would be more proud if I got references to work right. Because I couldn't, I quit making this.</p>
+         <p><span></span>I would count this as a half-successful language. I'm still far away from making a real working language that could be used in real-life situations but one day I might come back to this and upgrade it to finally have all features I want and to have a bigger standard library. Until then this is my best attemp at creating my own programming language.</p>
+         <p><span></span>The source code and documentation is available on <a href="https://github.com/Acerx-AMJ/CLL_Interpreter">Github</a>. It's not the best language implementation but it's good enough in my book.</p>
+      </article>
+
+      <script src="../source/footer.js"></script>
+   </body>
+</html>

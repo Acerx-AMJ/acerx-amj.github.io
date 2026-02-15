@@ -402,3 +402,23 @@ footer div {
    font-family: var(--font-mono);
    color: var(--white);
 }
+
+/*
+   Code colors
+*/
+
+pre k {
+   color: oklch(70.4% 0.191 22.216);
+}
+
+pre f {
+   color: oklch(71.4% 0.203 305.504);
+}
+
+pre t {
+   color: oklch(79.2% 0.209 151.711);
+}
+
+pre c {
+   color: oklch(44.4% 0.011 73.639);
+}
