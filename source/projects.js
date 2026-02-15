@@ -3,49 +3,55 @@ const projects = [{
     date: "Nov 2025 to present",
     title: "Sandbox-2D",
     description: "Build whatever your heart desires, survive the environment or simply play around - it's up to you. Sandbox-2D is a sandbox survival game where you can build, destroy and explore. Made with C++ and Raylib.",
-    image: "../assets/sandbox2d_12.png",
+    image: "<img src=\"../assets/sandbox2d_12.png\"/>",
     link: "../projects/sandbox2d.html",
 }, {
     date: "Dec 2025",
     title: "3D Toy Renderer",
     description: "3D toy renderer capable of rendering 3D models from a list of vertices, lines and triangles. Made in 2 days with C and Raylib.",
-    image: "../assets/toy_renderer_1.png",
+    image: "<img src=\"../assets/toy_renderer_1.png\"/>",
     link: "../projects/toy_renderer.html",
 }, {
     date: "Oct 2025",
     title: "Block Placer",
     description: "Game heavily inspired by Tetris. Play solo, battle against friends in versus or work together in co-op mode! Made with C++ and Raylib.",
-    image: "../assets/block_placer_4.png",
+    image: "<img src=\"../assets/block_placer_4.png\"/>",
     link: "../projects/block_placer.html",
 }, {
     date: "Sep 2025",
     title: "Screen Simulation",
     description: "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. Supports all RGB colors. Made with C++ and SFML.",
-    image: "../assets/screen_sim_1.png",
+    image: "<img src=\"../assets/screen_sim_1.png\"/>",
     link: "../projects/screen_sim.html",
+}, {
+    date: "Aug 2025 & Dec 2025",
+    title: "Dfunge",
+    description: "2D esoteric programming language based off Befunge-93 with file I/O, functions and other QOL elements. Made with C++.",
+    image: "<div class=\"container-dark flex-row\" style=\"box-shadow:none\"><pre class=\"mono\">v%mod   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n'2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n7#  HX  >\",\",  sq  QS  '32+1*  >Q HH,  +vxEH\n2a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   %pow   42*+^</pre></div>",
+    link: "../projects/dfunge.html",
 }, {
     date: "Dec 2024 to Jun 2025",
     title: "CX Library",
     description: "Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user. Made with C++ and SFML.",
-    image: "../assets/cx_10.png",
+    image: "<img src=\"../assets/cx_10.png\"/>",
     link: "../projects/cx_lib.html",
 }, {
     date: "Nov 2024 to Jun 2025",
     title: "Astral Surge",
     description: "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
-    image: "../assets/astral_surge_3.png",
+    image: "<img src=\"../assets/astral_surge_3.png\"/>",
     link: "../projects/astral_surge.html",
 }, {
     date: "Oct 2024 & Jan 2025",
     title: "Pong",
     description: "Pong. What more is there to say? Battle against a friend or go against a bot of 4 different difficulties. Made with C++ and SFML.",
-    image: "../assets/pong_2.png",
+    image: "<img src=\"../assets/pong_2.png\"/>",
     link: "../projects/pong.html"
 }, {
     date: "Sep 2024 to Oct 2024",
     title: "Abyss Descendant",
     description: "Little terminal coin-collecting story game about fighting against an apocalypse. My first game made with C++.",
-    image: "../assets/abyss_descendant_2.png",
+    image: "<img src=\"../assets/abyss_descendant_2.png\"/>",
     link: "../projects/abyss_descendant.html",
 }]
 
@@ -65,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         link.href = project.link
         link.innerHTML = `
             <h2>${project.title}</h2>
-            <img src="${project.image}"/>
+            ${project.image}
             <p>${project.description}</p>
             <pre>${project.date}</pre>`
 

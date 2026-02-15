@@ -15,7 +15,8 @@
    --gray: oklch(21% 0.006 285.885);
    --black: oklch(14.1% 0.005 285.823);
 
-   --font: Inter var,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji
+   --font: Inter var,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+   --font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 html, body {
@@ -124,6 +125,10 @@ article h3 {
 }
 
 article pre {
+   white-space: pre-wrap;
+   word-wrap: break-word;
+   overflow-wrap: anywhere;
+   overflow: auto;
    font-family: var(--font);
    font-size: 0.9rem;
    color: var(--lighter-gray);
@@ -383,7 +388,7 @@ footer div {
    padding: 10px;
    background-color: var(--black);
    border-radius: 12.5px;
-   border: 1.5px solid var(--gray);
+   border: 2px solid var(--gray);
    box-shadow: 3px 7.5px 10px black, -3px 7.5px 10px black;
 }
 
@@ -391,4 +396,9 @@ footer div {
    display: flex;
    flex-direction: row;
    justify-content: center;
+}
+
+.mono {
+   font-family: var(--font-mono);
+   color: var(--white);
 }
