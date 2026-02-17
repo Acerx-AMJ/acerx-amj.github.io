@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
    let imageList = []
    let imageIndex = 0
    let selectedImage = null
+   let previousFromBottom = 0
 
    // Image functions
 
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       selectedImage.className = ""
       selectedImage = null
+      window.scrollTo(0, document.documentElement.scrollHeight - previousFromBottom)
    }
 
    function setImage(index) {
@@ -55,7 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
    for (let i = 0; i < gallery.children.length - 2; i++) {
       let image = gallery.children[i]
       imageList.push(image)
-      image.addEventListener("click", () => selectedImage == null ? setImage(i) : setImageToNull())
+      image.addEventListener("click", () => {
+         if (selectedImage == null) {
+            previousFromBottom = document.documentElement.scrollHeight - window.scrollY
+            setImage(i)
+         } else {
+            setImageToNull()
+         }
+      })
    }
 
    document.addEventListener("keyup", function(event) {

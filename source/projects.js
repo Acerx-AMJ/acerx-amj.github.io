@@ -112,9 +112,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (i == currentPage) button.className = "selected-btn"
             button.addEventListener('click', () => {
+                let sh = document.documentElement.scrollHeight - window.scrollY
                 currentPage = i
                 showPage()
-                window.scrollTo(0, document.body.scrollHeight)
+                window.scrollTo(0, document.documentElement.scrollHeight - sh)
             })
             projectbuttons.appendChild(button)
         }
