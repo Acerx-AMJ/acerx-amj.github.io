@@ -33,7 +33,7 @@ const projects = [{
     date: "Aug 2025 & Dec 2025",
     title: "Dfunge",
     description: "2D esoteric programming language based off Befunge-93 with file I/O, functions and other QOL elements. Made with C++.",
-    image: "<div class=\"container-dark flex-row\" style=\"box-shadow:none\"><pre class=\"mono\">v%mod   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n'2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n7#  HX  >\",\",  sq  QS  '32+1*  >Q HH,  +vxEH\n2a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   %pow   42*+^</pre></div>",
+    image: "<div class=\"container-dark flex-row\" style=\"box-shadow:none\"><pre class=\"mono\">v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n<t>7</t>#  HX  ><t>\",\"</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH\n<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre></div>",
     link: "../projects/dfunge.html",
 }, {
     date: "Dec 2024 to Jun 2025",

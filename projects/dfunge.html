@@ -20,11 +20,11 @@
          <h1>Dfunge</h1>
          <h3>Daniel Vishnevsky</h3>
          <div class="container-dark flex-row"><pre class="mono">
-v%mod   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
-'2  >,  x6     -H  ,8  -H, 3/  ,t      ,E
-7#  HX  >",",  sq  QS  '32+1*  >Q HH,  +vxEH
-2a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<
->,tt*   i,      r>ro   qr  t2   %pow   42*+^</pre></div>
+v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
+<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E
+<t>7</t>#  HX  ><t>","</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH
+<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<
+>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre></div>
 
          <h2>About</h2>
          <p><span></span>2D esoteric programming language based off Befunge-93 with file I/O, functions and other QOL elements. Made with C++.</p>
@@ -33,17 +33,17 @@ v%mod   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
          <p><span></span>The playground is laid out on an infinite 2D grid. The program counter keeps track of the position and velocity which has inertia just like in Befunge-93, meaning it will continue moving in the same direction until it is changed. When the program counter lands on a command, it gets executed. All commands and functions can be found on <a href="https://github.com/Acerx-AMJ/Dfunge">Github</a>.</p>
          <p><span></span>Dfunge uses four data structures - the stack, the defered commands, variables and registers. Each have their pros and cons. This probably tells you nothing about the language, so here are some examples. The classic "Hello, World!" can be written like this:</span></p>
          <div class="container-dark"><pre class="mono">
-o"Hello, World!"t,E</p></div>
+o<t>"Hello, World!"</t>t,E</p></div>
          <p><span></span>Or like in the thumbnail:</p>
          <div class="container-dark"><pre class="mono">
-v%mod   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
-'2  >,  x6     -H  ,8  -H, 3/  ,t      ,E
-7#  HX  >",",  sq  QS  '32+1*  >Q HH,  +vxEH
-2a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<
->,tt*   i,      r>ro   qr  t2   %pow   42*+^</pre></div>
+v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
+<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E
+<t>7</t>#  HX  ><t>","</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH
+<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<
+>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre></div>
          <p><span></span>This program loops from 1 to 100 and outputs all numbers to the terminal:</p>
          <div class="container-dark"><pre class="mono">
-> 0 #i >   '100 @i Gj E
+> 0 #i >   <t>'100</t> @i Gj E
        ^,t.i@ i#i i@<</pre></div>
          <p><span></span>This is my implementation of factorial. It takes a number from the user and prints out its factorial.</p>
          <div class="container-dark"><pre class="mono">
@@ -51,28 +51,28 @@ v%mod   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
         ^r#*n@r@ n# d n@<</pre></div>
          <p><span></span>The all favorite guessing game. It uses labels and built-in functions. You can play it infinitely.</p>
          <div class="container-dark"><pre class="mono">
-:main  '100 %randint #num ;guess
-:guess o"Guess the number 0-100: "` #guess ;eval
-:eval  @guess @num =j @guess @num Gj ;toolow
-                    > ;correct     > ;toohigh
+<k>:main</k>  <t>'100</t> <f>%randint</f> #num <f>;guess</f>
+<k>:guess</k> o<t>"Guess the number 0-100: "</t>` #guess <f>;eval</f>
+<k>:eval</k>  @guess @num =j @guess @num Gj <f>;toolow</f>
+                    > <f>;correct</f>     > <f>;toohigh</f>
 
-:correct o"You guessed correctly!"t, o"Play again [y/n]: "~H,t, "y"=jE
-:toolow  o"Too low!"t,  ;guess                                      >;main
-:toohigh o"Too high!"t, ;guess</pre></div>
+<k>:correct</k> o<t>"You guessed correctly!"</t>t, o<t>"Play again [y/n]: "</t>~H,t, <t>"y"</t>=jE
+<k>:toolow</k>  o<t>"Too low!"</t>t,  <f>;guess</f>                                      ><f>;main</f>
+<k>:toohigh</k> o<t>"Too high!"</t>t, <f>;guess</f></pre></div>
          <p><span></span>This is a four command calculator that uses deferred commands. It loops continuously until the user decides to exit it.</p>
          <div class="container-dark"><pre class="mono">
-;inputnum #num1 ;inputnum #num2 ;inputop #op ;handleop E
+<f>;inputnum</f> #num1 <f>;inputnum</f> #num2 <f>;inputop</f> #op <f>;handleop</f> E
 
-:inputnum o"Input a number: "` R
-:inputop  o"Input the command (+, -, *, /): " ~H,t, R
+<k>:inputnum</k> o<t>"Input a number: "</t>` R
+<k>:inputop</k>  o<t>"Input the command (+, -, *, /): "</t> ~H,t, R
 
-:handleop @op "+"H=jq @op "-"H=jq @op "*"H=jq "/"H=jq o"Invalid command."t, R
-                   >           >           >       > ;getresult R
+<k>:handleop</k> @op <t>"+"</t>H=jq @op <t>"-"</t>H=jq @op <t>"*"</t>H=jq <t>"/"</t>H=jq o<t>"Invalid command."</t>t, R
+                   >           >           >       > <f>;getresult</f> R
 
-:getresult HT @num1. o" ",o" " @num2. o" = " @num1 @num2 x. t, R</pre></div>
+<k>:getresult</k> HT @num1. o<t>" "</t>,o<t>" "</t> @num2. o<t>" = "</t> @num1 @num2 x. t, R</pre></div>
          <p><span></span>Dfunge can also do file I/O. This example shows how to iterate a directory. The program simply outputs all files in the given directory.</p>
          <div class="container-dark"><pre class="mono">
-o"Input a directory: "&s %iteratedirectory > #size 0#i>@size @i =!j t, H0=!j E
+o<t>"Input a directory: "</t>&s <f>%iteratedirectory</f> > #size 0#i>@size @i =!j t, H0=!j E
                                                       ^    i#i i@,<
                                            ^                               <</pre></div>
          <p><span></span>Source code for these examples and even more examples can be found on <a href="https://github.com/Acerx-AMJ/Dfunge/tree/main/examples">Github</a>.</p>
@@ -81,24 +81,21 @@ o"Input a directory: "&s %iteratedirectory > #size 0#i>@size @i =!j t, H0=!j E
          <div class="container-dark">
          <p>Cfunge</p>
          <pre class="mono" style="font-size:0.8rem">
->o"Input command (+, -, /, *, q): "~C@ C,t, C"q"=;e_ 01J E@ 02J E;R_o"Invalid command."t,R
->o"Input first number: "`Y@ o"Input second number: "`Z@R
->$+$03J $-$03J $/$03J $*$03JR
->CPO=!;R ;Q_ Y.PO,Z.o"="YZx. 1E@ t,R</pre>
+>o<t>"Input command (+, -, /, *, q): "</t>~C@ C,t, C<t>"q"</t>=;e_ <f>01J</f> E@ <f>02J</f> E;R_o<t>"Invalid command."</t>t,R
+>o<t>"Input first number: "</t>`Y@ o<t>"Input second number: "</t>`Z@R
+>$+$<f>03J</f> $-$<f>03J</f> $/$<f>03J</f> $*$<f>03J</f>R
+>CPO=!;R ;Q_ Y.PO,Z.o<t>"="</t>YZx. 1E@ t,R</pre>
          </div>
-         <div class="container-dark">
-         <p>Dfunge</p>
-         <pre class="mono" style="font-size:0.8rem">
-;inputnum #num1 ;inputnum #num2 ;inputop #op ;handleop E
+         <div class="container-dark"><p>Dfunge</p><pre class="mono">
+<f>;inputnum</f> #num1 <f>;inputnum</f> #num2 <f>;inputop</f> #op <f>;handleop</f> E
 
-:inputnum o"Input a number: "` R
-:inputop  o"Input the command (+, -, *, /): " ~H,t, R
+<k>:inputnum</k> o<t>"Input a number: "</t>` R
+<k>:inputop</k>  o<t>"Input the command (+, -, *, /): "</t> ~H,t, R
 
-:handleop @op "+"H=jq @op "-"H=jq @op "*"H=jq "/"H=jq o"Invalid command."t, R
-                   >           >           >       > ;getresult R
+<k>:handleop</k> @op <t>"+"</t>H=jq @op <t>"-"</t>H=jq @op <t>"*"</t>H=jq <t>"/"</t>H=jq o<t>"Invalid command."</t>t, R
+                   >           >           >       > <f>;getresult</f> R
 
-:getresult HT @num1. o" ",o" " @num2. o" = " @num1 @num2 x. t, R</pre>
-         </div>
+<k>:getresult</k> HT @num1. o<t>" "</t>,o<t>" "</t> @num2. o<t>" = "</t> @num1 @num2 x. t, R</pre></div>
          <p><span></span>The reason I even made Cfunge was that I started implementing super tiny esoteric languages and that was so fun that I decided to move to Befunge-93. It's a hard language to implement at first but once you get it it's quite simple. But I wasn't happy with just the language implemented, I had to make it my own thing. I loved it because it was so unique.</p>
          <p><span></span>And like so, feature by feature, I made Cfunge my own language. A few months later the itch to make esoteric languages came back and I decided to remake it again. This time I actually documented it. Here's the source code for <a href="https://github.com/Acerx-AMJ/Cfunge">Cfunge</a> and <a href="https://github.com/Acerx-AMJ/Dfunge">Dfunge</a>, as well as a link to <a href="https://esolangs.org/wiki/Befunge">Befunge-93's page</a>.</p>
       </article>
