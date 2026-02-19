@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
    const gallery = document.getElementById("gallery")
    const larrow = document.getElementById("left-arrow")
    const rarrow = document.getElementById("right-arrow")
+   const x = document.getElementById("x")
 
    let imageList = []
    let imageIndex = 0
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gallery.id = "gallery"
       larrow.style.display = "none"
       rarrow.style.display = "none"
+      x.style.display = "none"
 
       selectedImage.className = ""
       selectedImage = null
@@ -32,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gallery.id = "screen"
       larrow.style.display = "block"
       rarrow.style.display = "block"
+      x.style.display = "block"
 
       imageIndex = index
       selectedImage = imageList[imageIndex]
@@ -53,8 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
    larrow.src = "../assets/left-arrow.png"
    rarrow.src = "../assets/right-arrow.png"
+   x.src = "../assets/x.png"
 
-   for (let i = 0; i < gallery.children.length - 2; i++) {
+   for (let i = 0; i < gallery.children.length - 3; i++) {
       let image = gallery.children[i]
       imageList.push(image)
       image.addEventListener("click", () => {
@@ -86,5 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
    rarrow.addEventListener("click", () => {
       selectImageRight()
+   })
+
+   x.addEventListener("click", () => {
+      setImageToNull()
    })
 })

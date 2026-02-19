@@ -346,6 +346,15 @@ footer div {
    padding: 0;
 }
 
+#x {
+   position: fixed;
+   display: none;
+   width: 3.5rem;
+   height: 3.5rem;
+   top: 0;
+   left: 0;
+}
+
 #left-arrow, #right-arrow {
    position: fixed;
    display: none;
@@ -354,11 +363,11 @@ footer div {
    top: 50vh;
 }
 
-#left-arrow:hover, #right-arrow:hover {
+#left-arrow:hover, #right-arrow:hover, #x:hover {
    scale: 1.1 !important;
 }
 
-#left-arrow:active, #right-arrow:active {
+#left-arrow:active, #right-arrow:active, #x:active {
    scale: 0.9 !important;
 }
 
