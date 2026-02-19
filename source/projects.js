@@ -1,5 +1,11 @@
 // Too lazy to use JSON
 const projects = [{
+    date: "Jan 2026 to present",
+    title: "Personal Website",
+    description: "The website you're looking at right now. My personal portfolio and blog site. Made with pure HTML/JS/CSS.",
+    image: "",
+    link: "../projects/website.html"
+}, {
     date: "Nov 2025 to present",
     title: "Sandbox-2D",
     description: "Build whatever your heart desires, survive the environment or simply play around - it's up to you. Sandbox-2D is a sandbox survival game where you can build, destroy and explore. Made with C++ and Raylib.",
