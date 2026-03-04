@@ -9,7 +9,7 @@ const projects = [{
     date: "Nov 2025 to present",
     title: "Sandbox-2D",
     description: "Build whatever your heart desires, survive the environment or simply play around - it's up to you. Sandbox-2D is a sandbox survival game where you can build, destroy and explore. Made with C++ and Raylib.",
-    image: "<img src=\"../assets/sandbox2d_12.png\"/>",
+    image: "<img src=\"../assets/sandbox2d_14.png\"/>",
     link: "../projects/sandbox2d.html",
 }, {
     date: "Dec 2025",
