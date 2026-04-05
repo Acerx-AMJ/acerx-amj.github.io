@@ -1,5 +1,10 @@
 // Again, too lazy to use JSON
 const blogs = [{
+    title: "Responsive Design in Raylib",
+    description: "How I made my game look great on all desktop screen sizes.",
+    link: "../blogs/responsive_design.html",
+    date: "2026-04-05"
+},{
    title: "How I Write C++",
    description: "I go over how I write C++, which guidelines I go by and where I learned all of this.",
    link: "../blogs/how_i_write_cpp.html",

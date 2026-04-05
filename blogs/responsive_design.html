@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Responsive Design in Raylib</title>
+      <link rel="stylesheet" href="../style/style.css">
+   </head>
+
+   <body>
+      <header>
+         <a href="../pages/index.html">Home</a>
+         <a href="../pages/projects.html">Projects</a>
+         <a href="../pages/blog.html">Blog</a>
+         <a href="../pages/about.html">About</a>
+      </header>
+
+      <article>
+         <h1>Responsive Design in Raylib</h1>
+         <h3>Daniel Vishnevsky</h3>
+         <img src="../assets/responsive_sandbox.png"/>
+
+         <h2>Motivation</h2>
+         <p><span></span>I was working on my game while submitting devlogs on the side on Hackclub Flavortown. Everything was going well (for the most part) until one of the reviewers showed me a video. The image above looked horrendous. Buttons were out of the screen, the scrollframe was extremely squished and the title was gone as well. It was impossible to create a world unless you knew the shortcut. That's kind of bad.</p>
+         <h2>Hardcoded UI</h2>
+         <p><span></span>The core issue here is that UI element positions and size are hardcoded. What a surprise. I'm turning into those blogs that explain what variables are before tackling an error... Anyway, UI before this update looked along the lines of this:</p>
+         <div class="container-dark"><pre class="mono">
+<c>// definitions:</c>
+<c>// drawText(position, text, fontsize)</c>
+<c>// drawTexture(texture, position, size, rotation)</c>
+<c>// getScreenCenter(offset?)</c>
+
+<f>drawText</f>(<f>getScreenCenter</f>({0, -175.0f}), loadingText, 80);
+<f>drawText</f>(<f>getScreenCenter</f>({0, 100.0f}), splashText, 40);
+<f>drawTexture</f>(loadingTexture, <f>getScreenCenter</f>(), {70.0f, 70.0f}, iconRotation);
+</pre></div>
+         <p><span></span>It's a simplified snippet of my loading state renderer. Nothing crazy. Now I wonder what my game looked like at 800x600 resolution since I'm designing the UI on 1920x1080 resolution. Probably not great, if you can see anything that is.</p>
+         <h2>Solution</h2>
+         <p><span></span>Fixing this took 3 helper functions and depending on your architecture it might also take another state management function. But that's not necessary. It's really as simple as</p>
+         <div class="container-dark"><pre class="mono">
+<k>float</k> <f>getWidthRatio</f>() {
+   <k>return</k> <f>GetScreenWidth</f>() / 1920.0f; <c>// the width of YOUR resolution AKA the resolution which is used to design the UI layout</c>
+}
+
+<k>float</k> <f>getHeightRatio</f>() {
+   <k>return</k> <f>GetScreenHeight</f>() / 1080.0f; <c>// again, YOUR resolution height</c>
+}
+
+<k>float</k> <f>getCubicRatio</f>() {
+   <k>return</k> <f>min</f>(<f>getWidthRatio</f>(), <f>getHeightRatio</f>());
+}
+</pre></div>
+         <p>So let's go over these three functions first:</p>
+         <p><span></span>&#x2022 <f>getWidthRatio</f>() is used for the X axis, that is width, padding and offsets. If you style your UI on 1920x1080 and the user is on a resolution half of that then they will see the object twice smaller in pixel space. That's what we're going for!</p>
+         <p><span></span>&#x2022 <f>getHeightRatio</f>() is the same as the previous function but is used for the Y axis instead.</p>
+         <p><span></span>&#x2022 <f>getCubicRatio</f>() is used for objects that must retain the same resolution (that is, will have the same width to height ratio) or for font sizes. It takes the minimum of both ratios as a safe option to avoid overflowing. You could also add a 4th helper function (highly recommended) for fonts and font spacing:</p>
+         <div class="container-dark"><pre class="mono">
+<k>float</k> <f>getFontSize</f>(<k>float</k> fontsize) {
+   <k>return</k> <f>getCubicRatio</f>() * fontsize;
+}</pre></div>
+         <h2>In Practice</h2>
+         <p><span></span>It's simple, just multiply by them! Here's the previous example using the new functions:</p>
+         <div class="container-dark"><pre class="mono">
+<k>float</k> hr = <f>getHeightRatio</f>();
+<k>float</k> cr = <f>getCubicRatio</f>();
+
+<f>drawText</f>(<f>getScreenCenter</f>({0, hr * -175.0f}), loadingText, <f>getFontSize</f>(80));
+<f>drawText</f>(<f>getScreenCenter</f>({0, hr * 100.0f}), splashText, <f>getFontSize</f>(40));
+<f>drawTexture</f>(loadingTexture, <f>getScreenCenter</f>(), {cr * 70.0f, cr * 70.0f}, iconRotation);
+</pre></div>
+         <p><span></span>Just don't multiply by it twice as that'll make the object shrink more based on the resolution instead. Also, I'd recommend to write your own draw utility that automatically applies these but beware when to use cubic ratio and when the size ratios.</p>
+         <p><span></span>About the state management function: if you create some UI elements as objects (e.g. buttons, sliders - with saveable state) and use a state handler then I'd advise you to write a function that applies these ratios whenever the window is resized for a specific state.</p>
+         <p><span></span>That's how I handle it in my game and it just works. There's simply no need for more abstraction in games. Websites are a different story but this simply isn't one!</p>
+      </article>
+
+      <script src="../source/footer.js"></script>
+   </body>
+</html>

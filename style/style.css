@@ -440,18 +440,18 @@ footer div {
    Code colors
 */
 
-pre k {
+k {
    color: oklch(70.4% 0.191 22.216);
 }
 
-pre f {
+f {
    color: oklch(71.4% 0.203 305.504);
 }
 
-pre t {
+t {
    color: oklch(79.2% 0.209 151.711);
 }
 
-pre c {
+c {
    color: oklch(44.4% 0.011 73.639);
 }
