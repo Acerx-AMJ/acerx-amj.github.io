@@ -19,7 +19,7 @@
       <article>
          <h1>Dfunge</h1>
          <h3>Daniel Vishnevsky</h3>
-         <div class="container-dark flex-row"><pre class="mono">
+         <div class="container flex-row"><pre class="mono">
 v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
 <t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E
 <t>7</t>#  HX  ><t>","</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH
@@ -32,25 +32,25 @@ v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
          <h2>Features</h2>
          <p><span></span>The playground is laid out on an infinite 2D grid. The program counter keeps track of the position and velocity which has inertia just like in Befunge-93, meaning it will continue moving in the same direction until it is changed. When the program counter lands on a command, it gets executed. All commands and functions can be found on <a href="https://github.com/Acerx-AMJ/Dfunge">Github</a>.</p>
          <p><span></span>Dfunge uses four data structures - the stack, the defered commands, variables and registers. Each have their pros and cons. This probably tells you nothing about the language, so here are some examples. The classic "Hello, World!" can be written like this:</span></p>
-         <div class="container-dark"><pre class="mono">
+         <div class="container"><pre class="mono">
 o<t>"Hello, World!"</t>t,E</p></div>
          <p><span></span>Or like in the thumbnail:</p>
-         <div class="container-dark"><pre class="mono">
+         <div class="container"><pre class="mono">
 v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
 <t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E
 <t>7</t>#  HX  ><t>","</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH
 <t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<
 >,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre></div>
          <p><span></span>This program loops from 1 to 100 and outputs all numbers to the terminal:</p>
-         <div class="container-dark"><pre class="mono">
+         <div class="container"><pre class="mono">
 > 0 #i >   <t>'100</t> @i Gj E
        ^,t.i@ i#i i@<</pre></div>
          <p><span></span>This is my implementation of factorial. It takes a number from the user and prints out its factorial.</p>
-         <div class="container-dark"><pre class="mono">
+         <div class="container"><pre class="mono">
 `H #n #r>          @n 1Gj @r. t, E
         ^r#*n@r@ n# d n@<</pre></div>
          <p><span></span>The all favorite guessing game. It uses labels and built-in functions. You can play it infinitely.</p>
-         <div class="container-dark"><pre class="mono">
+         <div class="container"><pre class="mono">
 <k>:main</k>  <t>'100</t> <f>%randint</f> #num <f>;guess</f>
 <k>:guess</k> o<t>"Guess the number 0-100: "</t>` #guess <f>;eval</f>
 <k>:eval</k>  @guess @num =j @guess @num Gj <f>;toolow</f>
@@ -60,7 +60,7 @@ v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
 <k>:toolow</k>  o<t>"Too low!"</t>t,  <f>;guess</f>                                      ><f>;main</f>
 <k>:toohigh</k> o<t>"Too high!"</t>t, <f>;guess</f></pre></div>
          <p><span></span>This is a four command calculator that uses deferred commands. It loops continuously until the user decides to exit it.</p>
-         <div class="container-dark"><pre class="mono">
+         <div class="container"><pre class="mono">
 <f>;inputnum</f> #num1 <f>;inputnum</f> #num2 <f>;inputop</f> #op <f>;handleop</f> E
 
 <k>:inputnum</k> o<t>"Input a number: "</t>` R
@@ -71,14 +71,14 @@ v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\<
 
 <k>:getresult</k> HT @num1. o<t>" "</t>,o<t>" "</t> @num2. o<t>" = "</t> @num1 @num2 x. t, R</pre></div>
          <p><span></span>Dfunge can also do file I/O. This example shows how to iterate a directory. The program simply outputs all files in the given directory.</p>
-         <div class="container-dark"><pre class="mono">
+         <div class="container"><pre class="mono">
 o<t>"Input a directory: "</t>&s <f>%iteratedirectory</f> > #size 0#i>@size @i =!j t, H0=!j E
                                                       ^    i#i i@,<
                                            ^                               <</pre></div>
          <p><span></span>Source code for these examples and even more examples can be found on <a href="https://github.com/Acerx-AMJ/Dfunge/tree/main/examples">Github</a>.</p>
          <h2>Development</h2>
          <p><span></span>In August 2025 I made Cfunge - a language based off Befunge-93. It was really similar to Befunge-93 but it was more focused on functions and had some modern features. Later - in December 2025 - I recreated it and called it Dfunge. It had more functions, was cleaner and easier to use. You can compare the calculator project in the two languages I made:</p>
-         <div class="container-dark">
+         <div class="container">
          <p>Cfunge</p>
          <pre class="mono" style="font-size:0.8rem">
 >o<t>"Input command (+, -, /, *, q): "</t>~C@ C,t, C<t>"q"</t>=;e_ <f>01J</f> E@ <f>02J</f> E;R_o<t>"Invalid command."</t>t,R
@@ -86,7 +86,7 @@ o<t>"Input a directory: "</t>&s <f>%iteratedirectory</f> > #size 0#i>@size @i =!
 >$+$<f>03J</f> $-$<f>03J</f> $/$<f>03J</f> $*$<f>03J</f>R
 >CPO=!;R ;Q_ Y.PO,Z.o<t>"="</t>YZx. 1E@ t,R</pre>
          </div>
-         <div class="container-dark"><p>Dfunge</p><pre class="mono">
+         <div class="container"><p>Dfunge</p><pre class="mono">
 <f>;inputnum</f> #num1 <f>;inputnum</f> #num2 <f>;inputop</f> #op <f>;handleop</f> E
 
 <k>:inputnum</k> o<t>"Input a number: "</t>` R

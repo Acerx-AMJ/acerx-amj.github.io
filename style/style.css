@@ -1,9 +1,16 @@
-/*
-   Define colors. They're taken from Tailwind CSS and can be found
-   here: https://tailwindcss.com/docs/colors
-*/
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Iosevka+Charon+Mono:ital,wght@0,1200;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 :root {
+   --background: rgb(231, 231, 240);
+
+   --text: rgb(26, 26, 27);
+   --text-light: rgb(63, 63, 70);
+
+   --link: rgb(0, 0, 255);
+   --link-light: rgb(196, 196, 255);
+
    --blue: oklch(74.6% 0.16 232.661);
    --dark-blue-2: oklch(42.4% 0.199 265.638);
    --dark-blue: oklch(27.8% 0.033 256.848);
@@ -15,8 +22,9 @@
    --gray: oklch(21% 0.006 285.885);
    --black: oklch(14.1% 0.005 285.823);
 
-   --font: Inter var,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
-   --font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+   --font-heading: "DM Serif Display", serif;
+   --font: "Ubuntu", sans-serif;
+   --font-mono: "Iosevka Charon Mono", monospace;
 }
 
 html, body {
@@ -31,14 +39,14 @@ html, body {
 
 a {
    font-family: var(--font);
-   color: var(--blue);
+   color: var(--link);
    text-decoration: none;
    cursor: default;
    font-weight: 500;
 }
 
 a.link-disabled {
-   color: var(--lighter-gray)
+   color: var(--text-light)
 }
 
 a:hover:not(.link-disabled) {
@@ -60,7 +68,7 @@ img {
    display: block;
    user-select: none;
    width: 100%;
-   border-radius: 12.5px;
+   border-radius: 16px;
 }
 
 .iframe-container {
@@ -102,7 +110,7 @@ header {
 */
 
 body {
-   background-color: var(--black);
+   background-color: var(--background);
    display: flex;
    flex-direction: column;
    justify-content: space-between;
@@ -120,32 +128,32 @@ article {
 
 article h1 {
    font-weight: bold;
-   font-family: var(--font);
+   font-family: var(--font-heading);
    font-size: 2.25rem;
    line-height: 1.1;
 
    text-align: center;
    margin-block: 1.4rem;
-   color: var(--white);
+   color: var(--text);
 }
 
 article h2 {
    font-weight: bold;
-   font-family: var(--font);
+   font-family: var(--font-heading);
    font-size: 1.9rem;
    line-height: 0.9;
 
    text-align: left;
    margin-block: 1rem;
-   color: var(--white);
+   color: var(--text);
 }
 
 article h3 {
-   font-family: var(--font);
+   font-family: var(--font-heading);
    font-size: 1rem;
 
    text-align: center;
-   color: var(--lighter-gray);
+   color: var(--text-light);
 }
 
 article pre {
@@ -155,12 +163,12 @@ article pre {
    overflow: auto;
    font-family: var(--font);
    font-size: 0.9rem;
-   color: var(--lighter-gray);
+   color: var(--text-light);
 }
 
 article p, article label {
    font-family: var(--font);
-   color: var(--white);
+   color: var(--text);
    font-size: 1rem;
    line-height: 1.5;
    margin-block: 5px;
@@ -192,7 +200,7 @@ footer a {
 footer p {
    text-align: center;
    font-family: var(--font);
-   color: var(--lighter-gray);
+   color: var(--text-light);
 }
 
 footer div {
@@ -220,18 +228,18 @@ footer div {
 #projects a, #blogs a, #pages a {
    margin-block: 10px;
    padding: 20px;
-   background-color: var(--gray);
-   border-radius: 12.5px;
-   border: 1.5px solid var(--light-gray);
-   box-shadow: 3px 7.5px 10px black, -3px 7.5px 10px black;
-   transition: scale 100ms, border 100ms, background-color 100ms, box-shadow 100ms;
+   background-color: var(--background);
+   border-radius: 16px;
+   border: 1px solid var(--text-light);
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+   transition: transform 100ms, border 100ms, background-color 100ms, box-shadow 100ms;
 }
 
 #projects a:hover, #blogs a:hover, #pages a:hover {
-   scale: 1.015;
-   border: 1.5px solid var(--blue);
-   background-color: var(--dark-blue);
-   box-shadow: 3px 7.5px 10px var(--darker-blue), -3px 7.5px 10px var(--darker-blue);
+   transform: translateY(-5px);
+   border: 1px solid var(--link);
+   background-color: var(--link-light);
+   box-shadow: 0 7px 8px rgba(0, 0, 0, 0.3);
 }
 
 #projects a, #blogs a, #pages a {
@@ -246,7 +254,7 @@ footer div {
 #bad-search {
    text-align: center;
    display: none;
-   color: var(--lighter-gray);
+   color: var(--text-light);
 }
 
 #search-bar {
@@ -255,35 +263,34 @@ footer div {
    box-sizing: border-box;
    text-align: left;
    margin-block: 12.5px;
-   border-radius: 12.5px;
-   background-color: var(--gray);
+   border-radius: 16px;
+   background-color: var(--background);
    border: 1.5px solid;
-   border-color: var(--light-gray);
-   color: var(--white);
+   border-color: var(--text-light);
+   color: var(--text);
    font-family: var(--font);
-   box-shadow: 1.5px 3px 5px black, -1.5px 3px 5px black;
-   transition: background-color 100ms, border-color 100ms, box-shadow 100ms;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+   transition: background-color 100ms, border-color 100ms;
 }
 
 #bd-email, #subscribe {
    padding: 5px;
    box-sizing: border-box;
    text-align: left;
-   border-radius: 12.5px;
-   background-color: var(--gray);
+   border-radius: 16px;
+   background-color: var(--background);
    border: 1.5px solid;
-   border-color: var(--light-gray);
-   color: var(--white);
+   border-color: var(--text-light);
+   color: var(--text);
    font-family: var(--font);
-   box-shadow: 1.5px 3px 5px black, -1.5px 3px 5px black;
-   transition: background-color 100ms, border-color 100ms, box-shadow 100ms;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+   transition: background-color 100ms, border-color 100ms;
 }
 
 #search-bar:focus, #bd-email:focus, #subscribe:hover {
    outline: none;
-   box-shadow: 1.5px 3px 5px var(--darker-blue), -1.5px 3px 5px var(--darker-blue);
-   background-color: var(--dark-blue);
-   border-color: var(--blue);
+   background-color: var(--link-light);
+   border-color: var(--link);
 }
 
 #project-buttons {
@@ -298,24 +305,26 @@ footer div {
    margin: 5px;
    margin-top: 30px;
 
-   color: var(--white);
+   color: var(--text);
    font-family: var(--font);
    font-size: 1.25rem;
    border: none;
-   border-radius: 6.25px;
-   box-shadow: 1px 3px 5px var(--black), -1px 3px 5px var(--black);
-   background-color: var(--light-gray);
-   transition: scale 100ms, background-color 100ms, border-color 100ms;
+   border-radius: 16px;
+   border: 1.5px solid var(--text-light);
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+   background-color: var(--background);
+   transition: transform 100ms, box-shadow 100ms;
 }
 
 #project-buttons button:not(.selected-btn):hover {
-   scale: 1.1;
-   background-color: var(--dark-blue);
-   box-shadow: 1px 3px 5px var(--darker-blue), -1px 3px 5px var(--darker-blue);
+   transform: translateY(-3px);
+   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
 }
 
 #project-buttons .selected-btn {
-   color: var(--blue);
+   color: var(--link);
+   background-color: var(--link-light);
+   border-color: var(--link);
 }
 
 /*
@@ -323,9 +332,10 @@ footer div {
 */
 
 #gallery {
-   background-color: var(--gray);
-   border-radius: 12.5px;
-   box-shadow: 3px 7.5px 10px black, -3px 7.5px 10px black;
+   background-color: var(--background);
+   border-radius: 16px;
+   border: 1.5px solid var(--text-light);
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
    display: grid;
    grid-template-columns: 1fr 1fr;
    gap: 7.5px;
@@ -363,7 +373,7 @@ footer div {
    height: 100vh;
    width: 100vw;
    position: fixed;
-   background-color: var(--black);
+   background-color: var(--text);
    top: 0;
    left: 0;
    margin: 0;
@@ -410,19 +420,10 @@ footer div {
 .container {
    margin-block: 10px;
    padding: 10px;
-   background-color: var(--gray);
-   border-radius: 12.5px;
-   border: 1.5px solid var(--light-gray);
-   box-shadow: 3px 7.5px 10px black, -3px 7.5px 10px black;
-}
-
-.container-dark {
-   margin-block: 10px;
-   padding: 10px;
-   background-color: var(--black);
-   border-radius: 12.5px;
-   border: 2px solid var(--gray);
-   box-shadow: 3px 7.5px 10px black, -3px 7.5px 10px black;
+   background-color: var(--background);
+   border-radius: 16px;
+   border: 1.5px solid var(--text-light);
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .flex-row {
@@ -433,7 +434,7 @@ footer div {
 
 .mono {
    font-family: var(--font-mono);
-   color: var(--white);
+   color: var(--text);
 }
 
 /*
@@ -441,17 +442,17 @@ footer div {
 */
 
 k {
-   color: oklch(70.4% 0.191 22.216);
+   color: rgb(255, 20, 20);
 }
 
 f {
-   color: oklch(71.4% 0.203 305.504);
+   color: rgb(125, 0, 255);
 }
 
 t {
-   color: oklch(79.2% 0.209 151.711);
+   color: rgb(0, 150, 0);
 }
 
 c {
-   color: oklch(44.4% 0.011 73.639);
+   color: rgb(125, 125, 125);
 }

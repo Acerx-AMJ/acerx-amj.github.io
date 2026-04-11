@@ -33,13 +33,13 @@ const projects = [{
     date: "Aug 2025 to Sep 2025",
     title: "CLL Interpreter",
     description: "A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use. Made with C++.",
-    image: "<div class=\"container-dark flex-row\" style=\"box-shadow:none\"><pre class=\"mono\"><k>fn</k> <f>fibonacci</f>(n) {\n   <k>return</k> n <k>unless</k> n > 1\n   <f>fibonacci</f>(n - 1) + <f>fibonacci</f>(n - 2)\n}\n\n<k>fn</k> <f>main</f>() {\n   <f>println</f>(<f>fibonacci</f>(5))\n}</pre></div>",
+    image: "<div class=\"container flex-row\" style=\"box-shadow:none\"><pre class=\"mono\"><k>fn</k> <f>fibonacci</f>(n) {\n   <k>return</k> n <k>unless</k> n > 1\n   <f>fibonacci</f>(n - 1) + <f>fibonacci</f>(n - 2)\n}\n\n<k>fn</k> <f>main</f>() {\n   <f>println</f>(<f>fibonacci</f>(5))\n}</pre></div>",
     link: "../projects/cll.html",
 }, {
     date: "Aug 2025 & Dec 2025",
     title: "Dfunge",
     description: "2D esoteric programming language based off Befunge-93 with file I/O, functions and other QOL elements. Made with C++.",
-    image: "<div class=\"container-dark flex-row\" style=\"box-shadow:none\"><pre class=\"mono\">v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n<t>7</t>#  HX  ><t>\",\"</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH\n<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre></div>",
+    image: "<div class=\"container flex-row\" style=\"box-shadow:none\"><pre class=\"mono\">v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n<t>7</t>#  HX  ><t>\",\"</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH\n<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre></div>",
     link: "../projects/dfunge.html",
 }, {
     date: "Dec 2024 to Jun 2025",
