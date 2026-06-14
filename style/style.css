@@ -95,6 +95,33 @@ iframe {
    height: 100%;
 }
 
+table {
+   font-family: var(--font);
+   margin-block: 25px;
+   border-collapse: collapse;
+   width: 100%;
+}
+
+td, th {
+   border: 1px solid #ddd;
+   padding: 8px;
+}
+
+tr:nth-child(even) {
+   background-color: #f2f2f2;
+}
+
+tr:hover {
+   background-color: #ddd;
+}
+
+th {
+   padding-block: 12px;
+   text-align: left;
+   background-color: #44f;
+   color: white;
+}
+
 /*
    Header
 */
@@ -308,7 +335,6 @@ footer div {
    color: var(--text);
    font-family: var(--font);
    font-size: 1.25rem;
-   border: none;
    border-radius: 16px;
    border: 1.5px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -327,35 +353,25 @@ footer div {
    border-color: var(--link);
 }
 
-/*
-   Project page specifics
-*/
-
-#gallery {
-   background-color: var(--background);
-   border-radius: 16px;
+article img:not(#x):not(.img-fullscreen) {
    border: 1.5px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-   display: grid;
-   grid-template-columns: 1fr 1fr;
-   gap: 7.5px;
-   padding: 7.5px;
-   margin-block: 7.5px;
-}
-
-#gallery img, #screen img {
+   margin-block: 15px;
    cursor: pointer;
-   padding: 1;
-   transition: scale 100ms;
-   z-index: 1000;
 }
 
-#gallery img:not(.selected-img):hover,
-#screen  img:not(.selected-img):hover {
-   scale: 1.03
+#img-background {
+   height: 100vh;
+   width: 100vw;
+   position: fixed;
+   background-color: var(--text);
+   top: 0;
+   left: 0;
+   margin: 0;
+   padding: 0;
 }
 
-#gallery img.selected-img, #screen img.selected-img {
+.img-fullscreen {
    max-width: 100%;
    max-height: 100%;
    bottom: 0;
@@ -367,17 +383,9 @@ footer div {
    position: fixed;
    object-fit: contain;
    transition: none;
-}
-
-#screen {
-   height: 100vh;
-   width: 100vw;
-   position: fixed;
-   background-color: var(--text);
-   top: 0;
-   left: 0;
-   margin: 0;
-   padding: 0;
+   position: absolute;
+   z-index: 1000;
+   cursor: pointer;
 }
 
 #x {
@@ -389,28 +397,12 @@ footer div {
    left: 0;
 }
 
-#left-arrow, #right-arrow {
-   position: fixed;
-   display: none;
-   width: 3.5rem;
-   height: 3.5rem;
-   top: 50vh;
-}
-
-#left-arrow:hover, #right-arrow:hover, #x:hover {
+#x:hover {
    scale: 1.1 !important;
 }
 
-#left-arrow:active, #right-arrow:active, #x:active {
+#x:active {
    scale: 0.9 !important;
-}
-
-#left-arrow {
-   left: 0;
-}
-
-#right-arrow {
-   right: 0;
 }
 
 /*

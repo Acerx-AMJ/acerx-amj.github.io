@@ -1,14 +1,14 @@
 // Again, too lazy to use JSON
 const blogs = [{
+    title: "Basic CPP Optimizations",
+    description: "Basic CPP optimizations that work wonders.",
+    link: "../blogs/basic_cpp_optimizations.html",
+    date: "2026-06-14"
+},{
     title: "Responsive Design in Raylib",
     description: "How I made my game look great on all desktop screen sizes.",
     link: "../blogs/responsive_design.html",
     date: "2026-04-05"
-},{
-   title: "How I Write C++",
-   description: "I go over how I write C++, which guidelines I go by and where I learned all of this.",
-   link: "../blogs/how_i_write_cpp.html",
-   date: "2026-01-31"
 }]
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -52,8 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function setupPageNumbers() {
         projectbuttons.innerHTML = ''
-        const pageCount = Math.ceil(filteredEntries.length / maxProjectsPerPage) // Fuck Javascript
-        if (pageCount == 1) return // Fuck off
+        const pageCount = Math.ceil(filteredEntries.length / maxProjectsPerPage)
+        if (pageCount == 1) return
 
         for (let i = 0; i < pageCount; i++) {
             const button = document.createElement('button')

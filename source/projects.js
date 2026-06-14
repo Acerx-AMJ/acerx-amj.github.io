@@ -109,8 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setupPageNumbers() {
         projectbuttons.innerHTML = ''
-        const pageCount = Math.ceil(filteredEntries.length / maxProjectsPerPage) // Fuck Javascript
-        if (pageCount == 1) return // Fuck off
+        const pageCount = Math.ceil(filteredEntries.length / maxProjectsPerPage)
+        if (pageCount == 1) return
 
         for (let i = 0; i < pageCount; i++) {
             const button = document.createElement('button')

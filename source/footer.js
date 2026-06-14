@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
    const footer = document.createElement('footer')
    footer.innerHTML = `
-      <p>${yearText} Daniel Vishnevsky. This project is licensed under <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io/blob/main/LICENSE">MIT License</a>.</p>
+      <p>${yearText} Daniel Vishnevsky. This website is licensed under <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io/blob/main/LICENSE">MIT License</a>.</p>
 
       <div>
          <a href="mailto:&#097;&#106;&#109;&#046;&#097;&#099;&#101;&#114;&#120;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">Email</a>

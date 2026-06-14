@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Basic CPP Optimizations</title>
+      <link rel="stylesheet" href="../style/style.css">
+   </head>
+
+   <body>
+      <header>
+         <a href="../pages/index.html">Home</a>
+         <a href="../pages/projects.html">Projects</a>
+         <a href="../pages/blog.html">Blog</a>
+         <a href="../pages/about.html">About</a>
+      </header>
+
+      <article>
+         <h1>Basic CPP Optimizations</h1>
+         <h3>Daniel Vishnevsky</h3>
+
+         <h2>Introduction</h2>
+         <p><span></span>It's recommended to have good CPP and computer knowledge before reading this article as we will dive deep into why and how these optimizations work. This article will be heavy on simple principles to get that free performance boost. We won't get into the more advanced optimization techniques like multi-threading and SIMD. We'll be using <a href="https://quick-bench.com">Quick Bench</a> for benchmarks and <a href="https://godbolt.org">Compiler Explorer</a> to view assembly output since they're both freely available online and are simple to use. And I want to add that you can click on images to view them in fullscreen since they are hard to see.</p>
+         
+         <h2>TOC</h2>
+         <p><a href="#Vectors">Vectors</a></p>
+         <p><a href="#Strings">Strings</a></p>
+         <p><a href="#CContainers">C-Containers and STD Containers</a></p>
+
+         <h2 id="Vectors">Vectors</h2>
+         <p><span></span>I'll show you common code. Can you spot the issue here?</p>
+         <div class="container"><pre class="mono">
+std::vector&lt;<k>int</k>&gt; nums;
+
+<k>for</k> (<k>int</k> i = 0; i &lt; 100000; ++i) {
+   nums.<f>push_back</f>(i);
+}
+</pre></div>
+         <p><span></span>The problem is that we knew the size of the array at runtime but chose to allocate the members dynamically. Every time we push back a number there's a chance that the whole vector reallocates, meaning it copies itself in a different spot on the heap. And that can get really expensive.</p>
+         <p><span></span>Even though the use of a better data structure would be better here, the main topic I want to go over in this section is <b>std::vector::reserve()</b> and <b>std::vector::resize()</b>. This is easily fixable by adding a single method call:</p>
+         <div class="container"><pre class="mono">
+std::vector&lt;<k>int</k>&gt; nums;
+nums.<f>reserve</f>(100000);
+
+<k>for</k> (<k>int</k> i = 0; i &lt; 100000; ++i) {
+   nums.<f>push_back</f>(i);
+}
+</pre></div>
+         <p><span></span>And you can use <b>std::vector::resize()</b> if you need member access instead:</p>
+         <div class="container"><pre class="mono">
+std::vector&lt;<k>int</k>&gt; nums;
+nums.<f>resize</f>(100000);
+
+<k>for</k> (<k>int</k> i = 0; i &lt; 100000; ++i) {
+   nums[i] = i;
+}
+</pre></div>
+         <p><span></span>The difference is huge on all vector sizes:</p>
+         N=100000
+         <img src="../assets/bcppo.png"/>
+         N=100
+         <img src="../assets/bcppo2.png"/>
+         N=10
+         <img src="../assets/bcppo3.png"/>
+         <p><span></span>But why so? Well, if we call reserve right away then we allocate the whole vector at once and we don't need to reallocate it ever again unless we shoot over the capacity we have previously reserved. That can save a lot of unnecessary copies.</p>
+         <p><span></span>When I ran the benchmarks, I was originally surprised at <b>std::vector::resize()</b> being faster at larger N but slower at small N. But that's no mystery once we look under the hood. <b>std::vector::reserve()</b> only allocates the required memory, meaning the size of the vector is 0 and the capacity is N (where N is the size reserved). Whereas <b>std::vector::resize()</b> allocates the required memory and 0-sets it, meaning the size of the vector and the capacity is N. That makes it slower at smaller N as we write for each element twice, once to 0 and then once to our desired value.</p>
+         <table>
+            <thead><tr>
+               <th>Method</th>
+               <th>Initial Size</th>
+               <th>Initial Capacity</th>
+               <th>Total Writes</th>
+               <th>Allocations</th>
+            </tr></thead>
+            <tbody>
+               <tr>
+                  <td>no method</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>N</td>
+                  <td>log(N)</td>
+               </tr>
+               <tr>
+                  <td><b>std::vector::reserve</b></td>
+                  <td>0</td>
+                  <td>N</td>
+                  <td>N</td>
+                  <td>1</td>
+               </tr>
+               <tr>
+                  <td><b>std::vector::resize</b></td>
+                  <td>N</td>
+                  <td>N</td>
+                  <td>2N</td>
+                  <td>1</td>
+               </tr>
+            </tbody>
+         </table>
+         <p><span></span>That explains why it's slower at low N but tells us nothing about why it's so fast at high N. For that we must look into <b>std::vector::push_back()</b> and <b>std::vector::operator[]</b>. Every time we push an element, <b>std::vector::push_back()</b> checks whether or not we have gone past the capacity and if we have, it reallocates memory. We'll cover this later but branching in big loops is bad. <b>std::vector::operator[]</b> on the other hand, does not check that, meaning there's no branching whatsoever.</p>
+         <p><span></span>I use this all the time and there's no drawback to it, even when we're only using 10 elements the performance gain is huge. And we don't need to know the size of the vector, we can estimate it and boost performance that way as well. Just remember that you shouldn't use <b>std::vector::push_back()</b> after calling <b>std::vector::resize()</b> as you'll push after the vector's size.</p>
+         <p><span></span>Also, you can reserve 2D vectors like this, and the performance gain once again is insane:</p>
+         <div class="container"><pre class="mono">
+auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&lt;<k>int</k>&gt;(SIZE_X, 0));
+<c>// Do stuff with it...</c>
+</pre></div>
+         N=100
+         <img src="../assets/bcppo4.png"/>
+         N=10
+         <img src="../assets/bcppo5.png"/>
+         <p><span></span>Just please reserve your vectors. We can see a 2-6 times improvement just by using a single function (depending on your situation). This is an absolutely insane change for something so miniscule. And that's why I started this article with this exact optimization!</p>
+         <h4>2D vs 1D vectors</h4>
+         <p><span></span>On the note of vectors, I wanted to compare use of nested vectors against a single vector as a 2D grid. I knew beforehand that a single vector would be more performant but by how much? To find out I created two simple structs:</p>
+         <div class="container"><pre class="mono">
+<k>struct</k> Map2D {
+  std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt; map;
+  <k>size_t</k> width, height;
+
+  <f>Map2D</f>(<k>size_t</k> width, <k>size_t</k> height) {
+    map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(height, std::vector&lt;<k>int</k>&gt;(width, 0));
+    this-&gt;width = width;
+    this-&gt;height = height;
+  }
+
+  <k>inline void</k> <f>set</f>(<k>size_t</k> x, <k>size_t</k> y, <k>int</k> value) {
+    map[y][x] = value;
+  }
+
+  <k>inline int</k> <f>get</f>(<k>size_t</k> x, <k>size_t</k> y) {
+    <k>return</k> map[y][x];
+  }
+};
+
+<k>struct</k> Map1D {
+  std::vector&lt;<k>int</k>&gt; map;
+  <k>size_t</k> width, height;
+
+  <f>Map1D</f>(<k>size_t</k> width, <k>size_t</k> height) {
+    map.<k>resize</k>(width * height);
+    this-&gt;width = width;
+    this-&gt;height = height;
+  }
+
+  <k>inline void</k> <f>set</f>(<k>size_t</k> x, <k>size_t</k> y, <k>int</k> value) {
+    map[y * width + x] = value;
+  }
+
+  <k>inline int</k> <f>get</f>(<k>size_t</k> x, <k>size_t</k> y) {
+    <k>return</k> map[y * width + x];
+  }
+};
+</pre></div>
+         <p><span></span>At first, the difference shocked me. But after measuring with higher N and digging deeper it all became clear.</p>
+         N=10
+         <img src="../assets/bcppo6.png"/>
+         N=100
+         <img src="../assets/bcppo7.png"/>
+         N=10000
+         <img src="../assets/bcppo8.png"/>
+         <p><span>Clearly, a single vector is more efficient, just that the bigger the map is, the more it approaches the performance of the stacked vector grid. But why? Because if we have a single vector then we only do a single allocation, whereas with stacked vectors we must allocate height + 1 vectors even if it looks like a single allocation.</span></p>
+         <p><span></span>Before explaining everything deeper, I'd like to throw in that a basic C-array is more performant if you got the stack size. The stack is usually up to 8MiB large but realistically I'd say 1MiB is safe to use. That's 262,144 integers (in the benchmark below I used 1 million integers equaling 3.81MiB). If we use the stack then we don't need to do any allocations and we don't have to suffer from the slow RAM access.</p>
+         N=1000
+         <img src="../assets/bcppo9.png"/>
+         <table>
+            <thead><tr>
+               <th>Data Structure</th>
+               <th>Allocations</th>
+               <th>Memory</th>
+            </tr></thead>
+            <tbody>
+               <tr>
+                  <td><b>int[]</b></td>
+                  <td>0</td>
+                  <td>Stack</td>
+               </tr>
+               <tr>
+                  <td><b>std::vector&lt;int&gt;</b></td>
+                  <td>1</td>
+                  <td>Heap</td>
+               </tr>
+               <tr>
+                  <td><b>std::vector&lt;std::vector&lt;int&gt;&gt;</b></td>
+                  <td>height + 1</td>
+                  <td>Heap</td>
+               </tr>
+            </tbody>
+         </table>
+         <p><span></span>The reason a single vector is faster (outside of having less allocations) is cache-friendliness. A single vector is laid out just the way we normally iterate the vector - rows laid one after another. Whereas the stacked vectors are laid out randomly in heap. The computer has to work extra to find the rows. When our grid is huge (N=10000) the memory usage is outside of what we can store in cache (you cannot store 400MB of integers in L3) and both structures are bottlenecked on RAM access speed.</p>
+         <p><span></span>Quite a nice optimization that I've overlooked before. 16x faster at best and 1x faster at worst (although you probably aren't rocking a 400MB grid). Will probably implement it in my game after finishing writing this.</p>
+         
+         <h2 id="Strings">Strings</h2>
+         <p><span></span>Another really common container is string. The issue is that it is a vector of characters and if you know anything about allocations or heap, you know that it is quite expensive. This is why if we plan on constructing large strings we must call <b>std::string::reserve()</b> or <b>std::string::resize()</b> just like with vectors!</p>
+         N=1000
+         <img src="../assets/bcppo10.png"/>
+         <p><span></span>But there's a small detail that makes strings slightly different from vectors - small string optimization (SSO).</p>
+         N=10 and N=16
+         <img src="../assets/bcppo11.png"/>
+         <p><span></span>If you reserve a string below 16 characters it will be slower than if you didn't! That's because if your string is below 16 characters it won't be allocated and instead stored on the stack. Reserving here means forcing an allocation when it was not necessary. Because of SSO you don't need to worry about optimizing small strings.</p>
+         <p><span></span></p>
+
+         <h2 id="CContainers">C-Containers and STD Containers</h2>
+         <p><span></span>C-arrays are more performant than vectors. C-arrays will be created on the stack while vectors will be allocated on the heap. I've been going over this a lot but heap access and allocation is slower than the stack. Going to the stack to get your data is like delivering pizzas to the same apartment but different floors. Going to the heap to get your data is like delivering pizzas to random homes in the city. That's kind of the other way around but you probably get it.</p>
+         <p><span></span>You probably know yourself that C-arrays are faster. I'll still list some benchmarks but I'd like you to know when to use them instead. That's simple - if you're using a vector with a hardcoded size then you probably want a C-array instead.</p>
+         vector vs C-array access
+         <img src="../assets/bcppo12.png"/>
+         vector vs C-array setter
+         <img src="../assets/bcppo13.png"/>
+         vector vs C-array creation. Note that C-array is static and only created once
+         <img src="../assets/bcppo14.png"/>
+         <p><span></span>But if you don't want to use old C features then you can use <b>std::array</b> that is just as performant as C-array on release builds. Yes, it has some extra code in debug but on release the assembly is basically one-to-one with C-arrays.</p>
+         array vs C-array assembly output on debug builds
+         <img src="../assets/bcppo15.png"/>
+         array vs C-array assembly output on release builds (even with bigger arrays that aren't optimized away there is virtually no difference)
+         <img src="../assets/bcppo16.png"/>
+         <p><span></span>It's a different story for different types of strings though. I originally thought that <b>std::string_view</b> would be just as performant as C-strings but that's not the case. And what also surprised me is that creating a static C-array of strings and returning by reference would still be so expensive.</p>
+         returning std::string_view vs const char* vs std::string vs std::string&
+         <img src="../assets/bcppo17.png"/>
+         <p><span></span>The explanation is simple and you don't even have to view the assembly to understand what is going on (even though we will). When we're returning a C-string we're only returning a pointer. C-strings are stored on the stack and that's another major win (unless you malloc them):</p>
+         C-string assembly
+         <img src="../assets/bcppo18.png"/>
+         <p><span></span>If you don't understand assembly then all that you need to know is that it just stores "Hello, World!\n" on the stack and loads the address into the variable "string".</p>
+         <p><span></span>But this is no reason to be afraid of <b>std::string</b> or <b>std::string_view</b>. You just have to use them in the right situations. C-strings are not modifiable, that's what <b>std::string</b> is for. And <b>std::string_view</b> is nice for substrings. Like really nice:</p>
+         std::string_view::substr() vs std::string::substr()
+         <img src="../assets/bcppo19.png"/>
+
+         <div id="img-background"></div>
+         <img id="x"/>
+      </article>
+
+      <script src="../source/footer.js"></script>
+      <script src="../source/image_click.js"></script>
+   </body>
+</html>
