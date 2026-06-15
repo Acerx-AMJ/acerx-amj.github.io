@@ -1,6 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Iosevka+Charon+Mono:ital,wght@0,1200;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+/*
+   light mode colors
+*/
 
 :root {
    --background: rgb(255, 255, 255);
@@ -11,23 +14,45 @@
    --link: rgb(0, 0, 255);
    --link-light: rgb(196, 196, 255);
 
-   --blue: oklch(74.6% 0.16 232.661);
-   --dark-blue-2: oklch(42.4% 0.199 265.638);
-   --dark-blue: oklch(27.8% 0.033 256.848);
-   --darker-blue: oklch(13% 0.028 261.692);
+   --code-keyword: rgb(255, 20, 20);
+   --code-function: rgb(125, 0, 255);
+   --code-string: rgb(0, 150, 0);
+   --code-comment: rgb(125, 125, 125);
 
-   --white: oklch(98.5% 0 0);
-   --lighter-gray: oklch(70.5% 0.015 286.067);
-   --light-gray: oklch(27.4% 0.006 286.033);
-   --gray: oklch(21% 0.006 285.885);
-   --black: oklch(14.1% 0.005 285.823);
+   --table-checker: #f2f2f2;
+   --table-border: #ddd;
+   --table-header: #44f;
 
    --font-heading: "Ubuntu", sans-serif;
    --font: "Ubuntu", sans-serif;
    --font-mono: "Iosevka Charon Mono", monospace;
 }
 
+/*
+   dark mode colors
+*/
+
+[data-theme="dark"] {
+   --background: rgb(0, 0, 0);
+
+   --text: rgb(220, 220, 220);
+   --text-light: rgb(120, 120, 120);
+
+   --link: rgb(90, 170, 255);
+   --link-light: rgb(10, 20, 120);
+   
+   --code-keyword: rgb(255, 110, 110);
+   --code-function: rgb(204, 95, 254);
+   --code-string: rgb(114, 253, 114);
+   --code-comment: rgb(125, 125, 125);
+   
+   --table-checker: rgb(20, 20, 20);
+   --table-border: rgb(30, 30, 30);
+   --table-header: rgb(10, 20, 120);
+}
+
 html, body {
+   color: var(--text);
    overflow-y: auto;
    margin: 0;
    padding: 0;
@@ -103,23 +128,32 @@ table {
 }
 
 td, th {
-   border: 1px solid #ddd;
+   border: 1px solid var(--table-border);
    padding: 8px;
 }
 
 tr:nth-child(even) {
-   background-color: #f2f2f2;
+   background-color: var(--table-checker);
 }
 
 tr:hover {
-   background-color: #ddd;
+   background-color: var(--table-border);
 }
 
 th {
    padding-block: 12px;
    text-align: left;
-   background-color: #44f;
+   background-color: var(--table-header);
    color: white;
+}
+
+#ld-switch {
+   position: absolute;
+   height: 48px;
+   width: 48px;
+   right: 10px;
+   top: 10px;
+   cursor: pointer;
 }
 
 /*
@@ -210,7 +244,6 @@ article span {
 */
 
 footer {
-   /* background-color: var(--gray); */
    margin: 0;
    padding: 0;
 
@@ -259,7 +292,7 @@ footer div {
    border-radius: 16px;
    border: 1px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-   transition: transform 100ms, border 100ms, background-color 100ms, box-shadow 100ms;
+   transition: transform 100ms, border 100ms, box-shadow 100ms;
 }
 
 #projects a:hover, #blogs a:hover, #pages a:hover {
@@ -297,24 +330,9 @@ footer div {
    color: var(--text);
    font-family: var(--font);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-   transition: background-color 100ms, border-color 100ms;
 }
 
-#bd-email, #subscribe {
-   padding: 5px;
-   box-sizing: border-box;
-   text-align: left;
-   border-radius: 16px;
-   background-color: var(--background);
-   border: 1.5px solid;
-   border-color: var(--text-light);
-   color: var(--text);
-   font-family: var(--font);
-   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-   transition: background-color 100ms, border-color 100ms;
-}
-
-#search-bar:focus, #bd-email:focus, #subscribe:hover {
+#search-bar:focus {
    outline: none;
    background-color: var(--link-light);
    border-color: var(--link);
@@ -364,7 +382,7 @@ article img:not(#x):not(.img-fullscreen) {
    height: 100vh;
    width: 100vw;
    position: fixed;
-   background-color: var(--text);
+   background-color: #000;
    top: 0;
    left: 0;
    margin: 0;
@@ -434,17 +452,17 @@ article img:not(#x):not(.img-fullscreen) {
 */
 
 k {
-   color: rgb(255, 20, 20);
+   color: var(--code-keyword);
 }
 
 f {
-   color: rgb(125, 0, 255);
+   color: var(--code-function);
 }
 
 t {
-   color: rgb(0, 150, 0);
+   color: var(--code-string);
 }
 
 c {
-   color: rgb(125, 125, 125);
+   color: var(--code-comment);
 }
