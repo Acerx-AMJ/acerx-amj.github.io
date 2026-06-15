@@ -21,12 +21,15 @@
          <h3>Daniel Vishnevsky</h3>
 
          <h2>Introduction</h2>
-         <p><span></span>It's recommended to have good CPP and computer knowledge before reading this article as we will dive deep into why and how these optimizations work. This article will be heavy on simple principles to get that free performance boost. We won't get into the more advanced optimization techniques like multi-threading and SIMD. We'll be using <a href="https://quick-bench.com">Quick Bench</a> for benchmarks and <a href="https://godbolt.org">Compiler Explorer</a> to view assembly output since they're both freely available online and are simple to use. And I want to add that you can click on images to view them in fullscreen since they are hard to see.</p>
+         <p><span></span>It's recommended to have good CPP and computer knowledge before reading this article as we will dive deep into why and how these optimizations work. This article will be heavy on simple principles to get that free performance boost. We won't get into the more advanced optimization techniques like multi-threading, DOD, and SIMD. We'll be using <a href="https://quick-bench.com">Quick Bench</a> for benchmarks and <a href="https://godbolt.org">Compiler Explorer</a> to view assembly output since they're both freely available online and are simple to use. And I want to add that you can click on images to view them in fullscreen since they are hard to see.</p>
+         <p><span></span>Benchmarks might or might not look different on different compilers or tools.</p>
          
          <h2>TOC</h2>
-         <p><a href="#Vectors">Vectors</a></p>
-         <p><a href="#Strings">Strings</a></p>
-         <p><a href="#CContainers">C-Containers and STD Containers</a></p>
+         <a href="#Vectors">Vectors</a>
+         <a href="#Strings">Strings</a>
+         <a href="#CContainers">C-Containers and STD Containers</a>
+         <a href="#DS">Data Structures</a>
+         <a href="#Algo">STD Algorithms (TODO)</a>
 
          <h2 id="Vectors">Vectors</h2>
          <p><span></span>I'll show you common code. Can you spot the issue here?</p>
@@ -108,7 +111,7 @@ auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&
          <img src="../assets/bcppo4.png"/>
          N=10
          <img src="../assets/bcppo5.png"/>
-         <p><span></span>Just please reserve your vectors. We can see a 2-6 times improvement just by using a single function (depending on your situation). This is an absolutely insane change for something so miniscule. And that's why I started this article with this exact optimization!</p>
+         <p><span></span>Just please reserve your vectors. We can see a 2-6 times improvement just by using a single function (depending on your situation). This is an absolutely insane change for something so minuscule. And that's why I started this article with this exact optimization!</p>
          <h4>2D vs 1D vectors</h4>
          <p><span></span>On the note of vectors, I wanted to compare use of nested vectors against a single vector as a 2D grid. I knew beforehand that a single vector would be more performant but by how much? To find out I created two simple structs:</p>
          <div class="container"><pre class="mono">
@@ -158,7 +161,7 @@ auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&
          N=10000
          <img src="../assets/bcppo8.png"/>
          <p><span>Clearly, a single vector is more efficient, just that the bigger the map is, the more it approaches the performance of the stacked vector grid. But why? Because if we have a single vector then we only do a single allocation, whereas with stacked vectors we must allocate height + 1 vectors even if it looks like a single allocation.</span></p>
-         <p><span></span>Before explaining everything deeper, I'd like to throw in that a basic C-array is more performant if you got the stack size. The stack is usually up to 8MiB large but realistically I'd say 1MiB is safe to use. That's 262,144 integers (in the benchmark below I used 1 million integers equaling 3.81MiB). If we use the stack then we don't need to do any allocations and we don't have to suffer from the slow RAM access.</p>
+         <p><span></span>Before explaining everything deeper, I'd like to throw in that a basic C-array is more performant if you got the stack size. The stack is usually up to 8MiB large but realistically I'd say 1MiB is safe to use. That's 262,144 integers (in the benchmark below I used 1 million integers equaling 3.81MiB). If we use the stack then we don't need to do any allocations and we don't have to suffer from the slow RAM access (Do note that global, static and heap allocated C-arrays don't live on the stack).</p>
          N=1000
          <img src="../assets/bcppo9.png"/>
          <table>
@@ -195,11 +198,11 @@ auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&
          <p><span></span>But there's a small detail that makes strings slightly different from vectors - small string optimization (SSO).</p>
          N=10 and N=16
          <img src="../assets/bcppo11.png"/>
-         <p><span></span>If you reserve a string below 16 characters it will be slower than if you didn't! That's because if your string is below 16 characters it won't be allocated and instead stored on the stack. Reserving here means forcing an allocation when it was not necessary. Because of SSO you don't need to worry about optimizing small strings.</p>
+         <p><span></span>If you reserve a string below 16 characters it will be slower than if you didn't! That's because if your string is below 16 characters it won't be allocated on the heap. Reserving here means forcing an allocation when it was not necessary. Because of SSO you don't need to worry about optimizing small strings.</p>
          <p><span></span></p>
 
          <h2 id="CContainers">C-Containers and STD Containers</h2>
-         <p><span></span>C-arrays are more performant than vectors. C-arrays will be created on the stack while vectors will be allocated on the heap. I've been going over this a lot but heap access and allocation is slower than the stack. Going to the stack to get your data is like delivering pizzas to the same apartment but different floors. Going to the heap to get your data is like delivering pizzas to random homes in the city. That's kind of the other way around but you probably get it.</p>
+         <p><span></span>C-arrays are more performant than vectors. Local C-arrays will be created on the stack while vectors will be allocated on the heap. I've been going over this a lot but heap access and allocation is slower than the stack. Going to the stack to get your data is like delivering pizzas to the same apartment but different floors. Going to the heap to get your data is like delivering pizzas to random houses in the city. That's kind of the other way around but you probably get it.</p>
          <p><span></span>You probably know yourself that C-arrays are faster. I'll still list some benchmarks but I'd like you to know when to use them instead. That's simple - if you're using a vector with a hardcoded size then you probably want a C-array instead.</p>
          vector vs C-array access
          <img src="../assets/bcppo12.png"/>
@@ -215,13 +218,41 @@ auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&
          <p><span></span>It's a different story for different types of strings though. I originally thought that <b>std::string_view</b> would be just as performant as C-strings but that's not the case. And what also surprised me is that creating a static C-array of strings and returning by reference would still be so expensive.</p>
          returning std::string_view vs const char* vs std::string vs std::string&
          <img src="../assets/bcppo17.png"/>
-         <p><span></span>The explanation is simple and you don't even have to view the assembly to understand what is going on (even though we will). When we're returning a C-string we're only returning a pointer. C-strings are stored on the stack and that's another major win (unless you malloc them):</p>
+         <p><span></span>The explanation is simple and you don't even have to view the assembly to understand what is going on (even though we will). When we're returning a C-string we're only returning a pointer while it's actually stored on the data segment (unless you malloc it):</p>
          C-string assembly
          <img src="../assets/bcppo18.png"/>
-         <p><span></span>If you don't understand assembly then all that you need to know is that it just stores "Hello, World!\n" on the stack and loads the address into the variable "string".</p>
          <p><span></span>But this is no reason to be afraid of <b>std::string</b> or <b>std::string_view</b>. You just have to use them in the right situations. C-strings are not modifiable, that's what <b>std::string</b> is for. And <b>std::string_view</b> is nice for substrings. Like really nice:</p>
          std::string_view::substr() vs std::string::substr()
          <img src="../assets/bcppo19.png"/>
+
+         <h2 id="DS">Data Structures</h2>
+         <p><span></span>We just touched on correct data structure usage. So let's continue that! First up, erase <b>std::list</b> from your memory. You do not need it. I have never seen anything that <b>std::list</b> could do that <b>std::vector</b> or some other data structure couldn't. <b>std::list</b> is really inefficient because its elements are scattered all over the heap so cache misses happen often. Maybe it's usable for that one rare case but for the rest just throw it out.</p>
+         <p><span></span>Next up, you probably already know of <b>std::map</b>'s and <b>std::set</b>'s O(log N) access, deletion and insertion and <b>std::unordered_map</b>'s and <b>std::unordered_set</b>'s O(1) on average and O(N) at worst. Let's see at which N which are more efficient! We'll try both integers and strings as keys.</p>
+         N=10 using integers
+         <img src="../assets/bcppo20.png"/>
+         N=100 using integers
+         <img src="../assets/bcppo21.png"/>
+         N=10000 using integers
+         <img src="../assets/bcppo22.png"/>
+         N=10 using strings
+         <img src="../assets/bcppo23.png"/>
+         N=100 using strings
+         <img src="../assets/bcppo24.png"/>
+         <p><span></span>I expected <b>std::set</b> to be better here. Even with N=3 hash set was more performant. It's about the same for maps too. But do note that you should try string benchmarks yourself with more sophisticated strings than 1-100 for better results and that <b>std::to_string()</b> is probably blowing CPU time out of proportion.</p>
+         <p><span></span>Clearly, hash containers are more performant so why even bother with regular set and map? It's in the name - if you need an ordered map or set use <b>std::map</b> or <b>std::set</b>. And hashed containers use more memory, if that's ever a problem. I don't care, I just use the hash containers.</p>
+         <p><span></span>Also, a common mistake is defining a map with the key set as an integer and then accessing indices from 0 to N. This is a place a vector or an array should be used. Of course, with random indices or negative indices a vector won't work but when you know the indices will go from 0 to N this is horrible for performance.</p>
+         <p><span></span>Please learn when you really need a feature and when you can substitute it for a more efficient one. This performance gain is massive for the little change done. You don't get performance gains like this every day (unless you just switched from OOP to DOD).</p>
+         N=10
+         <img src="../assets/bcppo25.png"/>
+         N=1000
+         <img src="../assets/bcppo26.png"/>
+         <p><span></span>I wanted to write about <b>std::bitset</b> vs <b>std::vector&lt;bool&gt;</b> but it's more complicated than I thought. I don't want to write about something that I'm not that sure about (and I don't use these that often) so I'll give you some external resources on this: <a href="https://stackoverflow.com/questions/4156538/how-can-stdbitset-be-faster-than-stdvectorbool">https://stackoverflow.com/questions/4156538/how-can-stdbitset-be-faster-than-stdvectorbool.</a> and <a href="https://en.cppreference.com/cpp/container/vector_bool">https://en.cppreference.com/cpp/container/vector_bool</a>.</p>
+         <p><span></span>As from cppreference, <b>std::vector&lt;bool&gt;</b> is specialized for space-efficiency and includes two new functions. This is the only <b>std::vector</b> specialization. Basically it is a dynamic bitset disguised as a vector. Dynamic bitsets will be stored on the heap and regular bitsets usually will be stored on the stack. This specialization is another disgusting CPP decision.</p>
+         <p><span></span>As for performance, it depends. On GCC and Clang the results varied. Looks like on Windows it's also different but Quick Bench doesn't support Windows compilers. However, what didn't vary was <b>std::vector&lt;char&gt;</b> which was way faster. There are two downsides though - higher memory usage and no specialized functions - but who cares about that!</p>
+         N=1000, GCC 13.2
+         <img src="../assets/bcppo27.png"/>
+         N=10000000, GCC 13.2
+         <img src="../assets/bcppo28.png"/>
 
          <div id="img-background"></div>
          <img id="x"/>
