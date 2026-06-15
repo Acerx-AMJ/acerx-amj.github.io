@@ -125,6 +125,7 @@ table {
    margin-block: 25px;
    border-collapse: collapse;
    width: 100%;
+   word-break: break-word;
 }
 
 td, th {
@@ -154,6 +155,10 @@ th {
    right: 10px;
    top: 10px;
    cursor: pointer;
+
+   @media (width < 40rem) {
+      display: none;
+   }
 }
 
 /*
