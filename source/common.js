@@ -19,41 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>`
    body.appendChild(footer)
 
-   // handle light/dark mode
-   const ldSwitch = document.createElement('img');
-   ldSwitch.innerText = "Button";
-   ldSwitch.classList.add('no-img-click');
-   ldSwitch.id = "ld-switch";
-   body.appendChild(ldSwitch);
-
-   let lightmode = true;
-
-   function detectColorMode() {
-      if (localStorage.getItem('theme')) {
-         lightmode = localStorage.getItem('theme') == 'light'
-      }
-      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-         lightmode = false;
-      }
-      setColorMode(lightmode);
+   // handle light/dark mode automatically
+   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
    }
-   detectColorMode();
-
-   function setColorMode(isLightMode) {
-      if (isLightMode) {
-         document.documentElement.setAttribute('data-theme', 'light');
-         localStorage.setItem('theme', 'light');
-         ldSwitch.src = "../assets/dark.png";
-      }
-      else {
-         document.documentElement.setAttribute('data-theme', 'dark');
-         localStorage.setItem('theme', 'dark');
-         ldSwitch.src = "../assets/light.png";
-      }
+   else {
+      document.documentElement.setAttribute('data-theme', 'light');
    }
-
-   ldSwitch.addEventListener('click', () => {
-      lightmode = !lightmode;
-      setColorMode(lightmode);
-   });
 })

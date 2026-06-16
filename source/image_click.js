@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
    const images = document.querySelectorAll("img");
-   const ldSwitch = document.getElementById("ld-switch");
    const background = document.getElementById("img-background");
    const x = document.getElementById("x");
 
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
       
-      ldSwitch.style.display = "none";
       background.style.display = "block";
       x.style.display = "block";
       image.className = "img-fullscreen";
@@ -31,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
-      ldSwitch.style.display = "block";
       background.style.display = "none";
       x.style.display = "none";
       current.className = "";
@@ -40,9 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
    }
 
    for (const image of images) {
-      if (!image.classList.contains('no-img-click')) {
-         image.addEventListener("click", () => (current === null ? setImage(image) : resetImage()));
-      }
+      image.addEventListener("click", () => (current === null ? setImage(image) : resetImage()));
    }
 
    x.addEventListener("click", () => {
