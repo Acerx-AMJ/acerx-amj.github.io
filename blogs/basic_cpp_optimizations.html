@@ -29,7 +29,7 @@
          <a href="#Strings">Strings</a>
          <a href="#CContainers">C-Containers and STD Containers</a>
          <a href="#DS">Data Structures</a>
-         <a href="#Algo">STD Algorithms (TODO)</a>
+         <a href="#Algo">STD Algorithms</a>
          <a href="#HLoops">Hot Loops (TODO)</a>
 
          <h2 id="Vectors">Vectors</h2>
@@ -254,6 +254,22 @@ auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&
          <img src="../assets/bcppo27.png"/>
          N=10000000, GCC 13.2
          <img src="../assets/bcppo28.png"/>
+
+         <h2 id="Algo">STD Algorithms</h2>
+         <p><span></span>You've probably been overlooking these. I'll list some of my favourite ones but it's up to you to learn them deeper (I'll give you resources though). We'll start with <a href="https://cppreference.com/cpp/algorithm/remove">std::remove</a>. You probably already know it. It's nice. And while we're at it I'd like to show how bad list is:</p>
+         N=10000
+         <img src="../assets/bcppo29.png"/>
+         <p><span></span>Another nice algorithm is <a href="https://cppreference.com/cpp/algorithm/transform">std::transform</a>. I usually use it to transform strings. Performance wise it's not that much faster but it makes the code cleaner while giving a small performance boost so it's a win-win situation. Similar function is <a href="https://cppreference.com/cpp/algorithm/replace">std::replace</a>.</p>
+         N=57
+         <img src="../assets/bcppo30.png"/>
+         <p><span></span>There are a couple of different search algorithms including some for <a href="https://cppreference.com/cpp/algorithm#Binary_search_operations_(on_partitioned_ranges)">binary search.</a> I don't know anything about binary search so I'll go over the linear search algorithm instead: <a href="https://cppreference.com/cpp/algorithm/find">std::find</a>. It is equally fast to do it manually but the code is cleaner if you just use <b>std::find</b>. In the end, it's up to you really.</p>
+         N=10000
+         <img src="../assets/bcppo31.png"/>
+         <p><span></span>And for counting, you guessed it, <a href="https://cppreference.com/cpp/algorithm/count">std::count</a>. Now this is slightly faster but the whole point of these algorithms, in my opinion, is to have cleaner code. They're nice but you shouldn't now replace all of your loops with them. Just know now that these exist and are quite nice.</p>
+         N=10000
+         <img src="../assets/bcppo32.png"/>
+         <p><span></span>Lastly, I want to write about <a href="https://cppreference.com/cpp/algorithm/reverse">std::reverse</a>. I know I've missed a few important ones like <b>std::sort</b> but you either know them or they're not used that often. If you're interested though, you can find all of these algorithms <a href="https://cppreference.com/cpp/algorithm">here</a> (and please learn to use cppreference.com). Anyway, <b>std::reserve</b> is miles better than my naive reverse copy algorithm I came up on the fly. What a surprise.</p>
+         <img src="../assets/bcppo33.png"/>
 
          <div id="img-background"></div>
          <img id="x"/>
