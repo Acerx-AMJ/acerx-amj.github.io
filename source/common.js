@@ -1,5 +1,11 @@
 const startYear = 2026
 
+// handle light/dark mode based on browser settings
+document.documentElement.setAttribute('data-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+   document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+});
+
 document.addEventListener('DOMContentLoaded', () => {
    // create footer
    const body = document.getElementsByTagName('body')[0]
@@ -18,12 +24,4 @@ document.addEventListener('DOMContentLoaded', () => {
          <a href="https://www.youtube.com/@Acerx-AMJ">Youtube</a>
       </div>`
    body.appendChild(footer)
-
-   // handle light/dark mode automatically
-   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-   }
-   else {
-      document.documentElement.setAttribute('data-theme', 'light');
-   }
-})
+});
