@@ -1,16 +1,3 @@
-// Again, too lazy to use JSON
-const blogs = [{
-    title: "Basic CPP Optimizations",
-    description: "Basic CPP optimizations that work wonders.",
-    link: "../blogs/basic_cpp_optimizations.html",
-    date: "2026-06-14"
-},{
-    title: "Responsive Design in Raylib",
-    description: "How I made my game look great on all desktop screen sizes.",
-    link: "../blogs/responsive_design.html",
-    date: "2026-04-05"
-}]
-
 document.addEventListener('DOMContentLoaded', () => {
     const projectdiv = document.getElementById("blogs")
     const searchbar = document.getElementById("search-bar")
@@ -21,19 +8,29 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 0
     let allEntries = []
     let filteredEntries = []
+    let blogs = []
 
-    for (const project of blogs) {
-        const link = document.createElement('a')
-        link.href = project.link
-        link.innerHTML = `
-            <pre>${project.date}</pre>
-            <h2>${project.title}</h2>
-            <p>${project.description}</p>`
+    fetch('../data/blogs.json')
+        .then(response => {
+            if (!response.ok) throw new Error(response.status);
+            return response.json();
+        }).then(data => {
+            blogs = data.blogs;
 
-        projectdiv.appendChild(link)
-        allEntries.push(link)
-        filteredEntries.push(link)
-    }
+            for (const project of blogs) {
+                const link = document.createElement('a')
+                link.href = project.link
+                link.innerHTML = `
+                    <pre>${project.date}</pre>
+                    <h2>${project.title}</h2>
+                    <p>${project.description}</p>`
+
+                projectdiv.appendChild(link)
+                allEntries.push(link)
+                filteredEntries.push(link)
+            }
+            showPage()
+        }).catch(error => console.error("Failed to fetch 'blogs.json':", error));
 
     function showPage() {
         const start = currentPage * maxProjectsPerPage
@@ -69,8 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
             projectbuttons.appendChild(button)
         }
     }
-
-    showPage()
 
     searchbar.addEventListener('input', function() {
         const search = searchbar.value.toLowerCase()
