@@ -30,10 +30,11 @@
          <a href="#CContainers">C-Containers and STD Containers</a>
          <a href="#DS">Data Structures</a>
          <a href="#Algo">STD Algorithms</a>
-         <a href="#HLoops">Hot Loops (TODO)</a>
+         <a href="#Misc">Misc.</a>
+         <a href="#Conclusion">Conclusion</a>
 
          <h2 id="Vectors">Vectors</h2>
-         <p><span></span>I'll show you common code. Can you spot the issue here?</p>
+         <p><span></span>Vectors are a really common data structure. So let's start with that! I'll show you common code. Can you spot the issue here?</p>
          <div class="container"><pre class="mono">
 std::vector&lt;<k>int</k>&gt; nums;
 
@@ -113,8 +114,27 @@ auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&
          N=10
          <img src="../assets/bcppo5.png"/>
          <p><span></span>Just please reserve your vectors. We can see a 2-6 times improvement just by using a single function (depending on your situation). This is an absolutely insane change for something so minuscule. And that's why I started this article with this exact optimization!</p>
+         
+         <h4>push_back vs emplace_back</h4>
+         <p><span></span>Another common scenario is this:</p>
+         <div class="container"><pre class="mono">
+<k>struct</k> Vector3 {
+   <k>int</k> x, y, z;
+};
+
+std::vector&lt;Vector3&gt; positions;
+positions.<f>reserve</f>(100);
+
+<k>for</k> (<k>int</k> i = 0; i &lt; 100; ++i) {
+   positions.<f>push_back</f>(Vector3{...});
+}
+</pre></div>
+         <p><span></span>What's wrong here? We're reserving correctly. However, the issue is that we're creating a Vector3 and then passing it to <b>std::vector::push_back()</b> which copies it. If we had used <b>std::vector::emplace_back()</b> instead we would had avoided that unnecessary copy. How? It takes the item and constructs it directly in the vector. <b>std::vector::push_back()</b> takes constructed data and then copies it in the vector.</p>
+         <p><span></span>Before I show you the benchmark I'd like to say that you should only emplace structs and classes. And only pass parameters of the constructor not the constructed object. That would defeat the whole purpose. I'd like to add that emplacing is slightly slower for primitives and already constructed objects. This includes strings. Anyway, here's the benchmark:</p>
+         <img src="../assets/bcppo39.png"/>
+         
          <h4>2D vs 1D vectors</h4>
-         <p><span></span>On the note of vectors, I wanted to compare use of nested vectors against a single vector as a 2D grid. I knew beforehand that a single vector would be more performant but by how much? To find out I created two simple structs:</p>
+         <p><span></span>Also, I wanted to compare use of nested vectors against a single vector as a 2D grid. I knew beforehand that a single vector would be more performant but by how much? To find out I created two simple structs:</p>
          <div class="container"><pre class="mono">
 <k>struct</k> Map2D {
   std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt; map;
@@ -227,7 +247,7 @@ auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&
          <img src="../assets/bcppo19.png"/>
 
          <h2 id="DS">Data Structures</h2>
-         <p><span></span>We just touched on correct data structure usage. So let's continue that! First up, erase <b>std::list</b> from your memory. You do not need it. I have never seen anything that <b>std::list</b> could do that <b>std::vector</b> or some other data structure couldn't. <b>std::list</b> is really inefficient because its elements are scattered all over the heap so cache misses happen often. Maybe it's usable for that one rare case but for the rest just throw it out.</p>
+         <p><span></span>We just touched on correct data structure usage. So let's continue that! First up, erase <b>std::list</b> from your memory. You do not need it. I have never seen anything that <b>std::list</b> could do that <b>std::vector</b> or some other data structure couldn't. <b>std::list</b> is really inefficient because its elements are scattered all over the heap so cache misses happen often. It's rarely useful in practice.</p>
          <p><span></span>Next up, you probably already know of <b>std::map</b>'s and <b>std::set</b>'s O(log N) access, deletion and insertion and <b>std::unordered_map</b>'s and <b>std::unordered_set</b>'s O(1) on average and O(N) at worst. Let's see at which N which are more efficient! We'll try both integers and strings as keys.</p>
          N=10 using integers
          <img src="../assets/bcppo20.png"/>
@@ -268,8 +288,29 @@ auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&
          <p><span></span>And for counting, you guessed it, <a href="https://cppreference.com/cpp/algorithm/count">std::count</a>. Now this is slightly faster but the whole point of these algorithms, in my opinion, is to have cleaner code. They're nice but you shouldn't now replace all of your loops with them. Just know now that these exist and are quite nice.</p>
          N=10000
          <img src="../assets/bcppo32.png"/>
-         <p><span></span>Lastly, I want to write about <a href="https://cppreference.com/cpp/algorithm/reverse">std::reverse</a>. I know I've missed a few important ones like <b>std::sort</b> but you either know them or they're not used that often. If you're interested though, you can find all of these algorithms <a href="https://cppreference.com/cpp/algorithm">here</a> (and please learn to use cppreference.com). Anyway, <b>std::reserve</b> is miles better than my naive reverse copy algorithm I came up on the fly. What a surprise.</p>
+         <p><span></span>Lastly, I want to write about <a href="https://cppreference.com/cpp/algorithm/reverse">std::reverse</a>. I know I've missed a few important ones like <b>std::sort</b> but you either know them or they're not used that often. If you're interested though, you can find all of these algorithms <a href="https://cppreference.com/cpp/algorithm">here</a> (and please learn to use cppreference.com). Anyway, <b>std::reverse</b> is miles better than my naive reverse copy algorithm I came up on the fly. What a surprise.</p>
          <img src="../assets/bcppo33.png"/>
+
+         <h2 id="Misc">Misc.</h2>
+         <p><span></span>I'd like to include some miscellaneous optimizations. You most likely know about them but I'm still going to write it to the ones who don't. I'd like to start with something I was interested in finding out a few days ago: <b>rand()</b> vs <b>std::mt19937</b>. Is the performance really the same? Well, we can't be sure.</p>
+         Clang 17.0
+         <img src="../assets/bcppo34.png"/>
+         GCC 13.2
+         <img src="../assets/bcppo35.png"/>
+         <p><span></span><b>std::mt19937</b> is way faster for integers but way slower for floats on Clang. On GCC it's faster either way. And we have only touched 2 of the many C++ compilers. This is a frustrating conclusion. As a game dev I don't have issues using either but it looks like <b>std::mt19937</b> might be more performant on average. The keword is might.</p>
+         <p><span></span>Next up, I'd like to touch on passing by value and reference. Of course, you should pass by reference. But for simple literals like ints, doubles and also structs only containing simple literals it is unnecessary.</p>
+         Passing int vs int&
+         <img src="../assets/bcppo36.png"/>
+         Passing Vector3 vs Vector3&
+         <img src="../assets/bcppo37.png"/>
+         Passing a complex struct by value vs by reference
+         <img src="../assets/bcppo38.png"/>
+         <p><span></span>And lastly, for release builds use optimization flags. It's stupidly simple but some people don't know about it. Pass <b>-O2</b> to your compiler or build in release mode for CMake with <b>-DCMAKE_BUILD_TYPE=Release</b> flag.</p>
+
+         <h2 id="Conclusion">Conclusion</h2>
+         <p><span></span>While premature optimization is generally a bad thing, there are some habits that make your code more performant. Free optimizations. Why didn't I cover <b>++i</b> vs <b>i++</b>? The performance gain is negligible. All tips here gain you insane performance gains for something so miniscule.</p>
+         <p><span></span>And I didn't even try other micro-optimizations as they confuse the compiler. Remember, compiler is really smart and your friend. You should make your code as clear as possible for the compiler. If you implement micro-optimizations, it might confuse it and it might not implement some better optimization that you could never think of.</p>
+         <p><span></span>While these optimizations are great, they won't carry your render engine. You still have to make good architectural decisions. And whenever there is a performance issue, you should measure first.</p>
 
          <div id="img-background"></div>
          <img id="x"/>
