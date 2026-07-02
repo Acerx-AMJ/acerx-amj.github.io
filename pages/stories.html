@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Stories</title>
+      <link rel="stylesheet" href="../style/style.css">
+   </head>
+
+   <body>
+      <header>
+         <a href="../pages/index.html">Home</a>
+         <a href="../pages/projects.html">Projects</a>
+         <a href="../pages/blog.html">Blog</a>
+         <a class="link-disabled">Stories</a>
+         <a href="../pages/about.html">About</a>
+      </header>
+
+      <article>
+         <h2>Stories</h2>
+         <p><span></span>I also enjoy creative writing. Enjoy some of my work completely for free. All of my work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+         <input type="text" id="search-bar" placeholder="Search For a Story..." onfocus="this.select()"/>
+         <p id="bad-search">No stories match your search.</p>
+         <div id="stories"></div>
+         <div id="project-buttons"></div>
+         <script src="../source/stories.js"></script>
+      </article>
+
+      <script src="../source/common.js"></script>
+   </body>
+</html>

@@ -81,7 +81,7 @@ a:hover:not(.link-disabled) {
 
 :not(p) > a {
    user-select: none;
-   margin-block: 1.2rem;
+   margin-top: 0.4rem;
    margin-inline: 0.4rem;
 
    @media (width >= 40rem) {
@@ -156,6 +156,7 @@ header {
    display: flex;
    flex-direction: row;
    justify-content: center;
+   flex-wrap: wrap;
 }
 
 /*
@@ -175,6 +176,7 @@ article {
    margin-inline: auto;
    padding-inline: 1rem;
    margin-bottom: auto;
+   padding-top: 2.25rem;
    max-width: 42rem;
    width: auto !important;
 }
@@ -270,15 +272,16 @@ footer div {
    margin-block: 30px;
 }
 
-#projects, #blogs, #pages {
+#projects, #blogs, #stories, #pages {
    display: flex;
    flex-direction: column;
    justify-content: center;
    gap: 15px;
 }
 
-#projects a, #blogs a, #pages a {
-   margin-block: 10px;
+#projects a, #blogs a, #stories a, #pages a {
+   margin: 0;
+   margin-bottom: 5px;
    padding: 20px;
    background-color: var(--background);
    border-radius: 16px;
@@ -287,19 +290,11 @@ footer div {
    transition: transform 100ms, border 100ms, box-shadow 100ms;
 }
 
-#projects a:hover, #blogs a:hover, #pages a:hover {
+#projects a:hover, #blogs a:hover, #stories a:hover, #pages a:hover {
    transform: translateY(-5px);
    border: 1px solid var(--link);
    background-color: var(--link-light);
    box-shadow: 0 7px 8px rgba(0, 0, 0, 0.3);
-}
-
-#projects a, #blogs a, #pages a {
-   margin: 0;
-   margin-bottom: 5px;
-}
-
-#projects a:hover, #blogs a:hover, #pages a:hover {
    text-decoration: none;
 }
 
