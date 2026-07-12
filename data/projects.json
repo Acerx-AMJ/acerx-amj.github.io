@@ -45,7 +45,7 @@
       "date": "Dec 2024 to Jun 2025",
       "title": "CX Library",
       "description": "Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user. Made with C++ and SFML.",
-      "image": "<img src=\"../assets/cx_10.png\"/>",
+      "image": "<div class=\"container flex-row\"><pre class=\"mono\">\n<k>void</k> LoadingState::<f>setup_styles</f>() {\n   loading_text.<f>set_string</f>(<t>\"Setting Up Styles...\"</t>);\n   game.<f>initialize_game</f>();\n   loading_bar.<f>set_progress</f>(1.0f);\n   loading_text.<f>set_string</f>(<t>\"Loading Done!\"</t>);\n   audio.<f>play_sound</f>(<t>\"success\"</t>, 1, 0.75f, 1.25f);\n}</pre></div>",
       "link": "../projects/cx_lib.html"
    }, {
       "date": "Nov 2024 to Jun 2025",
