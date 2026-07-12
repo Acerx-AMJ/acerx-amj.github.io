@@ -2,13 +2,13 @@
    "projects": [{
       "date": "Jan 2026 to present",
       "title": "Personal Website",
-      "description": "The website you're looking at right now. My personal portfolio and blog site. Made with pure HTML/JS/CSS.",
+      "description": "My personal portfolio and blog site. Made with HTML/JS/CSS.",
       "image": "",
       "link": "../projects/website.html"
    }, {
-      "date": "Nov 2025 to present",
+      "date": "Nov 2025 to Apr 2026",
       "title": "Sandbox-2D",
-      "description": "Build whatever your heart desires, survive the environment or simply play around - it's up to you. Sandbox-2D is a sandbox survival game where you can build, destroy and explore. Made with C++ and Raylib.",
+      "description": "Sandbox survival game where you can build, destroy and explore. Made with C++ and Raylib.",
       "image": "<img src=\"../assets/sandbox2d_14.png\"/>",
       "link": "../projects/sandbox2d.html"
    }, {
@@ -26,7 +26,7 @@
    }, {
       "date": "Sep 2025",
       "title": "Screen Simulation",
-      "description": "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. Supports all RGB colors. Made with C++ and SFML.",
+      "description": "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. Made with C++ and SFML.",
       "image": "<img src=\"../assets/screen_sim_1.png\"/>",
       "link": "../projects/screen_sim.html"
    }, {
@@ -50,20 +50,26 @@
    }, {
       "date": "Nov 2024 to Jun 2025",
       "title": "Astral Surge",
-      "description": "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode! Made with C++ and SFML.",
+      "description": "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode. Made with C++ and SFML.",
       "image": "<img src=\"../assets/astral_surge_3.png\"/>",
       "link": "../projects/astral_surge.html"
    }, {
       "date": "Oct 2024 & Jan 2025",
       "title": "Pong",
-      "description": "Pong. What more is there to say? Battle against a friend or go against a bot of 4 different difficulties. Made with C++ and SFML.",
+      "description": "Yet another Pong clone. Battle against a friend or go against a bot. Made with C++ and SFML.",
       "image": "<img src=\"../assets/pong_2.png\"/>",
       "link": "../projects/pong.html"
    }, {
       "date": "Sep 2024 to Oct 2024",
       "title": "Abyss Descendant",
-      "description": "Little terminal coin-collecting story game about fighting against an apocalypse. My first game made with C++.",
+      "description": "Terminal coin-collecting story game about surviving in an apocalypse. My first game made with C++.",
       "image": "<img src=\"../assets/abyss_descendant_2.png\"/>",
       "link": "../projects/abyss_descendant.html"
+   }, {
+      "date": "Dec 2020 to Oct 2024",
+      "title": "Lost Media",
+      "description": "Vague memories of lost projects prior to November 2024.",
+      "image": "",
+      "link": "../projects/lost_media.html"
    }]
 }
