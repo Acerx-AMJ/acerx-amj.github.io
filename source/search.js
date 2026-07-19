@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const projectdiv = document.getElementById("blogs")
+    const script = document.getElementById("search")
+    const jsonpath = script.getAttribute("data-json")
+    const simpleformat = script.getAttribute("data-simple-format") === "true"
+
+    const projectdiv = document.getElementById("projects")
     const searchbar = document.getElementById("search-bar")
     const badsearch = document.getElementById("bad-search")
     const projectbuttons = document.getElementById("project-buttons")
@@ -8,21 +12,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 0
     let allEntries = []
     let filteredEntries = []
-    let blogs = []
 
-    fetch('../data/blogs.json')
+    fetch(jsonpath)
         .then(response => {
             if (!response.ok) throw new Error(response.status);
             return response.json();
         }).then(data => {
-            blogs = data.blogs;
-
-            for (const project of blogs) {
+            for (const project of data.data) {
                 const link = document.createElement('a')
                 link.href = project.link
+
                 link.innerHTML = `
                     <pre>${project.date}</pre>
                     <h2>${project.title}</h2>
+                    ${simpleformat ? "" : project.image}
                     <p>${project.description}</p>`
 
                 projectdiv.appendChild(link)
@@ -30,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 filteredEntries.push(link)
             }
             showPage()
-        }).catch(error => console.error("Failed to fetch 'blogs.json':", error));
+        }).catch(error => console.error(`Failed to fetch ${jsonpath}:`, error));
 
     function showPage() {
         const start = currentPage * maxProjectsPerPage

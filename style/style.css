@@ -272,14 +272,14 @@ footer div {
    margin-block: 30px;
 }
 
-#projects, #blogs, #stories, #pages {
+#projects, #pages {
    display: flex;
    flex-direction: column;
    justify-content: center;
    gap: 15px;
 }
 
-#projects a, #blogs a, #stories a, #pages a {
+#projects a, #pages a {
    margin: 0;
    margin-bottom: 5px;
    padding: 20px;
@@ -290,7 +290,7 @@ footer div {
    transition: transform 100ms, border 100ms, box-shadow 100ms;
 }
 
-#projects a:hover, #blogs a:hover, #stories a:hover, #pages a:hover {
+#projects a:hover, #pages a:hover {
    transform: translateY(-5px);
    border: 1px solid var(--link);
    background-color: var(--link-light);

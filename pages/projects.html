@@ -20,13 +20,11 @@
       <article>
          <h2>Projects</h2>
          <p><span></span>You'll find a list of my projects here including projects I have not published on Github, but most of them are and their source-code can be found <a href="https://github.com/Acerx-AMJ">here</a>.</p>
-
          <input type="text" id="search-bar" placeholder="Search For a Project..." onfocus="this.select()"/>
          <p id="bad-search">No projects match your search.</p>
          <div id="projects"></div>
-
          <div id="project-buttons"></div>
-         <script src="../source/projects.js"></script>
+         <script id="search" data-json="../data/projects.json" data-simple-format="false" src="../source/search.js"></script>
       </article>
 
       <script src="../source/common.js"></script>
