@@ -4,7 +4,7 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Basic CPP Optimizations</title>
+      <title>Basic C++ Optimizations</title>
       <link rel="stylesheet" href="../style/style.css">
    </head>
 
@@ -18,11 +18,11 @@
       </header>
 
       <article>
-         <h1>Basic CPP Optimizations</h1>
+         <h1>Basic C++ Optimizations</h1>
          <h3>Daniel Vishnevsky</h3>
 
          <h2>Introduction</h2>
-         <p><span></span>It's recommended to have good CPP and computer knowledge before reading this article as we will dive deep into why and how these optimizations work. This article will be heavy on simple principles to get that free performance boost. We won't get into the more advanced optimization techniques like multi-threading, DOD, and SIMD. We'll be using <a href="https://quick-bench.com">Quick Bench</a> for benchmarks and <a href="https://godbolt.org">Compiler Explorer</a> to view assembly output since they're both freely available online and are simple to use. And I want to add that you can click on images to view them in fullscreen since they are hard to see.</p>
+         <p><span></span>It's recommended to have good C++ and computer knowledge before reading this article as we will dive deep into why and how these optimizations work. This article will be heavy on simple principles to get that free performance boost. We won't get into the more advanced optimization techniques like multi-threading, DOD, and SIMD. We'll be using <a href="https://quick-bench.com">Quick Bench</a> for benchmarks and <a href="https://godbolt.org">Compiler Explorer</a> to view assembly output since they're both freely available online and are simple to use. And I want to add that you can click on images to view them in fullscreen since they are hard to see.</p>
          <p><span></span>Benchmarks might or might not look different on different compilers or tools.</p>
          
          <h2>TOC</h2>
@@ -269,7 +269,7 @@ positions.<f>reserve</f>(100);
          N=1000
          <img src="../assets/bcppo26.png"/>
          <p><span></span>I wanted to write about <b>std::bitset</b> vs <b>std::vector&lt;bool&gt;</b> but it's more complicated than I thought. I don't want to write about something that I'm not that sure about (and I don't use these that often) so I'll give you some external resources on this: <a href="https://stackoverflow.com/questions/4156538/how-can-stdbitset-be-faster-than-stdvectorbool">https://stackoverflow.com/questions/4156538/how-can-stdbitset-be-faster-than-stdvectorbool.</a> and <a href="https://en.cppreference.com/cpp/container/vector_bool">https://en.cppreference.com/cpp/container/vector_bool</a>.</p>
-         <p><span></span>As from cppreference, <b>std::vector&lt;bool&gt;</b> is specialized for space-efficiency and includes two new functions. This is the only <b>std::vector</b> specialization. Basically it is a dynamic bitset disguised as a vector. Dynamic bitsets will be stored on the heap and regular bitsets usually will be stored on the stack. This specialization is another disgusting CPP decision.</p>
+         <p><span></span>As from cppreference, <b>std::vector&lt;bool&gt;</b> is specialized for space-efficiency and includes two new functions. This is the only <b>std::vector</b> specialization. Basically it is a dynamic bitset disguised as a vector. Dynamic bitsets will be stored on the heap and regular bitsets usually will be stored on the stack. This specialization is another disgusting C++ decision.</p>
          <p><span></span>As for performance, it depends. On GCC and Clang the results varied. Looks like on Windows it's also different but Quick Bench doesn't support Windows compilers. However, what didn't vary was <b>std::vector&lt;char&gt;</b> which was way faster. There are two downsides though - higher memory usage and no specialized functions - but who cares about that!</p>
          N=1000, GCC 13.2
          <img src="../assets/bcppo27.png"/>
