@@ -42,6 +42,12 @@
       "image": "<div class=\"container flex-row\" style=\"box-shadow:none\"><pre class=\"mono\" style=\"font-weight:900\">v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n<t>7</t>#  HX  ><t>\",\"</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH\n<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre></div>",
       "link": "../projects/dfunge.html"
    }, {
+      "date": "Jun 2025",
+      "title": "Kahnaroc",
+      "description": "Kahnaroc is a minimalist conlang designed as a lighter and simpler alternative to English with unique punctuation, constant pronunciation and its own writing.",
+      "image": "<div class=\"container flex-row\" style=\"box-shadow:none\"><pre class=\"mono\">დმ ფოინა კრმყმ!</pre></div>",
+      "link": "../projects/kahnaroc.html"
+   }, {
       "date": "Dec 2024 to Jun 2025",
       "title": "CX Library",
       "description": "Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user. Made with C++ and SFML.",
