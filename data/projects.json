@@ -6,6 +6,12 @@
       "image": "",
       "link": "../projects/website.html"
    }, {
+      "date": "Aug 2026",
+      "title": "Dodge the Wraiths",
+      "description": "Dodge the wraiths coming at you. Features 4 game modes. Made in Godot.",
+      "image": "<img src=\"../assets/dtw2.png\"/>",
+      "link": "../projects/dtw.html"
+   }, {
       "date": "Nov 2025 to Apr 2026",
       "title": "Sandbox-2D",
       "description": "Sandbox survival game where you can build, destroy and explore. Made with C++ and Raylib.",
