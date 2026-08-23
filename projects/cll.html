@@ -36,10 +36,10 @@ fn main() {
          <h2>Features</h2>
          <p><span></span>CLL is a C like language with a basic standard library that supports functions, loops and arrays. It is really simple. Everything is an expression in the language which makes it really unique. It looks like an imperial language but is a functional one under the hood.</p>
          <p><span></span>The infamous "Hello, World!" is really easy to write:</p>
-         <pre class="code code-cll">println("Hello, World!"=)</pre>
+         <pre class="code code-cll">println("Hello, World!")</pre>
          <p><span></span>Or if you want to be more correct:</p>
          <pre class="code code-cll">fn main() {
-   println("Hello, World!"=)
+   println("Hello, World!")
 }</pre>
          <p>I don't feel like coding a bunch of examples, so here is a huge file of everything found in CLL:</p>
 <pre class="code code-cll">// This is a single-line comment
@@ -50,12 +50,12 @@ fn main() {
 */
 
 let x, y, z = 29, -6.12, null
-let name = "John"=
-printfln("Hello, {}!"=, name) // -> Hello, John!
+let name = "John"
+printfln("Hello, {}!", name) // Hello, John!
 
-assert(1 + 1 == 2, "Something's really wrong..."=)
-name = input("Input your name: "=) // -> Input your name: [INPUT]
-printfln("Hello, {}!"=, name) // -> Hello, [INPUT]!
+assert(1 + 1 == 2, "Something's really wrong...")
+name = input("Input your name: ") // Input your name: [INPUT]
+printfln("Hello, {}!", name) // Hello, [INPUT]!
 
 con myconstant = {
    return 86
@@ -63,37 +63,37 @@ con myconstant = {
 
 delete x, y, z // They're not allocated, just delete the variables
 let x // Assign a completely new variable
-println(exists x, exists y, exists z) // -> true, false ,false
+println(exists x, exists y, exists z) // true, false ,false
 
 do {
    let localvar = 20
 }
-println(exists localvar) // -> false
+println(exists localvar) // false
 
 if 1 + 1 == 2 do
-   println("1 + 1 is 2"=) // -> 1 + 1 is 2
+   println("1 + 1 is 2") // 1 + 1 is 2
 else do
-   println("1 + 1 is not 2"=) // won't execute!
+   println("1 + 1 is not 2") // won't execute!
    
 let i = 10
 while i-- > 0 do
-   println(i) // -> 9, 8, 7, 6, 5, 4, 3, 2, 1
+   println(i) // 9, 8, 7, 6, 5, 4, 3, 2, 1
 
 for let i = 1; i <= 10; i++ do
-   println(i) // -> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+   println(i) // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 
-for break // -> do nothing
+for break // do nothing
 
 while {
    let ch = inputch()
    break unless ch != 'y'= // equivalent to if ch == 'y' do break
 }
 
-do println("This will not print."=) unless true
+do println("This will not print.") unless true
 
-println("\e[31m This is red text! \e[0m"=)
-println("\e[32m This is green text! \e[0m"=)
-println("\e[34m This is blue text! \e[0m"=)
+println("\e[31m This is red text! \e[0m")
+println("\e[32m This is green text! \e[0m")
+println("\e[34m This is blue text! \e[0m")
 
 for i in 0..10 do
    println(i) // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
