@@ -16,6 +16,7 @@
 
    --code-keyword: rgb(255, 20, 20);
    --code-function: rgb(125, 0, 255);
+   --code-type: rgb(20, 20, 255);
    --code-string: rgb(0, 150, 0);
    --code-comment: rgb(125, 125, 125);
 
@@ -43,6 +44,7 @@
    
    --code-keyword: rgb(255, 110, 110);
    --code-function: rgb(204, 95, 254);
+   --code-type: rgb(104, 113, 243);
    --code-string: rgb(114, 253, 114);
    --code-comment: rgb(125, 125, 125);
    
@@ -438,18 +440,8 @@ article img:not(#x):not(.img-fullscreen) {
    Code colors
 */
 
-k {
-   color: var(--code-keyword);
-}
-
-f {
-   color: var(--code-function);
-}
-
-t {
-   color: var(--code-string);
-}
-
-c {
-   color: var(--code-comment);
-}
+k { color: var(--code-keyword) }
+f { color: var(--code-function) }
+y { color: var(--code-type) }
+t { color: var(--code-string) }
+c { color: var(--code-comment) }

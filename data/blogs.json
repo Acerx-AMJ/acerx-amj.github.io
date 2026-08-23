@@ -1,5 +1,10 @@
 {
    "data": [{
+      "title": "Responsive Design 2",
+      "description": "How to make your game UI responsive. The sequel.",
+      "link": "../blogs/responsive_design2.html",
+      "date": "2026-08-22"
+   },{
       "title": "Basic C++ Optimizations",
       "description": "Basic C++ optimizations that work wonders.",
       "link": "../blogs/basic_cpp_optimizations.html",
