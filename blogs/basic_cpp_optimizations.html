@@ -36,32 +36,32 @@
 
          <h2 id="Vectors">Vectors</h2>
          <p><span></span>Vectors are a really common data structure. So let's start with that! I'll show you common code. Can you spot the issue here?</p>
-         <div class="container"><pre class="mono">
-std::vector&lt;<k>int</k>&gt; nums;
+         <pre class="code code-cpp">
+std::vector&lt;int&gt; nums;
 
-<k>for</k> (<k>int</k> i = 0; i &lt; 100000; ++i) {
-   nums.<f>push_back</f>(i);
+for (int i = 0; i &lt; 100000; ++i) {
+   nums.push_back(i);
 }
-</pre></div>
+</pre>
          <p><span></span>The problem is that we knew the size of the array at runtime but chose to allocate the members dynamically. Every time we push back a number there's a chance that the whole vector reallocates, meaning it copies itself in a different spot on the heap. And that can get really expensive.</p>
          <p><span></span>Even though the use of a better data structure would be better here, the main topic I want to go over in this section is <b>std::vector::reserve()</b> and <b>std::vector::resize()</b>. This is easily fixable by adding a single method call:</p>
-         <div class="container"><pre class="mono">
-std::vector&lt;<k>int</k>&gt; nums;
-nums.<f>reserve</f>(100000);
+         <pre class="code code-cpp">
+std::vector&lt;int&gt; nums;
+nums.reserve(100000);
 
-<k>for</k> (<k>int</k> i = 0; i &lt; 100000; ++i) {
-   nums.<f>push_back</f>(i);
+for (int i = 0; i &lt; 100000; ++i) {
+   nums.push_back(i);
 }
-</pre></div>
+</pre>
          <p><span></span>And you can use <b>std::vector::resize()</b> if you need member access instead:</p>
-         <div class="container"><pre class="mono">
-std::vector&lt;<k>int</k>&gt; nums;
-nums.<f>resize</f>(100000);
+         <pre class="code code-cpp">
+std::vector&lt;int&gt; nums;
+nums.resize(100000);
 
-<k>for</k> (<k>int</k> i = 0; i &lt; 100000; ++i) {
+for (int i = 0; i &lt; 100000; ++i) {
    nums[i] = i;
 }
-</pre></div>
+</pre>
          <p><span></span>The difference is huge on all vector sizes:</p>
          N=100000
          <img src="../assets/bcppo.png"/>
@@ -106,10 +106,10 @@ nums.<f>resize</f>(100000);
          <p><span></span>That explains why it's slower at low N but tells us nothing about why it's so fast at high N. For that we must look into <b>std::vector::push_back()</b> and <b>std::vector::operator[]</b>. Every time we push an element, <b>std::vector::push_back()</b> checks whether or not we have gone past the capacity and if we have, it reallocates memory. We'll cover this later but branching in big loops is bad. <b>std::vector::operator[]</b> on the other hand, does not check that, meaning there's no branching whatsoever.</p>
          <p><span></span>I use this all the time and there's no drawback to it, even when we're only using 10 elements the performance gain is huge. And we don't need to know the size of the vector, we can estimate it and boost performance that way as well. Just remember that you shouldn't use <b>std::vector::push_back()</b> after calling <b>std::vector::resize()</b> as you'll push after the vector's size.</p>
          <p><span></span>Also, you can reserve 2D vectors like this, and the performance gain once again is insane:</p>
-         <div class="container"><pre class="mono">
-auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&lt;<k>int</k>&gt;(SIZE_X, 0));
-<c>// Do stuff with it...</c>
-</pre></div>
+         <pre class="code code-cpp">
+auto map = std::vector&lt;std::vector&lt;int&gt;&gt;(SIZE_Y, std::vector&lt;int&gt;(SIZE_X, 0));
+// Do stuff with it...
+</pre>
          N=100
          <img src="../assets/bcppo4.png"/>
          N=10
@@ -118,63 +118,63 @@ auto map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(SIZE_Y, std::vector&
          
          <h4>push_back vs emplace_back</h4>
          <p><span></span>Another common scenario is this:</p>
-         <div class="container"><pre class="mono">
-<k>struct</k> Vector3 {
-   <k>int</k> x, y, z;
+         <pre class="code code-cpp">
+struct Vector3 {
+   int x, y, z;
 };
 
 std::vector&lt;Vector3&gt; positions;
-positions.<f>reserve</f>(100);
+positions.reserve(100);
 
-<k>for</k> (<k>int</k> i = 0; i &lt; 100; ++i) {
-   positions.<f>push_back</f>(Vector3{...});
+for (int i = 0; i &lt; 100; ++i) {
+   positions.push_back(Vector3{...});
 }
-</pre></div>
+</pre>
          <p><span></span>What's wrong here? We're reserving correctly. However, the issue is that we're creating a Vector3 and then passing it to <b>std::vector::push_back()</b> which copies it. If we had used <b>std::vector::emplace_back()</b> instead we would had avoided that unnecessary copy. How? It takes the item and constructs it directly in the vector. <b>std::vector::push_back()</b> takes constructed data and then copies it in the vector.</p>
          <p><span></span>Before I show you the benchmark I'd like to say that you should only emplace structs and classes. And only pass parameters of the constructor not the constructed object. That would defeat the whole purpose. I'd like to add that emplacing is slightly slower for primitives and already constructed objects. This includes strings. Anyway, here's the benchmark:</p>
          <img src="../assets/bcppo39.png"/>
          
          <h4>2D vs 1D vectors</h4>
          <p><span></span>Also, I wanted to compare use of nested vectors against a single vector as a 2D grid. I knew beforehand that a single vector would be more performant but by how much? To find out I created two simple structs:</p>
-         <div class="container"><pre class="mono">
-<k>struct</k> Map2D {
-  std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt; map;
-  <k>size_t</k> width, height;
+         <pre class="code code-cpp">
+struct Map2D {
+  std::vector&lt;std::vector&lt;int&gt;&gt; map;
+  size_t width, height;
 
-  <f>Map2D</f>(<k>size_t</k> width, <k>size_t</k> height) {
-    map = std::vector&lt;std::vector&lt;<k>int</k>&gt;&gt;(height, std::vector&lt;<k>int</k>&gt;(width, 0));
+  Map2D(size_t width, size_t height) {
+    map = std::vector&lt;std::vector&lt;int&gt;&gt;(height, std::vector&lt;int&gt;(width, 0));
     this-&gt;width = width;
     this-&gt;height = height;
   }
 
-  <k>inline void</k> <f>set</f>(<k>size_t</k> x, <k>size_t</k> y, <k>int</k> value) {
+  inline void set(size_t x, size_t y, int value) {
     map[y][x] = value;
   }
 
-  <k>inline int</k> <f>get</f>(<k>size_t</k> x, <k>size_t</k> y) {
-    <k>return</k> map[y][x];
+  inline int get(size_t x, size_t y) {
+    return map[y][x];
   }
 };
 
-<k>struct</k> Map1D {
-  std::vector&lt;<k>int</k>&gt; map;
-  <k>size_t</k> width, height;
+struct Map1D {
+  std::vector&lt;int&gt; map;
+  size_t width, height;
 
-  <f>Map1D</f>(<k>size_t</k> width, <k>size_t</k> height) {
-    map.<k>resize</k>(width * height);
+  Map1D(size_t width, size_t height) {
+    map.resize(width * height);
     this-&gt;width = width;
     this-&gt;height = height;
   }
 
-  <k>inline void</k> <f>set</f>(<k>size_t</k> x, <k>size_t</k> y, <k>int</k> value) {
+  inline void set(size_t x, size_t y, int value) {
     map[y * width + x] = value;
   }
 
-  <k>inline int</k> <f>get</f>(<k>size_t</k> x, <k>size_t</k> y) {
-    <k>return</k> map[y * width + x];
+  inline int get(size_t x, size_t y) {
+    return map[y * width + x];
   }
 };
-</pre></div>
+</pre>
          <p><span></span>At first, the difference shocked me. But after measuring with higher N and digging deeper it all became clear.</p>
          N=10
          <img src="../assets/bcppo6.png"/>
@@ -319,5 +319,6 @@ positions.<f>reserve</f>(100);
 
       <script src="../source/common.js"></script>
       <script src="../source/image_click.js"></script>
+      <script src="../source/code-highlight.js"></script>
    </body>
 </html>

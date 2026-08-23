@@ -20,15 +20,15 @@
       <article>
          <h1>CX Library</h1>
          <h3>Daniel Vishnevsky</h3>
-         <div class="container flex-row"><pre class="mono">
-<k>void</k> LoadingState::<f>setup_styles</f>() {
-   loading_text.<f>set_string</f>(<t>"Setting Up Styles..."</t>);
-   game.<f>initialize_game</f>();
-   loading_bar.<f>set_progress</f>(1.0f);
-   loading_text.<f>set_string</f>(<t>"Loading Done!"</t>);
-   audio.<f>play_sound</f>(<t>"success"</t>, 1, 0.75f, 1.25f);
+         <pre class="code code-cpp">
+void LoadingState::setup_styles() {
+   loading_text.set_string("Setting Up Styles...");
+   game.initialize_game();
+   loading_bar.set_progress(1.0f);
+   loading_text.set_string("Loading Done!");
+   audio.play_sound("success", 1, 0.75f, 1.25f);
 }
-</pre></div>
+</pre>
 
          <h2>About</h2>
          <p><span></span>Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user. Made with C++ and SFML.</p>
@@ -64,5 +64,6 @@
 
       <script src="../source/common.js"></script>
       <script src="../source/image_click.js"></script>
+      <script src="../source/code-highlight.js"></script>
    </body>
 </html>

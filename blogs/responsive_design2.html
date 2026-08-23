@@ -29,188 +29,181 @@
          <p><span></span>It's extremely simple to create a ratio function. But you 100% will also need cubic ratio, where we use the minimum size of the window instead. And, based on your use case, might also need fill ratio, which uses the maximum instead, although not as common.</p>
          <p><span></span>We use ratio for scaling any position to work on all screen sizes. Cubic ratio is used for both elements that should preserve aspect ratio and elements that should not overflow from their container, like text and basically any sprite. Fill ratio is the opposite of cubic ratio and it's used for things that should overflow, primarily backgrounds.</p>
          <p><span></span>Let's implement all three! If you don't want to and are using Raylib, <a href="https://github.com/Acerx-AMJ/SRU-Library">SRU-Lib</a> already has all of them and a lot more. And let's use an enum so we don't have to implement thrice as many functions:</p>
-         <div class="container"><pre class="mono">
-<k>enum</k> <y>RatioType</y>: <k>char</k> {
-   <y>RATIO</y>, <y>CUBIC_RATIO</y>, <y>FILL_RATIO</y>
+         <pre class="code code-cpp">
+enum RatioType: char {
+   RATIO, CUBIC_RATIO, FILL_RATIO
 };
-</pre></div>
+</pre>
          <p><span></span>Since we're implementing all three functions, we first need two little helper functions to get the right size based on ratio type:</p>
-         <div class="container"><pre class="mono">
-<y>Vector2</y> <f>getSizeFromRatioType</f>(<k>float</k> width, <k>float</k> height, <y>RatioType</y> type) {
-   <k>if</k> (type == <y>CUBIC_RATIO</y>) {
-      <k>float</k> minimum = <f>fminf</f>(width, height);
-      <k>return</k> <y>Vector2</y>{minimum, minimum};
+         <pre class="code code-cpp">
+Vector2 getSizeFromRatioType(float width, float height, RatioType type) {
+   if (type == CUBIC_RATIO) {
+      float minimum = fminf(width, height);
+      return Vector2{minimum, minimum};
    }
-   <k>else if</k> (type == <y>FILL_RATIO</y>) {
-      <k>float</k> maximum = <f>fmaxf</f>(width, height);
-      <k>return</k> <y>Vector2</y>{maximum, maximum};
+   else if (type == FILL_RATIO) {
+      float maximum = fmaxf(width, height);
+      return Vector2{maximum, maximum};
    }
-   <k>else</k> {
-      <k>return</k> <y>Vector2</y>{width, height};
+   else {
+      return Vector2{width, height};
    }
 }
-</pre></div>
+</pre>
          <p><span></span>And a helper for defining your own area:</p>
-         <div class="container"><pre class="mono">
-<k>constexpr inline</k> <y>Rectangle</y> <y>WINDOW_AREA</y> = {0, 0, 0, 0};
+         <pre class="code code-cpp">
+constexpr inline Rectangle WINDOW_AREA = {0, 0, 0, 0};
 
-<y>Rectangle</y> <f>getArea</f>(<y>Rectangle</y> area) {
-   <k>return</k> (area.x == <y>WINDOW_AREA</y>.x && area.y == <y>WINDOW_AREA</y>.y && area.width == <y>WINDOW_AREA</y>.width && area.height == <y>WINDOW_AREA</y>.height ? <y>Rectangle</y>{0, 0, (<k>float</k>)<f>GetScreenWidth</f>(), (<k>float</k>)<f>GetScreenHeight</f>()} : area);
+Rectangle getArea(Rectangle area) {
+   return (area.x == WINDOW_AREA.x && area.y == WINDOW_AREA.y && area.width == WINDOW_AREA.width && area.height == WINDOW_AREA.height ? Rectangle{0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()} : area);
 }
-</pre></div>
-         <p><span></span>Area is the container in which we want to place an element, usually it's just the window (that's why when you pass in <y>WINDOW_AREA</y> you'll receive the window boundaries). But oftentimes you want a sub-container like an UI frame or a scrollframe, or maybe even to use an area as a grid.</p>
+</pre>
+         <p><span></span>Area is the container in which we want to place an element, usually it's just the window (that's why when you pass in WINDOW_AREA you'll receive the window boundaries). But oftentimes you want a sub-container like an UI frame or a scrollframe, or maybe even to use an area as a grid.</p>
          <p><span></span>Alright, you probably get everything now, let's go over to the real deal! Although, if you didn't quite get something feel free to send an email to me and I'll try my best to clarify, it's down below in the footer. There are three functions you certaintly need. And a few you might or might not have a use case for. Really it's up to you:</p>
-         <div class="container"><pre class="mono">
-<y>Vector2</y> <f>mapRatioToArea</f>(<y>Vector2</y> ratio, <y>Rectangle</y> area, <y>RatioType</y> type) {
-   <y>Rectangle</y> realArea = <f>getArea</f>(area);
-   <y>Vector2</y> size = <f>getSizeFromRatioType</f>(realArea.width, realArea.height, type);
-   <k>return</k> ratio * size + <y>Vector2</y>{realArea.x, realArea.y};
+         <pre class="code code-cpp">
+Vector2 mapRatioToArea(Vector2 ratio, Rectangle area, RatioType type) {
+   Rectangle realArea = getArea(area);
+   Vector2 size = getSizeFromRatioType(realArea.width, realArea.height, type);
+   return ratio * size + Vector2{realArea.x, realArea.y};
 }
 
-<y>Vector2</y> <f>mapSizeRatioToArea</f>(<y>Vector2</y> ratio, <y>Rectangle</y> area, <y>RatioType</y> type) {
-   <y>Rectangle</y> realArea = <f>getArea</f>(area);
-   <y>Vector2</y> size = <f>getSizeFromRatioType</f>(realArea.width, realArea.height, type);
-   <k>return</k> ratio * size;
+Vector2 mapSizeRatioToArea(Vector2 ratio, Rectangle area, RatioType type) {
+   Rectangle realArea = getArea(area);
+   Vector2 size = getSizeFromRatioType(realArea.width, realArea.height, type);
+   return ratio * size;
 }
 
-<k>float</k> <f>getFontSizeScaled</f>(<k>float</k> fontSize) {
-   <k>return</k> fontSize * <f>fminf</f>(<f>GetScreenWidth</f>(), <f>GetScreenHeight</f>()) / 1000.0f;
+float getFontSizeScaled(float fontSize) {
+   return fontSize * fminf(GetScreenWidth(), GetScreenHeight()) / 1000.0f;
 }
-</pre></div>
-         <p><span></span>The names are self-describing. <f>mapRatioToArea</f> maps a positional ratio, whereas <f>mapSizeRatioToArea</f> maps a size ratio, hence we don't add the position of the area there. But it might not be that obvious what's going on in <f>getFontSizeScaled</f> - we multiply by a cubic ratio (just look at our <f>getSizeFromRatioType</f> function) and then divide it by 1000 since we just multiplied it by the width/height of the screen. The magic number here doesn't matter, just adjust to the new font size that fits all screen sizes.</p>
+</pre>
+         <p><span></span>The names are self-describing. mapRatioToArea maps a positional ratio, whereas mapSizeRatioToArea maps a size ratio, hence we don't add the position of the area there. But it might not be that obvious what's going on in getFontSizeScaled - we multiply by a cubic ratio (just look at our getSizeFromRatioType function) and then divide it by 1000 since we just multiplied it by the width/height of the screen. The magic number here doesn't matter, just adjust to the new font size that fits all screen sizes.</p>
          <h2>Optionals</h2>
          <p><span></span>Lastly, I'd like to give you two optional functions - one for creating areas and one for converting ratios, since those proved to be useful in my own game, but they might or might not be useful to everyone.</p>
-         <div class="container"><pre class="mono">
-<y>Rectangle</y> <f>mapRatioToArea</f>(<y>Rectangle</y> ratio, <y>Vector2</y> origin, <y>Rectangle</y> area, <y>RatioType</y> type) {
-   <y>Rectangle</y> realArea = <f>getArea</f>(area);
-   <y>Vector2</y> position = <f>mapRatioToArea</f>(<y>Vector2</y>{ratio.x, ratio.y}, realArea, <y>RATIO</y>);
-   <y>Vector2</y> size = <f>mapSizeRatioToArea</f>(<y>Vector2</y>{ratio.width, ratio.height}, realArea, type);
-   <k>return</k> <y>Rectangle</y>{position.x - size.x * origin.x, position.y - size.y * origin.y, size.x, size.y};
+         <pre class="code code-cpp">
+Rectangle mapRatioToArea(Rectangle ratio, Vector2 origin, Rectangle area, RatioType type) {
+   Rectangle realArea = getArea(area);
+   Vector2 position = mapRatioToArea(Vector2{ratio.x, ratio.y}, realArea, RATIO);
+   Vector2 size = mapSizeRatioToArea(Vector2{ratio.width, ratio.height}, realArea, type);
+   return Rectangle{position.x - size.x * origin.x, position.y - size.y * origin.y, size.x, size.y};
 }
-</pre></div>
-         <p><span></span>Simple function, we just combine our two previous functions. It's important that we pass <y>RATIO</y> to <f>mapRatioToArea</f> not type. Position should almost always use the regular ratio. And there's one more little thing that is super useful here - origin. You pass an origin in range [0; 1] on both axes and it offsets the rectangle by it. If you want a centered rectangle and pass a ratio of <y>Vector2</y>{0.5f, 0.5f} (center of the screen) then just pass an origin of <y>Vector2</y>{0.5f, 0.5f} (center of the rectangle). For clarity it might be best to use these constants for origin:</p>
-         <div class="container"><pre class="mono">
-<k>constexpr inline</k> <y>Vector2 TOP_LEFT</y> = {0.0f, 0.0f};
-<k>constexpr inline</k> <y>Vector2 TOP_CENTER</y> = {0.5f, 0.0f};
-<k>constexpr inline</k> <y>Vector2 TOP_RIGHT</y> = {1.0f, 0.0f};
-<k>constexpr inline</k> <y>Vector2 CENTER_LEFT</y> = {0.0f, 0.5f};
-<k>constexpr inline</k> <y>Vector2 CENTER</y> = {0.5f, 0.5f};
-<k>constexpr inline</k> <y>Vector2 CENTER_RIGHT</y> = {1.0f, 0.5f};
-<k>constexpr inline</k> <y>Vector2 BOTTOM_LEFT</y> = {0.0f, 1.0f};
-<k>constexpr inline</k> <y>Vector2 BOTTOM_CENTER</y> = {0.5f, 1.0f};
-<k>constexpr inline</k> <y>Vector2 BOTTOM_RIGHT</y> = {1.0f, 1.0f};
-</pre></div>
+</pre>
+         <p><span></span>Simple function, we just combine our two previous functions. It's important that we pass RATIO to mapRatioToArea not type. Position should almost always use the regular ratio. And there's one more little thing that is super useful here - origin. You pass an origin in range [0; 1] on both axes and it offsets the rectangle by it. If you want a centered rectangle and pass a ratio of Vector2{0.5f, 0.5f} (center of the screen) then just pass an origin of Vector2{0.5f, 0.5f} (center of the rectangle). For clarity it might be best to use these constants for origin:</p>
+         <pre class="code code-cpp">
+constexpr inline Vector2 TOP_LEFT = {0.0f, 0.0f};
+constexpr inline Vector2 TOP_CENTER = {0.5f, 0.0f};
+constexpr inline Vector2 TOP_RIGHT = {1.0f, 0.0f};
+constexpr inline Vector2 CENTER_LEFT = {0.0f, 0.5f};
+constexpr inline Vector2 CENTER = {0.5f, 0.5f};
+constexpr inline Vector2 CENTER_RIGHT = {1.0f, 0.5f};
+constexpr inline Vector2 BOTTOM_LEFT = {0.0f, 1.0f};
+constexpr inline Vector2 BOTTOM_CENTER = {0.5f, 1.0f};
+constexpr inline Vector2 BOTTOM_RIGHT = {1.0f, 1.0f};
+</pre>
          <p><span></span>And lastly, something bigger. Ratio conversion from one type to another. Why, you might ask? If you have a size in cubic ratio and want to offset a regular ratio by half of that, then you're in big trouble! You can't just subtract one from another, you must convert it!</p>
          <p><span></span>But luckily for you, I did my homework here and found this correlation between aspect ratio and different ratio types:</p>
-         <table>
-            <thead><tr>
-               <th>Axis</th>
-               <th>Aspect Ratio</th>
-               <th>Ratio</th>
-               <th>Cubic Ratio</th>
-               <th>Fill Ratio</th>
-            </tr></thead>
-            <tbody>
-               <tr>
-                  <td>X</td>
-                  <td>&gt;1</td>
-                  <td>x</td>
-                  <td>x * aspect ratio</td>
-                  <td>x</td>
-               </tr>
-               <tr>
-                  <td>Y</td>
-                  <td>&gt;1</td>
-                  <td>x</td>
-                  <td>x</td>
-                  <td>x / aspect ratio</td>
-               </tr>
-               <tr>
-                  <td>X</td>
-                  <td>&lt;1</td>
-                  <td>x</td>
-                  <td>x</td>
-                  <td>x * aspect ratio</td>
-               </tr>
-               <tr>
-                  <td>Y</td>
-                  <td>&lt;1</td>
-                  <td>x</td>
-                  <td>x / aspect ratio</td>
-                  <td>x</td>
-               </tr>
-            </tbody>
-         </table>
+         <table><thead><tr>
+            <th>Axis</th>
+            <th>Aspect Ratio</th>
+            <th>Ratio</th>
+            <th>Cubic Ratio</th>
+            <th>Fill Ratio</th>
+         </tr></thead><tbody><tr>
+            <td>X</td>
+            <td>&gt;1</td>
+            <td>x</td>
+            <td>x * aspect ratio</td>
+            <td>x</td>
+         </tr><tr>
+            <td>Y</td>
+            <td>&gt;1</td>
+            <td>x</td>
+            <td>x</td>
+            <td>x / aspect ratio</td>
+         </tr><tr>
+            <td>X</td>
+            <td>&lt;1</td>
+            <td>x</td>
+            <td>x</td>
+            <td>x * aspect ratio</td>
+         </tr><tr>
+            <td>Y</td>
+            <td>&lt;1</td>
+            <td>x</td>
+            <td>x / aspect ratio</td>
+            <td>x</td>
+         </tr></tbody></table>
          <p><span></span>Using this table, implementation looks something like this:</p>
-         <div class="container"><pre class="mono">
-<k>float</k> <f>convertRatioX</f>(<k>float</k> ratio, <y>RatioType</y> type, <y>RatioType</y> target, <y>Rectangle</y> area) {
-   <y>Rectangle</y> realArea = <f>getArea</f>(area);
-   <k>float</k> aspectRatio = realArea.width / realArea.height;
+         <pre class="code code-cpp">
+float convertRatioX(float ratio, RatioType type, RatioType target, Rectangle area) {
+   Rectangle realArea = getArea(area);
+   float aspectRatio = realArea.width / realArea.height;
 
-   <k>if</k> (aspectRatio > 1.0f) {
-      <k>if</k> ((type == <y>RATIO</y> || type == <y>FILL_RATIO</y>) && target == <y>CUBIC_RATIO</y>) {
-         <k>return</k> ratio * aspectRatio;
+   if (aspectRatio > 1.0f) {
+      if ((type == RATIO || type == FILL_RATIO) && target == CUBIC_RATIO) {
+         return ratio * aspectRatio;
       }
-      <k>else if</k> (type == <y>CUBIC_RATIO</y> && (target == <y>RATIO</y> || target == <y>FILL_RATIO</y>)) {
-         <k>return</k> ratio / aspectRatio;
-      }
-   }
-   <k>else if</k> (aspectRatio < 1.0f) {
-      <k>if</k> ((type == <y>RATIO</y> || type == <y>CUBIC_RATIO</y>) && target == <y>FILL_RATIO</y>) {
-         <k>return</k> ratio * aspectRatio;
-      }
-      <k>else if</k> (type == <y>FILL_RATIO</y> && (target == <y>RATIO</y> || target == <y>CUBIC_RATIO</y>)) {
-         <k>return</k> ratio / aspectRatio;
+      else if (type == CUBIC_RATIO && (target == RATIO || target == FILL_RATIO)) {
+         return ratio / aspectRatio;
       }
    }
-   <k>return</k> ratio;
+   else if (aspectRatio < 1.0f) {
+      if ((type == RATIO || type == CUBIC_RATIO) && target == FILL_RATIO) {
+         return ratio * aspectRatio;
+      }
+      else if (type == FILL_RATIO && (target == RATIO || target == CUBIC_RATIO)) {
+         return ratio / aspectRatio;
+      }
+   }
+   return ratio;
 }
 
-<k>float</k> <f>convertRatioY</f>(<k>float</k> ratio, <y>RatioType</y> type, <y>RatioType</y> target, <y>Rectangle</y> area) {
-   <y>Rectangle</y> realArea = <f>getArea</f>(area);
-   <k>float</k> aspectRatio = realArea.width / realArea.height;
+float convertRatioY(float ratio, RatioType type, RatioType target, Rectangle area) {
+   Rectangle realArea = getArea(area);
+   float aspectRatio = realArea.width / realArea.height;
 
-   <k>if</k> (aspectRatio > 1.0f) {
-      <k>if</k> ((type == <y>RATIO</y> || type == <y>CUBIC_RATIO</y>) && target == <y>FILL_RATIO</y>) {
-         <k>return</k> ratio / aspectRatio;
+   if (aspectRatio > 1.0f) {
+      if ((type == RATIO || type == CUBIC_RATIO) && target == FILL_RATIO) {
+         return ratio / aspectRatio;
       }
-      <k>else if</k> (type == <y>FILL_RATIO</y> && (target == <y>RATIO</y> || target == <y>CUBIC_RATIO</y>)) {
-         <k>return</k> ratio * aspectRatio;
+      else if (type == FILL_RATIO && (target == RATIO || target == CUBIC_RATIO)) {
+         return ratio * aspectRatio;
       }
    }
-   <k>else if</k> (aspectRatio < 1.0f) {
-      <k>if</k> ((type == <y>RATIO</y> || type == <y>FILL_RATIO</y>) && target == <y>CUBIC_RATIO</y>) {
-         <k>return</k> ratio / aspectRatio;
+   else if (aspectRatio < 1.0f) {
+      if ((type == RATIO || type == FILL_RATIO) && target == CUBIC_RATIO) {
+         return ratio / aspectRatio;
       }
-      <k>else if</k> (type == <y>CUBIC_RATIO</y> && (target == <y>RATIO</y> || target == <y>FILL_RATIO</y>)) {
-         <k>return</k> ratio * aspectRatio;
+      else if (type == CUBIC_RATIO && (target == RATIO || target == FILL_RATIO)) {
+         return ratio * aspectRatio;
       }
    }
-   <k>return</k> ratio;
+   return ratio;
 }
 
-<y>Vector2</y> <f>convertRatio</f>(<y>Vector2</y> ratio, <y>RatioType</y> type, <y>RatioType</y> target, <y>Rectangle</y> area) {
-   <k>return</k> <y>Vector2</y>{<f>convertRatioX</f>(ratio.x, type, target, area), <f>convertRatioY</f>(ratio.y, type, target, area)};
+Vector2 convertRatio(Vector2 ratio, RatioType type, RatioType target, Rectangle area) {
+   return Vector2{convertRatioX(ratio.x, type, target, area), convertRatioY(ratio.y, type, target, area)};
 }
-</pre></div>
+</pre>
          <h2>Usage</h2>
          <p><span></span>Here's a tiny example of how I use some of these functions in practice:</p>
-         <div class="container"><pre class="mono">
-<k>constexpr inline</k> <y>Vector2 buttonSize</y> = {0.194f, 0.065f};
-<k>constexpr inline</k> <y>Vector2 rawButtonPadding</y> = {0.019f, 0.019f};
+         <pre class="code code-cpp">
+constexpr inline Vector2 buttonSize = {0.194f, 0.065f};
+constexpr inline Vector2 rawButtonPadding = {0.019f, 0.019f};
+constexpr inline Vector2 buttonPadding = {buttonSize.x + rawButtonPadding.x, buttonSize.y + rawButtonPadding.y};
          
-<y>Vector2</y> bsize = <f>mapRatioToArea</f>(<y>buttonSize</y>, <y>WINDOW_AREA</y>, <y>CUBIC_RATIO</y>);
-<y>Vector2</y> padding = <f>convertRatio</f>(<y>buttonPadding</y>, <y>CUBIC_RATIO</y>, <y>RATIO</y>);
-<k>float</k> worldButtonStartY = 0.58f - <f>convertRatioY</f>(0.619f / 2.0f, <y>CUBIC_RATIO</y>, <y>RATIO</y>) + padding.y * 0.6f;
+Vector2 bsize = mapRatioToArea(buttonSize, WINDOW_AREA, CUBIC_RATIO);
+Vector2 padding = convertRatio(buttonPadding, CUBIC_RATIO, RATIO);
+float worldButtonStartY = 0.58f - convertRatioY(0.619f / 2.0f, CUBIC_RATIO, RATIO) + padding.y * 0.6f;
 
-<k>for</k> (<k>int</k> i = 0; i < buttonsInWorldFrame; ++i) {
-   worldFrameButtonRects[i] = <f>mapRatioToArea</f>(<f>R4</f>(0.5f, worldButtonStartY + padding.y * i, 1.0f, <y>buttonSize</y>.y), <y>TOP_LEFT</y>, <y>WINDOW_AREA</y>, <y>CUBIC_RATIO</y>);
+for (int i = 0; i < buttonsInWorldFrame; ++i) {
+   worldFrameButtonRects[i] = mapRatioToArea(R4(0.5f, worldButtonStartY + padding.y * i, 1.0f, buttonSize.y), TOP_LEFT, WINDOW_AREA, CUBIC_RATIO);
 }
-</pre></div>
+</pre>
          <p><span></span>I don't want this blog to be one giant ad but for more examples feel free to check out my <a href="https://github.com/Acerx-AMJ/Sandbox-2D">game's source code</a>. All UI there is responsive. And for full implementation and more you can check out <a href="https://github.com/Acerx-AMJ/SRU-Library">SRU-Lib's source code</a>. You'll find it all in the render.hpp header.</p>
       </article>
 
       <script src="../source/common.js"></script>
-      <script src="../source/image_click.js"></script>
+      <script src="../source/code-highlight.js"></script>
    </body>
 </html>
