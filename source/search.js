@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let allEntries = []
     let filteredEntries = []
 
+    let lastSessionPage = sessionStorage.getItem('page')
+    if (lastSessionPage !== null) {
+        currentPage = lastSessionPage
+    }
+
     fetch(jsonpath)
         .then(response => {
             if (!response.ok) throw new Error(response.status);
@@ -33,7 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 filteredEntries.push(link)
             }
             showPage()
+            setupLinks()
         }).catch(error => console.error(`Failed to fetch ${jsonpath}:`, error));
+
+    function setupLinks() {
+        for (const link of document.querySelectorAll('a')) {
+            link.addEventListener('click', () => { sessionStorage.setItem('page', currentPage) })
+        }
+    }
 
     function showPage() {
         const start = currentPage * maxProjectsPerPage

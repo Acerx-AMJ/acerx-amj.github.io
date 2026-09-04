@@ -16,8 +16,8 @@ const cpp_data = {
 
 const cll_data = {
    keywords: new Set([
-   'let', 'con', 'delete', 'exists', 'if', 'elif', 'else', 'while', 'for', 'fn', 'do', 'break', 'continue', 'return', 'unless', 'and',
-   'or', 'not', 'in', 'is', 'isnot', 'list', 'array', 'map'
+      'let', 'con', 'delete', 'exists', 'if', 'elif', 'else', 'while', 'for', 'fn', 'do', 'break', 'continue', 'return', 'unless', 'and',
+      'or', 'not', 'in', 'is', 'isnot', 'list', 'array', 'map'
    ]),
    types: new Set([]),
    line_comment: /\/\/.*/,
