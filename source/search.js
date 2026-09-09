@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allEntries = []
     let filteredEntries = []
 
-    let lastSessionPage = sessionStorage.getItem('page')
+    let lastSessionPage = sessionStorage.getItem(jsonpath + '.page')
     if (lastSessionPage !== null) {
         currentPage = lastSessionPage
     }
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function setupLinks() {
         for (const link of document.querySelectorAll('a')) {
-            link.addEventListener('click', () => { sessionStorage.setItem('page', currentPage) })
+            link.addEventListener('click', () => { sessionStorage.setItem(jsonpath + '.page', currentPage) })
         }
     }
 
