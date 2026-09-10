@@ -1,5 +1,10 @@
 {
    "data": [{
+      "title": "Core IT Principles",
+      "description": "Some principles I personally find useful.",
+      "link": "../blogs/core_it_principles.html",
+      "date": "2026-09-10"
+   }, {
       "title": "Responsive Design 2",
       "description": "How to make your game UI responsive. The sequel.",
       "link": "../blogs/responsive_design2.html",

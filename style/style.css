@@ -221,7 +221,7 @@ article pre {
    color: var(--text-light);
 }
 
-article p, article label {
+article p, article li, article label {
    font-family: var(--font);
    color: var(--text);
    font-size: 1rem;
