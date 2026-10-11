@@ -1,9 +1,9 @@
 {
    "data": [{
-      "title": "Core IT Principles",
-      "description": "Some principles I personally find useful.",
-      "link": "../blogs/core_it_principles.html",
-      "date": "2026-09-10"
+      "title": "LLMs Can't Problem-solve",
+      "description": "My personal issues with LLMs in code writing/problem-solving.",
+      "link": "../blogs/ai_suggests_bad_solutions.html",
+      "date": "2026-10-10"
    }, {
       "title": "Responsive Design 2",
       "description": "How to make your game UI responsive. The sequel.",
