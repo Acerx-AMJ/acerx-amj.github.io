@@ -99,6 +99,11 @@ img {
    border-radius: 16px;
 }
 
+img.img-no-style {
+   border: none !important;
+   border-radius: 0px;
+}
+
 .iframe-container {
    position: relative;
    overflow: hidden;
@@ -269,7 +274,7 @@ footer div {
 */
 
 #pages {
-   margin-block: 30px;
+   margin-block: 10px;
 }
 
 #projects, #pages {
