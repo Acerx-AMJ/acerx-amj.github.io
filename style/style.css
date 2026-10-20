@@ -99,7 +99,7 @@ img {
    border-radius: 16px;
 }
 
-img.img-no-style {
+img.img-no-click {
    border: none !important;
    border-radius: 0px;
 }
@@ -270,7 +270,7 @@ footer div {
 }
 
 /*
-   index.html, projects.html and blog.html specifics
+   home.html, projects.html and blog.html specifics
 */
 
 #pages {

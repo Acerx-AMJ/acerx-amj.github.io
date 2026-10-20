@@ -1,11 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-   const images = document.querySelectorAll("img");
-   const background = document.getElementById("img-background");
-   const x = document.getElementById("x");
+   const images = document.querySelectorAll("img:not(.img-no-click)");
+   const article = document.querySelectorAll("article")[0];
 
+   const background = document.createElement('div');
+   background.id = "img-background";
+   background.style.display = "none";
+   article.appendChild(background);
+
+   const x = document.createElement('img');
+   x.id = "x";
    x.src = "../assets/x.png";
    x.style.display = "none";
-   background.style.display = "none";
+   article.appendChild(x);
 
    let current = null;
    let previousFromBottom = 0;

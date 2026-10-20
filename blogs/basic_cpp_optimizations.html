@@ -10,7 +10,7 @@
 
    <body>
       <header>
-         <a href="../pages/index.html">Home</a>
+         <a href="../pages/home.html">Home</a>
          <a href="../pages/projects.html">Projects</a>
          <a href="../pages/blog.html">Blog</a>
          <a href="../pages/stories.html">Stories</a>
@@ -63,11 +63,11 @@ for (int i = 0; i &lt; 100000; ++i) {
 </pre>
          <p><span></span>The difference is huge on all vector sizes:</p>
          N=100000
-         <img src="../assets/bcppo.png"/>
+         <img src="../assets/bcppo/1.png"/>
          N=100
-         <img src="../assets/bcppo2.png"/>
+         <img src="../assets/bcppo/2.png"/>
          N=10
-         <img src="../assets/bcppo3.png"/>
+         <img src="../assets/bcppo/3.png"/>
          <p><span></span>But why so? Well, if we call reserve right away then we allocate the whole vector at once and we don't need to reallocate it ever again unless we shoot over the capacity we have previously reserved. That can save a lot of unnecessary copies.</p>
          <p><span></span>When I ran the benchmarks, I was originally surprised at <b>std::vector::resize()</b> being faster at larger N but slower at small N. But that's no mystery once we look under the hood. <b>std::vector::reserve()</b> only allocates the required memory, meaning the size of the vector is 0 and the capacity is N (where N is the size reserved). Whereas <b>std::vector::resize()</b> allocates the required memory and 0-sets it, meaning the size of the vector and the capacity is N. That makes it slower at smaller N as we write for each element twice, once to 0 and then once to our desired value.</p>
          <table>
@@ -110,9 +110,9 @@ auto map = std::vector&lt;std::vector&lt;int&gt;&gt;(SIZE_Y, std::vector&lt;int&
 // Do stuff with it...
 </pre>
          N=100
-         <img src="../assets/bcppo4.png"/>
+         <img src="../assets/bcppo/4.png"/>
          N=10
-         <img src="../assets/bcppo5.png"/>
+         <img src="../assets/bcppo/5.png"/>
          <p><span></span>Just please reserve your vectors. We can see a 2-6 times improvement just by using a single function (depending on your situation). This is an absolutely insane change for something so minuscule. And that's why I started this article with this exact optimization!</p>
          
          <h4>push_back vs emplace_back</h4>
@@ -131,7 +131,7 @@ for (int i = 0; i &lt; 100; ++i) {
 </pre>
          <p><span></span>What's wrong here? We're reserving correctly. However, the issue is that we're creating a Vector3 and then passing it to <b>std::vector::push_back()</b> which copies it. If we had used <b>std::vector::emplace_back()</b> instead we would had avoided that unnecessary copy. How? It takes the item and constructs it directly in the vector. <b>std::vector::push_back()</b> takes constructed data and then copies it in the vector.</p>
          <p><span></span>Before I show you the benchmark I'd like to say that you should only emplace structs and classes. And only pass parameters of the constructor not the constructed object. That would defeat the whole purpose. I'd like to add that emplacing is slightly slower for primitives and already constructed objects. This includes strings. Anyway, here's the benchmark:</p>
-         <img src="../assets/bcppo39.png"/>
+         <img src="../assets/bcppo/39.png"/>
          
          <h4>2D vs 1D vectors</h4>
          <p><span></span>Also, I wanted to compare use of nested vectors against a single vector as a 2D grid. I knew beforehand that a single vector would be more performant but by how much? To find out I created two simple structs:</p>
@@ -176,15 +176,15 @@ struct Map1D {
 </pre>
          <p><span></span>At first, the difference shocked me. But after measuring with higher N and digging deeper it all became clear.</p>
          N=10
-         <img src="../assets/bcppo6.png"/>
+         <img src="../assets/bcppo/6.png"/>
          N=100
-         <img src="../assets/bcppo7.png"/>
+         <img src="../assets/bcppo/7.png"/>
          N=10000
-         <img src="../assets/bcppo8.png"/>
+         <img src="../assets/bcppo/8.png"/>
          <p><span>Clearly, a single vector is more efficient, just that the bigger the map is, the more it approaches the performance of the stacked vector grid. But why? Because if we have a single vector then we only do a single allocation, whereas with stacked vectors we must allocate height + 1 vectors even if it looks like a single allocation.</span></p>
          <p><span></span>Before explaining everything deeper, I'd like to throw in that a basic C-array is more performant if you got the stack size. The stack is usually up to 8MiB large but realistically I'd say 1MiB is safe to use. That's 262,144 integers (in the benchmark below I used 1 million integers equaling 3.81MiB). If we use the stack then we don't need to do any allocations and we don't have to suffer from the slow RAM access (Do note that global, static and heap allocated C-arrays don't live on the stack).</p>
          N=1000
-         <img src="../assets/bcppo9.png"/>
+         <img src="../assets/bcppo/9.png"/>
          <table>
             <thead><tr>
                <th>Data Structure</th>
@@ -215,10 +215,10 @@ struct Map1D {
          <h2 id="Strings">Strings</h2>
          <p><span></span>Another really common container is string. The issue is that it is a vector of characters and if you know anything about allocations or heap, you know that it is quite expensive. This is why if we plan on constructing large strings we must call <b>std::string::reserve()</b> or <b>std::string::resize()</b> just like with vectors!</p>
          N=1000
-         <img src="../assets/bcppo10.png"/>
+         <img src="../assets/bcppo/10.png"/>
          <p><span></span>But there's a small detail that makes strings slightly different from vectors - small string optimization (SSO).</p>
          N=10 and N=16
-         <img src="../assets/bcppo11.png"/>
+         <img src="../assets/bcppo/11.png"/>
          <p><span></span>If you reserve a string below 16 characters it will be slower than if you didn't! That's because if your string is below 16 characters it won't be allocated on the heap. Reserving here means forcing an allocation when it was not necessary. Because of SSO you don't need to worry about optimizing small strings.</p>
          <p><span></span></p>
 
@@ -226,94 +226,91 @@ struct Map1D {
          <p><span></span>C-arrays are more performant than vectors. Local C-arrays will be created on the stack while vectors will be allocated on the heap. I've been going over this a lot but heap access and allocation is slower than the stack. Going to the stack to get your data is like delivering pizzas to the same apartment but different floors. Going to the heap to get your data is like delivering pizzas to random houses in the city. That's kind of the other way around but you probably get it.</p>
          <p><span></span>You probably know yourself that C-arrays are faster. I'll still list some benchmarks but I'd like you to know when to use them instead. That's simple - if you're using a vector with a hardcoded size then you probably want a C-array instead.</p>
          vector vs C-array access
-         <img src="../assets/bcppo12.png"/>
+         <img src="../assets/bcppo/12.png"/>
          vector vs C-array setter
-         <img src="../assets/bcppo13.png"/>
+         <img src="../assets/bcppo/13.png"/>
          vector vs C-array creation. Note that C-array is static and only created once
-         <img src="../assets/bcppo14.png"/>
+         <img src="../assets/bcppo/14.png"/>
          <p><span></span>But if you don't want to use old C features then you can use <b>std::array</b> that is just as performant as C-array on release builds. Yes, it has some extra code in debug but on release the assembly is basically one-to-one with C-arrays.</p>
          array vs C-array assembly output on debug builds
-         <img src="../assets/bcppo15.png"/>
+         <img src="../assets/bcppo/15.png"/>
          array vs C-array assembly output on release builds (even with bigger arrays that aren't optimized away there is virtually no difference)
-         <img src="../assets/bcppo16.png"/>
+         <img src="../assets/bcppo/16.png"/>
          <p><span></span>It's a different story for different types of strings though. I originally thought that <b>std::string_view</b> would be just as performant as C-strings but that's not the case. And what also surprised me is that creating a static C-array of strings and returning by reference would still be so expensive.</p>
          returning std::string_view vs const char* vs std::string vs std::string&
-         <img src="../assets/bcppo17.png"/>
+         <img src="../assets/bcppo/17.png"/>
          <p><span></span>The explanation is simple and you don't even have to view the assembly to understand what is going on (even though we will). When we're returning a C-string we're only returning a pointer while it's actually stored on the data segment (unless you malloc it):</p>
          C-string assembly
-         <img src="../assets/bcppo18.png"/>
+         <img src="../assets/bcppo/18.png"/>
          <p><span></span>But this is no reason to be afraid of <b>std::string</b> or <b>std::string_view</b>. You just have to use them in the right situations. C-strings are not modifiable, that's what <b>std::string</b> is for. And <b>std::string_view</b> is nice for substrings. Like really nice:</p>
          std::string_view::substr() vs std::string::substr()
-         <img src="../assets/bcppo19.png"/>
+         <img src="../assets/bcppo/19.png"/>
 
          <h2 id="DS">Data Structures</h2>
          <p><span></span>We just touched on correct data structure usage. So let's continue that! First up, erase <b>std::list</b> from your memory. You do not need it. I have never seen anything that <b>std::list</b> could do that <b>std::vector</b> or some other data structure couldn't. <b>std::list</b> is really inefficient because its elements are scattered all over the heap so cache misses happen often. It's rarely useful in practice.</p>
          <p><span></span>Next up, you probably already know of <b>std::map</b>'s and <b>std::set</b>'s O(log N) access, deletion and insertion and <b>std::unordered_map</b>'s and <b>std::unordered_set</b>'s O(1) on average and O(N) at worst. Let's see at which N which are more efficient! We'll try both integers and strings as keys.</p>
          N=10 using integers
-         <img src="../assets/bcppo20.png"/>
+         <img src="../assets/bcppo/20.png"/>
          N=100 using integers
-         <img src="../assets/bcppo21.png"/>
+         <img src="../assets/bcppo/21.png"/>
          N=10000 using integers
-         <img src="../assets/bcppo22.png"/>
+         <img src="../assets/bcppo/22.png"/>
          N=10 using strings
-         <img src="../assets/bcppo23.png"/>
+         <img src="../assets/bcppo/23.png"/>
          N=100 using strings
-         <img src="../assets/bcppo24.png"/>
+         <img src="../assets/bcppo/24.png"/>
          <p><span></span>I expected <b>std::set</b> to be better here. Even with N=3 hash set was more performant. It's about the same for maps too. But do note that you should try string benchmarks yourself with more sophisticated strings than 1-100 for better results and that <b>std::to_string()</b> is probably blowing CPU time out of proportion.</p>
          <p><span></span>Clearly, hash containers are more performant so why even bother with regular set and map? It's in the name - if you need an ordered map or set use <b>std::map</b> or <b>std::set</b>. And hashed containers use more memory, if that's ever a problem. I don't care, I just use the hash containers.</p>
          <p><span></span>Also, a common mistake is defining a map with the key set as an integer and then accessing indices from 0 to N. This is a place a vector or an array should be used. Of course, with random indices or negative indices a vector won't work but when you know the indices will go from 0 to N this is horrible for performance.</p>
          <p><span></span>Please learn when you really need a feature and when you can substitute it for a more efficient one. This performance gain is massive for the little change done. You don't get performance gains like this every day (unless you just switched from OOP to DOD).</p>
          N=10
-         <img src="../assets/bcppo25.png"/>
+         <img src="../assets/bcppo/25.png"/>
          N=1000
-         <img src="../assets/bcppo26.png"/>
+         <img src="../assets/bcppo/26.png"/>
          <p><span></span>I wanted to write about <b>std::bitset</b> vs <b>std::vector&lt;bool&gt;</b> but it's more complicated than I thought. I don't want to write about something that I'm not that sure about (and I don't use these that often) so I'll give you some external resources on this: <a href="https://stackoverflow.com/questions/4156538/how-can-stdbitset-be-faster-than-stdvectorbool">https://stackoverflow.com/questions/4156538/how-can-stdbitset-be-faster-than-stdvectorbool.</a> and <a href="https://en.cppreference.com/cpp/container/vector_bool">https://en.cppreference.com/cpp/container/vector_bool</a>.</p>
          <p><span></span>As from cppreference, <b>std::vector&lt;bool&gt;</b> is specialized for space-efficiency and includes two new functions. This is the only <b>std::vector</b> specialization. Basically it is a dynamic bitset disguised as a vector. Dynamic bitsets will be stored on the heap and regular bitsets usually will be stored on the stack. This specialization is another disgusting C++ decision.</p>
          <p><span></span>As for performance, it depends. On GCC and Clang the results varied. Looks like on Windows it's also different but Quick Bench doesn't support Windows compilers. However, what didn't vary was <b>std::vector&lt;char&gt;</b> which was way faster. There are two downsides though - higher memory usage and no specialized functions - but who cares about that!</p>
          N=1000, GCC 13.2
-         <img src="../assets/bcppo27.png"/>
+         <img src="../assets/bcppo/27.png"/>
          N=10000000, GCC 13.2
-         <img src="../assets/bcppo28.png"/>
+         <img src="../assets/bcppo/28.png"/>
 
          <h2 id="Algo">STD Algorithms</h2>
          <p><span></span>You've probably been overlooking these. I'll list some of my favourite ones but it's up to you to learn them deeper (I'll give you resources though). We'll start with <a href="https://cppreference.com/cpp/algorithm/remove">std::remove</a>. You probably already know it. It's nice. And while we're at it I'd like to show how bad list is:</p>
          N=10000
-         <img src="../assets/bcppo29.png"/>
+         <img src="../assets/bcppo/29.png"/>
          <p><span></span>Another nice algorithm is <a href="https://cppreference.com/cpp/algorithm/transform">std::transform</a>. I usually use it to transform strings. Performance wise it's not that much faster but it makes the code cleaner while giving a small performance boost so it's a win-win situation. Similar function is <a href="https://cppreference.com/cpp/algorithm/replace">std::replace</a>.</p>
          N=57
-         <img src="../assets/bcppo30.png"/>
+         <img src="../assets/bcppo/30.png"/>
          <p><span></span>There are a couple of different search algorithms including some for <a href="https://cppreference.com/cpp/algorithm#Binary_search_operations_(on_partitioned_ranges)">binary search.</a> I don't know anything about binary search so I'll go over the linear search algorithm instead: <a href="https://cppreference.com/cpp/algorithm/find">std::find</a>. It is equally fast to do it manually but the code is cleaner if you just use <b>std::find</b>. In the end, it's up to you really.</p>
          N=10000
-         <img src="../assets/bcppo31.png"/>
+         <img src="../assets/bcppo/31.png"/>
          <p><span></span>And for counting, you guessed it, <a href="https://cppreference.com/cpp/algorithm/count">std::count</a>. Now this is slightly faster but the whole point of these algorithms, in my opinion, is to have cleaner code. They're nice but you shouldn't now replace all of your loops with them. Just know now that these exist and are quite nice.</p>
          N=10000
-         <img src="../assets/bcppo32.png"/>
+         <img src="../assets/bcppo/32.png"/>
          <p><span></span>Lastly, I want to write about <a href="https://cppreference.com/cpp/algorithm/reverse">std::reverse</a>. I know I've missed a few important ones like <b>std::sort</b> but you either know them or they're not used that often. If you're interested though, you can find all of these algorithms <a href="https://cppreference.com/cpp/algorithm">here</a> (and please learn to use cppreference.com). Anyway, <b>std::reverse</b> is miles better than my naive reverse copy algorithm I came up on the fly. What a surprise.</p>
-         <img src="../assets/bcppo33.png"/>
+         <img src="../assets/bcppo/33.png"/>
 
          <h2 id="Misc">Misc.</h2>
          <p><span></span>I'd like to include some miscellaneous optimizations. You most likely know about them but I'm still going to write it to the ones who don't. I'd like to start with something I was interested in finding out a few days ago: <b>rand()</b> vs <b>std::mt19937</b>. Is the performance really the same? Well, we can't be sure.</p>
          Clang 17.0
-         <img src="../assets/bcppo34.png"/>
+         <img src="../assets/bcppo/34.png"/>
          GCC 13.2
-         <img src="../assets/bcppo35.png"/>
+         <img src="../assets/bcppo/35.png"/>
          <p><span></span><b>std::mt19937</b> is way faster for integers but way slower for floats on Clang. On GCC it's faster either way. And we have only touched 2 of the many C++ compilers. This is a frustrating conclusion. As a game dev I don't have issues using either but it looks like <b>std::mt19937</b> might be more performant on average. The keword is might.</p>
          <p><span></span>Next up, I'd like to touch on passing by value and reference. Of course, you should pass by reference. But for simple literals like ints, doubles and also structs only containing simple literals it is unnecessary.</p>
          Passing int vs int&
-         <img src="../assets/bcppo36.png"/>
+         <img src="../assets/bcppo/36.png"/>
          Passing Vector3 vs Vector3&
-         <img src="../assets/bcppo37.png"/>
+         <img src="../assets/bcppo/37.png"/>
          Passing a complex struct by value vs by reference
-         <img src="../assets/bcppo38.png"/>
+         <img src="../assets/bcppo/38.png"/>
          <p><span></span>And lastly, for release builds use optimization flags. It's stupidly simple but some people don't know about it. Pass <b>-O2</b> to your compiler or build in release mode for CMake with <b>-DCMAKE_BUILD_TYPE=Release</b> flag.</p>
 
          <h2 id="Conclusion">Conclusion</h2>
          <p><span></span>While premature optimization is generally a bad thing, there are some habits that make your code more performant. Free optimizations. Why didn't I cover <b>++i</b> vs <b>i++</b>? The performance gain is negligible. All tips here gain you insane performance gains for something so miniscule.</p>
          <p><span></span>And I didn't even try other micro-optimizations as they confuse the compiler. Remember, compiler is really smart and your friend. You should make your code as clear as possible for the compiler. If you implement micro-optimizations, it might confuse it and it might not implement some better optimization that you could never think of.</p>
          <p><span></span>While these optimizations are great, they won't carry your render engine. You still have to make good architectural decisions. And whenever there is a performance issue, you should measure first.</p>
-
-         <div id="img-background"></div>
-         <img id="x"/>
       </article>
 
       <script src="../source/common.js"></script>

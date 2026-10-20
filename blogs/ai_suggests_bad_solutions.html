@@ -10,7 +10,7 @@
 
    <body>
       <header>
-         <a href="../pages/index.html">Home</a>
+         <a href="../pages/home.html">Home</a>
          <a href="../pages/projects.html">Projects</a>
          <a href="../pages/blog.html">Blog</a>
          <a href="../pages/stories.html">Stories</a>
@@ -32,7 +32,7 @@
 
          <p><span></span>The solution that I came up with was simple: calculate the percentage of distance traveled and drop it in function 4x(1 - x) or -4x<sup>2</sup>+4x, then offset Y by product of that and the jump height.</p>
 
-         <img src="../assets/4x(1-x).png"/>
+         <img src="../assets/blog/4x(1-x).png"/>
 
          <p><span></span>I just reasked this question to Claude Sonnet 5.5 and it did give me what I hoped for. But for something so simple (slimes in video games!) you'd think it would give a single definitive answer that doesn't use more state than needed and isn't fragile. If that wasn't the case, I wouldn't be making this blog. Or it could be that by that time my public repository was scraped and included in the training data and all Claude had to do was identify where I took the snippet from and just fill in the blank. Can't comment on that.</p>
 
@@ -106,9 +106,6 @@ main()
          <p><span></span>Why do you think the LLMs have no issues with solving DSA problems? They're everywhere! That's an easy copy-and-paste. But don't assume that because the issue is common, the LLMs will provide the best solution. As was seen with the slime animation issue, it's not always the case. That could be due to hallucinations or due to it not knowing which solutions are the best. I'm not entirely sure as I'm not an expert here.</p>
 
          <p><span></span>This is increasingly pressing as it's being incorporated in more and more development and an increasing amount of developers simply trust the output. I'm not saying that you should eradicate it from your life but am simply presenting a specific issue that I and many others have with LLMs - they cannot problem-solve.</p>
-
-         <div id="img-background"></div>
-         <img id="x"/>
       </article>
 
       <script src="../source/common.js"></script>
