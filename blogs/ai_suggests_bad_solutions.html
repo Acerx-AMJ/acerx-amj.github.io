@@ -30,7 +30,7 @@
 
          <p><span></span>Given how many times this has been done before, you'd think the LLM would spit out the most optimal solution. That wasn't the case 2 months ago (August 2026). Given an example of a different mob and the half-finished slime code (without the animation, just pure sliding across the ground) it generated a solution that used delta time to physically move the slime up and down. The game was top-down and this was done using the same X and Y axes used for movement. Pretty fragile.</p>
 
-         <p><span></span>The solution that I came up with was simple: calculate the percentage of distance traveled and drop it in function 4x(1 - x) or -4x<sup>2</sup>+4x, then offset Y by product of that and the jump height.</p>
+         <p><span></span>The solution that I came up with was: calculate the percentage of distance traveled and drop it in function 4x(1 - x) or -4x<sup>2</sup>+4x, then offset Y by product of that and the jump height.</p>
 
          <img src="../assets/blog/4x(1-x).png"/>
 
@@ -66,10 +66,10 @@ loop-end:
 
          <p><span></span>It did skip some features such as parentheses and add something I didn't ask for but I told it to change that and it did. Don't get me wrong, the demo did work and it was enough to tell me that it wasn't the direction I want to take my language in. And it would have been tedious writing a whole demo just to throw it out. However, if I or someone else wrote it by hand it would have been a miles better solution.</p>
 
-         <p><span></span>I'm not sure where the LLM got this solution from since this is a pretty unique language and I can't think of any that could use directives as such. But there are so many esoteric languages that I might as well not be the only one. I will touch upon unique problems later on.</p>
+         <p><span></span>I'm not sure where the LLM got this solution from since this is a pretty unique language and I can't think of any that could use directives as such. But there are so many esoteric languages that I might as well not be the only one.</p>
 
          <h2>Structure denial</h2>
-         <p><span></span>I started creating a bigger project in PIL - the same esoteric language I was just writing about. And I noticed how I had to resort to using arrays with named indices to create structures and organize my data. It was error-prone and I had to change code in multiple places to add a new field. Well, I made the language. Let's add structures! Here was my proposal of how they could look like:</p>
+         <p><span></span>I started creating a bigger project in PIL - the same esoteric language I was just writing about. And I noticed how I had to resort to using arrays with named indices to create structures and organize my data. It was error-prone and I had to change code in multiple places to add a new field. Well, I made the language, so I decided to add structures. Here was my proposal of how they could look like:</p>
          <pre class="code">
 struct Vec2 x, y
 
@@ -89,21 +89,22 @@ main()
 </pre>
          <p>I had the way that I would try to implement it in my head:</p>
          <ol>
-            <li>struct keyword registers a new structure with all fields' lexemes cached (x - 1, y - 2)</li>
-            <li>make STRUCT is a special function that creates an array that must have all members initialized</li>
+            <li>struct keyword registers a new structure with all field's lexemes cached (x - 1, y - 2)</li>
+            <li>make function creates a new array that must have all members initialized</li>
             <li>structures are arrays under the hood that are specifically marked as such (no array operations on structures)</li>
-            <li>ARRAY.FIELD would be a new value that stores the local variable's index and the cached lexeme of the field. All identifiers are already indexes under the hood</li>
+            <li>ARRAY.FIELD would index the cached fields</li>
          </ol>
-         <p><span></span>It's okay if you don't get it, the interpreter has a lot of little things in it to make it faster, like turning everything into indexes.</p>
 
-         <p><span></span>But the thing that is important is that I asked the same Claude how other languages implement structures and how would it implement them in this language. And it listed how other languages do it (not that important here) and took a wholly different route of telling me that my plans are too ambitious and that I should translate all make calls and field accesses to their corresponding array operations instead. The same error-prone and ugly way hidden behind some syntax sugar.</p>
+         <p><span></span>I asked the same Claude how other languages implement structures and how would it implement them in this language. And it listed how other languages do it (not that important here) and took a wholly different route of telling me that my plans are too ambitious and that I should translate all make calls and field accesses to their corresponding array operations instead. The same error-prone and ugly way hidden behind some syntax sugar.</p>
 
          <p><span></span>After telling it how dumb that was it tried finding common ground and move ARRAY.FIELD wholly to the translator. But that's impossible, we don't know the type of variables at that phase. We don't even know them fully at parse-time.</p>
+
+         <p><span></span>In the end, I implemented everything I wanted and some more (with some small obstacles in the way). Nothing ambitious or anything. I have seen this "too ambitious" text too often from LLMs. That's interesting.</p>
 
          <h2>Unique problem issue</h2>
          <p><span></span>Why did it have issues with these problems while I didn't? As was said before, LLMs cannot problem-solve and instead rely on finding the information in the depths of the internet. When they're presented with a problem that isn't all over the internet, they struggle and provide solutions that are not always fit or optimal.</p>
 
-         <p><span></span>Why do you think the LLMs have no issues with solving DSA problems? They're everywhere! That's an easy copy-and-paste. But don't assume that because the issue is common, the LLMs will provide the best solution. As was seen with the slime animation issue, it's not always the case. That could be due to hallucinations or due to it not knowing which solutions are the best. I'm not entirely sure as I'm not an expert here.</p>
+         <p><span></span>Why do you think the LLMs have no issues with solving DSA problems? They're everywhere. That's an easy copy-and-paste. But don't assume that because the issue is common, the LLMs will provide the best solution. As was seen with the slime animation issue, it's not always the case. That could be due to hallucinations or due to it not knowing which solutions are the best. I'm not entirely sure as I'm not an expert here.</p>
 
          <p><span></span>This is increasingly pressing as it's being incorporated in more and more development and an increasing amount of developers simply trust the output. I'm not saying that you should eradicate it from your life but am simply presenting a specific issue that I and many others have with LLMs - they cannot problem-solve.</p>
       </article>
