@@ -62,6 +62,117 @@ html, body {
 }
 
 /*
+   Animated sprites
+*/
+
+.sprite {
+   --x: 0;
+   --y: 0;
+   --w: 64;
+   --h: 64;
+   --gx: 1;
+   --gy: 1;
+   --flip-x: 1;
+   --flip-y: 1;
+   --frames: 0;
+   --fps: 1;
+   --row: 0;
+
+   scale: var(--flip-x) var(--flip-y);
+   width: calc(var(--w) * 1px);
+   height: calc(var(--h) * 1px);
+   background-repeat: no-repeat;
+   background-position-y: calc(-1px * (var(--y) + var(--row) * (var(--h) + var(--gy))));
+   image-rendering: pixelated;
+   animation: sprite-play calc(var(--frames) / var(--fps) * 1s) steps(var(--frames)) infinite;
+}
+
+@keyframes sprite-play {
+   from { background-position-x: calc(-1px * var(--x)); }
+   to   { background-position-x: calc(-1px * (var(--x) + var(--frames) * (var(--w) + var(--gx)))); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .sprite { animation: none; }
+}
+
+.sprite-demon {
+   background-image: url('../assets/sprites/demon1.png');
+   --frames: 2;
+   --fps: 10;
+}
+
+.sprite-demon-large {
+   background-image: url('../assets/sprites/demon_large1.png');
+   --w: 128;
+   --h: 128;
+   --frames: 2;
+   --fps: 10;
+}
+
+.sprite-slime {
+   background-image: url('../assets/sprites/slime_extended.png');
+   --frames: 2;
+   --fps: 6;
+}
+
+.sprite-player-sandbox2d {
+   background-image: url('../assets/sprites/player.png');
+   --w: 16;
+   --h: 24;
+   zoom: 5;
+   --frames: 13;
+   --fps: 30;
+   --x: var(--w) * 2;
+   --gx: 0;
+   --gy: 0;
+}
+
+.sprite-bat-as {
+   background-image: url('../assets/sprites/bat.png');
+   --w: 16;
+   --h: 16;
+   zoom: 4;
+   --frames: 4;
+   --fps: 10;
+}
+
+.sprite-slime-as {
+   background-image: url('../assets/sprites/slime.png');
+   --w: 16;
+   --h: 16;
+   zoom: 3;
+   --frames: 6;
+   --fps: 10;
+}
+
+.sprite-fire {
+   background-image: url('../assets/sprites/fire.png');
+   --w: 16;
+   --h: 16;
+   zoom: 6;
+   --frames: 3;
+   --fps: 7;
+}
+
+.side-sprite-l, .side-sprite-r {
+   position: absolute;
+   display: none;
+
+   @media (width >= calc(42rem + (128px + 16px) * 2 + 20px)) {
+      display: block;
+   }
+}
+
+.side-sprite-l {
+   right: calc(100% + 1rem);
+}
+
+.side-sprite-r {
+   left: calc(100% + 1rem);
+}
+
+/*
    Generic style
 */
 
@@ -85,10 +196,10 @@ a:hover:not(.link-disabled) {
 :not(p) > a {
    user-select: none;
    margin-top: 0.4rem;
-   margin-inline: 0.4rem;
+   margin-inline: 1.4rem;
 
-   @media (width >= 40rem) {
-      margin-inline: 1.4rem;
+   @media (max-width: 600px) {
+      margin-inline: 0.4rem;
    }
 }
 
@@ -188,6 +299,7 @@ article {
    padding-inline: 1rem;
    margin-bottom: auto;
    padding-top: 2.25rem;
+   position: relative;
 }
 
 article h1 {
@@ -381,7 +493,7 @@ article img:not(#x):not(.img-fullscreen) {
    padding: 0;
 }
 
-.img-fullscreen {
+img.img-fullscreen {
    max-width: 100%;
    max-height: 100%;
    bottom: 0;
@@ -390,10 +502,9 @@ article img:not(#x):not(.img-fullscreen) {
    top: 0;
    margin: auto;
    overflow: auto;
-   position: fixed;
    object-fit: contain;
    transition: none;
-   position: absolute;
+   position: fixed;
    z-index: 1000;
    cursor: pointer;
 }
@@ -448,6 +559,23 @@ article img:not(#x):not(.img-fullscreen) {
    box-sizing: border-box;
    font-family: var(--font-mono);
    color: var(--text);
+}
+
+.col2 {
+   column-count: 2;
+   column-gap: 1rem;
+   max-width: 900px;
+   margin: 0 auto;
+
+   @media (max-width: 600px) {
+      column-count: 1;
+   }
+}
+
+.col2 > * {
+   margin: 0;
+   margin-bottom: 1rem;
+   break-inside: avoid;
 }
 
 /*
