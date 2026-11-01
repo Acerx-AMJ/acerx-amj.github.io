@@ -108,4 +108,9 @@ document.addEventListener('DOMContentLoaded', () => {
    toggle.addEventListener('click', () => setOpen(!menu.classList.contains('open')));
    overlay.addEventListener('click', () => setOpen(false));
    document.addEventListener('keyup', e => { if (e.key === 'Escape') setOpen(false); });
+
+   // create header
+   const header = document.createElement('header');
+   header.innerHTML = pages.map(([name, file]) => `<a ${here === file + '.html' ? 'class="link-disabled"' : 'href="../pages/' + file + '.html"'}>${name}</a>`).join('');
+   document.body.insertBefore(header, document.body.firstChild);
 });

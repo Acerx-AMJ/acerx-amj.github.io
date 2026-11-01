@@ -1,5 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Iosevka+Charon+Mono:ital,wght@0,1200;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@font-face {
+   font-family: "Ubuntu";
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url('../assets/fonts/Ubuntu-Regular.ttf');
+}
+
+@font-face {
+   font-family: "Ubuntu";
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url('../assets/fonts/Ubuntu-Bold.ttf');
+}
+
+@font-face {
+   font-family: "Monaspace Neon";
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url('../assets/fonts/MonaspaceNeon-Regular.otf');
+}
 
 /*
    Themes
@@ -26,7 +47,7 @@
 
    --font-heading: "Ubuntu", sans-serif;
    --font: "Ubuntu", sans-serif;
-   --font-mono: "Iosevka Charon Mono", monospace;
+   --font-mono: "Monaspace Neon", monospace;
 }
 
 [data-theme="dark"] {
@@ -304,7 +325,7 @@ a {
    color: var(--link);
    text-decoration: none;
    cursor: default;
-   font-weight: 500;
+   font-weight: 400;
 }
 
 a.link-disabled {
@@ -428,7 +449,7 @@ article {
 }
 
 article h1 {
-   font-weight: bold;
+   font-weight: 700;
    font-family: var(--font-heading);
    font-size: 2.25rem;
    line-height: 1.1;
@@ -439,7 +460,7 @@ article h1 {
 }
 
 article h2 {
-   font-weight: bold;
+   font-weight: 700;
    font-family: var(--font-heading);
    font-size: 1.9rem;
    line-height: 0.9;
@@ -507,7 +528,7 @@ footer div {
 }
 
 /*
-   home.html, projects.html and blog.html specifics
+   Search and pages
 */
 
 #pages {
@@ -627,6 +648,10 @@ footer div {
 [data-sprites="off"] #project-buttons button:not(.selected-btn):hover {
    transform: none;
 }
+
+/*
+   Image click
+*/
 
 article img:not(#x):not(.img-fullscreen) {
    border: 1.5px solid var(--text-light);
