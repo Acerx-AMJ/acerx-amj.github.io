@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                <option value="light">Light</option>
                <option value="dark">Dark</option>
                <option value="8bit">8bit</option>
+               <option value="fun">Fun</option>
             </select>
          </label>
          <label>Animations

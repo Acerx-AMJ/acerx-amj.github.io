@@ -26,6 +26,20 @@
    src: url('../assets/fonts/MonaspaceNeon-Regular.otf');
 }
 
+@font-face {
+   font-family: "Pixel";
+   font-style: normal;
+   font-display: swap;
+   src: url('../assets/fonts/PressStart2P-Regular.ttf');
+}
+
+@font-face {
+   font-family: "Andy";
+   font-style: normal;
+   font-display: swap;
+   src: url('../assets/fonts/andy.ttf');
+}
+
 /*
    Themes
 */
@@ -48,6 +62,8 @@
    --table-checker: #f2f2f2;
    --table-border: #ddd;
    --table-header: #44f;
+
+   --border-radius: 8px;
 
    --font-heading: "Ubuntu", sans-serif;
    --font: "Ubuntu", sans-serif;
@@ -92,6 +108,38 @@
    --table-checker: rgb(0, 0, 0);
    --table-border: rgb(0, 0, 255);
    --table-header: rgb(255, 0, 255);
+
+   --border-radius: 0px;
+
+   --font-heading: "Pixel", sans-serif;
+   --font: "Pixel", sans-serif;
+   --font-mono: "Pixel", sans-serif;
+}
+
+[data-theme="fun"] {
+   --background: rgb(20, 20, 30);
+
+   --text: rgb(240, 240, 240);
+   --text-light: rgb(140, 140, 140);
+
+   --link: rgb(47, 147, 255);
+   --link-light: rgb(0, 8, 94);
+   
+   --code-keyword: rgb(255, 86, 86);
+   --code-function: rgb(197, 83, 250);
+   --code-type: rgb(87, 98, 251);
+   --code-string: rgb(87, 252, 87);
+   --code-comment: rgb(125, 125, 125);
+   
+   --table-checker: rgb(30, 30, 40);
+   --table-border: rgb(50, 50, 66);
+   --table-header: rgb(0, 8, 94);
+
+   --border-radius: 12px;
+
+   --font-heading: "Andy", sans-serif;
+   --font: "Andy", sans-serif;
+   --font-mono: "Andy", sans-serif;
 }
 
 /*
@@ -109,7 +157,7 @@
    background: var(--background);
    color: var(--text);
    border: 1.5px solid var(--text-light);
-   border-radius: 8px;
+   border-radius: var(--border-radius);
    cursor: pointer;
 }
 
@@ -169,7 +217,7 @@ body:has(.img-fullscreen) #menu-toggle {
    margin: 0;
    padding: 0.5rem;
    font-size: 1.1rem;
-   border-radius: 8px;
+   border-radius: var(--border-radius);
 }
 
 #menu a[aria-current="page"] {
@@ -355,7 +403,7 @@ img {
    display: block;
    user-select: none;
    width: 100%;
-   border-radius: 16px;
+   border-radius: calc(var(--border-radius) * 2);
 }
 
 img.img-no-click {
@@ -551,7 +599,7 @@ footer div {
    margin-bottom: 5px;
    padding: 20px;
    background-color: var(--background);
-   border-radius: 16px;
+   border-radius: calc(var(--border-radius) * 2);
    border: 1px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
    transition: transform 0.1s, border 0.1s, box-shadow 0.1s;
@@ -589,7 +637,7 @@ footer div {
    box-sizing: border-box;
    text-align: left;
    margin-block: 12.5px;
-   border-radius: 16px;
+   border-radius: calc(var(--border-radius) * 2);
    background-color: var(--background);
    border: 1.5px solid;
    border-color: var(--text-light);
@@ -619,7 +667,7 @@ footer div {
    color: var(--text);
    font-family: var(--font);
    font-size: 1.25rem;
-   border-radius: 16px;
+   border-radius: calc(var(--border-radius) * 2);
    border: 1.5px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
    background-color: var(--background);
@@ -718,7 +766,7 @@ img.img-fullscreen {
    margin-block: 10px;
    padding: 10px;
    background-color: var(--background);
-   border-radius: 16px;
+   border-radius: calc(var(--border-radius) * 2);
    border: 1.5px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
@@ -733,7 +781,7 @@ img.img-fullscreen {
    margin-block: 10px;
    padding: 10px;
    background-color: var(--background);
-   border-radius: 16px;
+   border-radius: calc(var(--border-radius) * 2);
    border: 1.5px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
    width: 100%;
