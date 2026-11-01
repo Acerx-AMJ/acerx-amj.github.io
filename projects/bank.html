@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Bank Simulation</title>
+      <link rel="stylesheet" href="../style/style.css">
+   </head>
+
+   <body>
+      <header>
+         <a href="../pages/home.html">Home</a>
+         <a href="../pages/projects.html">Projects</a>
+         <a href="../pages/blog.html">Blog</a>
+         <a href="../pages/stories.html">Stories</a>
+      </header>
+
+      <article>
+         <h1>Bank Simulation</h1>
+         <h3>Daniel Vishnevsky</h3>
+         <div class="youtube-video"><iframe src="https://www.youtube.com/embed/RdQJfqwBOJU?si=G52_wcN3INCp6mKN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
+         <h2>About</h2>
+         <p><span></span>Bank simulation that features account system, deposits, withdrawals and transactions to other accounts. It is fully local using SQLite.</p>
+
+         <h2>Features</h2>
+         <p><span></span>This project features an account system. The passwords are hashed using SHA256 algorithm and stored in the database. After creating an account, the user can edit things like age, username and password or fully delete it.</p>
+         <p><span></span>No real money is used and instead the user can simulate it by depositing and withdrawing it from the bank. The bank is an inaccessible account (unless you know some SQL commands) that simply transfers or receives money. Transferring works in the same manner but you can do it with others instead of just the bank.</p>
+         <p><span></span>There are also ways of checking your balance and transaction history with red and green colors to see where you spent money and where you gained money.</p>
+
+         <h2>Development</h2>
+         <p><span></span>I don't remember why I made this. But it's a neat project. It's also fun to hack it a little using sqlite3 CLI tool. I got into the bank account and it was 15k in debt. By the way, it's open source on <a href="https://github.com/Acerx-AMJ/bank-sim">Github</a>.</p>
+
+         <h2>Gallery</h2>
+         <div class="col2">
+            <img src="../assets/bank/1.png"/>
+            <img src="../assets/bank/2.png"/>
+            <img src="../assets/bank/3.png"/>
+            <img src="../assets/bank/4.png"/>
+         </div>
+      </article>
+
+      <script src="../source/common.js"></script>
+      <script src="../source/image_click.js"></script>
+   </body>
+</html>

@@ -72,6 +72,12 @@
       "image": "<img src=\"../assets/pong/2.png\"/>",
       "link": "../projects/pong.html"
    }, {
+      "date": "Sep 2024",
+      "title": "Bank Simulation",
+      "description": "Local bank simulation made using C++ and SQLite3.",
+      "image": "<img src=\"../assets/bank/1.png\"/>",
+      "link": "../projects/bank.html"
+   }, {
       "date": "Sep 2024 to Oct 2024",
       "title": "",
       "description": "Abyss Ascendant - terminal coin-collecting story game about curing Earth from an apocalypse. My first game made with C++, Lua, SQLite3, SFML and editor with HTML/CSS/JS.",
