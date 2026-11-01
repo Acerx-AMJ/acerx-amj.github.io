@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
          </label>
          <label>Animations
             <select id="anim-select">
+               <option value="system">System</option>
                <option value="on">On</option>
                <option value="reduced">Reduced</option>
                <option value="off">Off</option>
