@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 /*
-   light mode colors
+   Themes
 */
 
 :root {
@@ -29,12 +29,8 @@
    --font-mono: "Iosevka Charon Mono", monospace;
 }
 
-/*
-   dark mode colors
-*/
-
 [data-theme="dark"] {
-   --background: rgb(0, 0, 0);
+   --background: rgb(10, 10, 10);
 
    --text: rgb(220, 220, 220);
    --text-light: rgb(120, 120, 120);
@@ -53,12 +49,125 @@
    --table-header: rgb(10, 20, 120);
 }
 
-html, body {
+[data-theme="8bit"] {
+   --background: rgb(0, 0, 0);
+
+   --text: rgb(255, 255, 255);
+   --text-light: rgb(125, 125, 125);
+
+   --link: rgb(0, 0, 255);
+   --link-light: rgb(0, 0, 255);
+   
+   --code-keyword: rgb(255, 0, 0);
+   --code-function: rgb(255, 0, 255);
+   --code-type: rgb(0, 0, 255);
+   --code-string: rgb(0, 255, 0);
+   --code-comment: rgb(255, 125, 0);
+   
+   --table-checker: rgb(0, 0, 0);
+   --table-border: rgb(0, 0, 255);
+   --table-header: rgb(255, 0, 255);
+}
+
+/*
+   Sidebar
+*/
+
+#menu-toggle {
+   position: fixed;
+   top: 0.5rem;
+   left: 0.5rem;
+   z-index: 900;
+   width: 2.5rem;
+   height: 2.5rem;
+   font-size: 1.4rem;
+   background: var(--background);
    color: var(--text);
-   overflow-x: hidden;
-   overflow-y: auto;
+   border: 1.5px solid var(--text-light);
+   border-radius: 8px;
+   cursor: pointer;
+}
+
+body:has(.img-fullscreen) #menu-toggle {
+   display: none;
+}
+
+#menu-overlay {
+   position: fixed;
+   inset: 0;
+   z-index: 950;
+   background: rgba(0, 0, 0, 0.5);
+   opacity: 0;
+   pointer-events: none;
+   transition: opacity 0.2s;
+}
+#menu-overlay.open {
+   opacity: 1;
+   pointer-events: auto;
+}
+
+#menu {
+   position: fixed;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   z-index: 960;
+   width: min(18rem, 80vw);
+   box-sizing: border-box;
+   padding: 1.5rem 1rem;
+   display: flex;
+   flex-direction: column;
+   gap: 0.5rem;
+   background: var(--background);
+   border-right: 1.5px solid var(--text-light);
+   font-family: var(--font);
+   color: var(--text);
+   transform: translateX(-100%);
+   visibility: hidden;
+   transition: transform 0.2s, visibility 0.2s;
+}
+
+[data-sprites="reduced"] #menu {
+   transition: none;
+}
+
+[data-sprites="off"] #menu {
+   transition: none;
+}
+
+#menu.open {
+   transform: none;
+   visibility: visible;
+}
+
+#menu a {
    margin: 0;
-   padding: 0;
+   padding: 0.5rem;
+   font-size: 1.1rem;
+   border-radius: 8px;
+}
+
+#menu a[aria-current="page"] {
+   background: var(--link-light);
+   color: var(--text);
+   cursor: default;
+   text-decoration: none;
+}
+
+#menu select {
+   margin-right: 0.5rem;
+   color: var(--text);
+   background-color: var(--background);
+   border: 1.5px solid;
+   border-color: var(--text-light);
+}
+
+#menu-settings {
+   margin-top: auto;
+   display: flex;
+   flex-direction: column;
+   gap: 0.5rem;
+   padding: 0.5rem;
 }
 
 /*
@@ -82,18 +191,23 @@ html, body {
    width: calc(var(--w) * 1px);
    height: calc(var(--h) * 1px);
    background-repeat: no-repeat;
+   background-position-x: calc(-1px * var(--x));
    background-position-y: calc(-1px * (var(--y) + var(--row) * (var(--h) + var(--gy))));
    image-rendering: pixelated;
    animation: sprite-play calc(var(--frames) / var(--fps) * 1s) steps(var(--frames)) infinite;
 }
 
+[data-sprites="reduced"] .sprite {
+   animation: sprite-play calc(var(--frames) / var(--fps) * 5s) steps(var(--frames)) infinite;
+}
+
+[data-sprites="off"] .sprite {
+   animation: none;
+}
+
 @keyframes sprite-play {
    from { background-position-x: calc(-1px * var(--x)); }
    to   { background-position-x: calc(-1px * (var(--x) + var(--frames) * (var(--w) + var(--gx)))); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-   .sprite { animation: none; }
 }
 
 .sprite-demon {
@@ -176,6 +290,14 @@ html, body {
 /*
    Generic style
 */
+
+html, body {
+   color: var(--text);
+   overflow-x: hidden;
+   overflow-y: auto;
+   margin: 0;
+   padding: 0;
+}
 
 a {
    font-family: var(--font);
@@ -407,7 +529,7 @@ footer div {
    border-radius: 16px;
    border: 1px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-   transition: transform 100ms, border 100ms, box-shadow 100ms;
+   transition: transform 0.1s, border 0.1s, box-shadow 0.1s;
 }
 
 #projects a:hover, #pages a:hover {
@@ -416,6 +538,18 @@ footer div {
    background-color: var(--link-light);
    box-shadow: 0 7px 8px rgba(0, 0, 0, 0.3);
    text-decoration: none;
+}
+
+[data-sprites="reduced"] #projects a, [data-sprites="reduced"] #pages a {
+   transition: none;
+}
+
+[data-sprites="off"] #projects a, [data-sprites="off"] #pages a {
+   transition: none;
+}
+
+[data-sprites="off"] #projects a:hover, [data-sprites="off"] #pages a:hover {
+   transform: none;
 }
 
 #bad-search {
@@ -464,7 +598,11 @@ footer div {
    border: 1.5px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
    background-color: var(--background);
-   transition: transform 100ms, box-shadow 100ms;
+   transition: transform 0.1s, box-shadow 0.1s;
+}
+
+#project-buttons button:not(.selected-btn) {
+   cursor: pointer;
 }
 
 #project-buttons button:not(.selected-btn):hover {
@@ -476,6 +614,18 @@ footer div {
    color: var(--link);
    background-color: var(--link-light);
    border-color: var(--link);
+}
+
+[data-sprites="reduced"] #project-buttons button {
+   transition: none;
+}
+
+[data-sprites="off"] #project-buttons button {
+   transition: none;
+}
+
+[data-sprites="off"] #project-buttons button:not(.selected-btn):hover {
+   transform: none;
 }
 
 article img:not(#x):not(.img-fullscreen) {

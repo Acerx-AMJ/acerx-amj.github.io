@@ -1,18 +1,39 @@
-const startYear = 2026
+const startYear = 2026;
 
-// handle light/dark mode based on browser settings
-document.documentElement.setAttribute('data-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-   document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-});
+const darkQuery = matchMedia('(prefers-color-scheme: dark)');
+const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+
+const settings = {
+   theme: localStorage.getItem('theme') ?? 'system',
+   sprites: localStorage.getItem('sprites') ?? 'system',
+};
+
+function applySettings() {
+   const sprites = settings.sprites;
+   if (sprites === 'system') {
+      sprites = (motionQuery.matches ? 'off' : 'on');
+   }
+
+   const theme = settings.theme;
+   if (theme === 'system') {
+      theme = (darkQuery.matches ? 'dark' : 'light');
+   }
+
+   document.documentElement.setAttribute('data-theme', theme);
+   document.documentElement.setAttribute('data-sprites', sprites);
+}
+
+darkQuery.addEventListener('change', applySettings);
+motionQuery.addEventListener('change', applySettings);
+applySettings();
 
 document.addEventListener('DOMContentLoaded', () => {
    // create footer
-   const body = document.getElementsByTagName('body')[0]
-   const year = new Date().getFullYear()
-   const yearText = (year <= startYear ? startYear : `${startYear}-${year}`)
+   const body = document.getElementsByTagName('body')[0];
+   const year = new Date().getFullYear();
+   const yearText = (year <= startYear ? startYear : `${startYear}-${year}`);
 
-   const footer = document.createElement('footer')
+   const footer = document.createElement('footer');
    footer.innerHTML = `
       <p>${yearText} Daniel Vishnevsky. This website is licensed under <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io/blob/main/LICENSE">MIT License</a>.</p>
 
@@ -22,6 +43,69 @@ document.addEventListener('DOMContentLoaded', () => {
          <a href="https://github.com/Acerx-AMJ">Github</a>
          <a href="https://acerxamj.itch.io/">Itch.io</a>
          <a href="https://www.youtube.com/@Acerx-AMJ">Youtube</a>
-      </div>`
-   body.appendChild(footer)
+      </div>`;
+   body.appendChild(footer);
+
+   // create sidebar
+   const pages = [['Home', 'home'], ['Projects', 'projects'], ['Blog', 'blog'], ['Stories', 'stories']];
+   const here = location.pathname.split('/').pop();
+
+   const toggle = document.createElement('button');
+   toggle.id = 'menu-toggle';
+   toggle.textContent = '☰';
+
+   const overlay = document.createElement('div');
+   overlay.id = 'menu-overlay';
+
+   const menu = document.createElement('nav');
+   menu.id = 'menu';
+   menu.innerHTML = `
+      ${pages.map(([name, file]) =>
+         `<a ${here === file + '.html' ? '' : 'href="../pages/' + file + '.html"'} ${here === file + '.html' ? ' aria-current="page"' : ''}>${name}</a>`).join('')}
+         <a href="mailto:&#097;&#106;&#109;&#046;&#097;&#099;&#101;&#114;&#120;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">Contact Me</a>
+      <div id="menu-settings">
+         <label>Theme
+            <select id="theme-select">
+               <option value="system">System</option>
+               <option value="light">Light</option>
+               <option value="dark">Dark</option>
+               <option value="8bit">8bit</option>
+            </select>
+         </label>
+         <label>Animations
+            <select id="anim-select">
+               <option value="on">On</option>
+               <option value="reduced">Reduced</option>
+               <option value="off">Off</option>
+            </select>
+         </label>
+      </div>`;
+
+   document.body.append(toggle, overlay, menu);
+
+   const themeSelect = menu.querySelector('#theme-select');
+   const animSelect = menu.querySelector('#anim-select');
+   themeSelect.value = settings.theme;
+   animSelect.value = settings.sprites;
+
+   themeSelect.addEventListener('change', () => {
+      settings.theme = themeSelect.value;
+      localStorage.setItem('theme', settings.theme);
+      applySettings();
+   });
+
+   animSelect.addEventListener('change', () => {
+      settings.sprites = animSelect.value;
+      localStorage.setItem('sprites', settings.sprites);
+      applySettings();
+   });
+
+   function setOpen(open) {
+      menu.classList.toggle('open', open);
+      overlay.classList.toggle('open', open);
+   }
+
+   toggle.addEventListener('click', () => setOpen(!menu.classList.contains('open')));
+   overlay.addEventListener('click', () => setOpen(false));
+   document.addEventListener('keyup', e => { if (e.key === 'Escape') setOpen(false); });
 });
