@@ -66,10 +66,10 @@
       "image": "<img src=\"../assets/as/3.png\"/>",
       "link": "../projects/astral_surge.html"
    }, {
-      "date": "Oct 2024 & Jan 2025",
-      "title": "Pong",
-      "description": "Yet another Pong clone. Battle against a friend or go against a bot. Made with C++ and SFML.",
-      "image": "<img src=\"../assets/pong/2.png\"/>",
+      "date": "Oct 2024 & Jan 2025 & Nov 2026",
+      "title": "<h2 style=\"font-family: 'Pixel'\">Pong</h2>",
+      "description": "<p style=\"font-family: 'Pixel'\">Yet another Pong clone. Battle against a friend or go against a bot. Made with C++ and SFML/CX/HTML.</p>",
+      "image": "<img src=\"../assets/pong/html.png\"/>",
       "link": "../projects/pong.html"
    }, {
       "date": "Sep 2024",

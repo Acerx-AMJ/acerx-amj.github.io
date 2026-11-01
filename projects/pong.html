@@ -7,33 +7,186 @@
       <title>Pong</title>
       <link rel="stylesheet" href="../style/style.css">
       <script src="../source/common.js"></script>
+
+      <style>
+         article h1, article h2, article h3, article p, article a {
+            font-family: 'Pixel', sans-serif;
+         }
+
+         #pong {
+            border: 1px solid var(--text);
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-inline: auto;
+            image-rendering: pixelated;
+         }
+      </style>
    </head>
 
    <body>
       <article>
          <h1>Pong</h1>
          <h3>Daniel Vishnevsky</h3>
-         <div class="iframe-container youtube-video"><iframe src="https://www.youtube.com/embed/QES8k_EQJN4?si=voVDf7YuKFcFUuCu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
+         <p>Move with W/S and UP/DOWN. ESC - pause</p>
+         <canvas id="pong"></canvas>
+         <script>
+            document.addEventListener('DOMContentLoaded', () => {
+               const info = document.getElementById('pong-info');
+               const c = document.getElementById('pong');
+               const ctx = c.getContext('2d');
+
+               const ballCounter = 3000; // in ms
+               const updateTime = 20;
+               const paddleWidth = 6;
+               const paddleHeight = 24;
+               const ballSize = 6;
+
+               let paddle1 = c.height / 2.0 - paddleHeight / 2.0;
+               let paddle2 = c.height / 2.0 - paddleHeight / 2.0;
+
+               let ballx = c.width / 2.0 - ballSize / 2.0;
+               let bally = c.height / 2.0 - ballSize / 2.0;
+               let balldirx = (Math.random() > 0.5 ? 1.0 : -1.0);
+               let balldiry = (Math.random() * 3.0) - 2.0;
+               let hit = (balldirx > 0); // 1 - right, 0 - left
+               let counter = 0;
+               let ballSpeed = 1.0;
+
+               let score1 = 0;
+               let score2 = 0;
+
+               let focused = true;
+               let wDown = false;
+               let sDown = false;
+               let iDown = false;
+               let kDown = false;
+
+               window.addEventListener('keydown', (e) => {
+                  if (e.keyCode == 83) wDown = true;
+                  if (e.keyCode == 87) sDown = true;
+                  if (e.keyCode == 40) iDown = true;
+                  if (e.keyCode == 38) kDown = true;
+                  if (focused) e.preventDefault();
+               });
+
+               window.addEventListener('keyup', (e) => {
+                  if (e.keyCode == 83) wDown = false;
+                  if (e.keyCode == 87) sDown = false;
+                  if (e.keyCode == 40) iDown = false;
+                  if (e.keyCode == 38) kDown = false;
+                  if (e.keyCode == 27) focused = !focused;
+                  if (focused) e.preventDefault();
+               });
+
+               function clamp(x, lo, hi) {
+                  return (x < lo ? lo : x > hi ? hi : x);
+               }
+
+               function updateGame() {
+                  // update the game
+                  if (focused) {
+                     paddle1 = clamp(paddle1 + (wDown - sDown), 0, c.height - paddleHeight);
+                     paddle2 = clamp(paddle2 + (iDown - kDown), 0, c.height - paddleHeight);
+
+                     counter += updateTime;
+                     if (counter >= ballCounter) {
+                        const mag = Math.sqrt(balldirx * balldirx + balldiry * balldiry);
+                        ballx += (mag === 0 ? 0 : balldirx / mag) * ballSpeed;
+                        bally += (mag === 0 ? 0 : balldiry / mag) * ballSpeed;
+                     }
+
+                     if (bally <= 0 || bally + ballSize >= c.height) {
+                        balldiry = -balldiry;
+                     }
+
+                     // left side
+                     if (!hit && bally + ballSize >= paddle1 && bally <= paddle1 + paddleHeight && ballx <= paddleWidth) {
+                        balldirx = -balldirx;
+                        balldiry = (balldiry > 0.0 ? Math.random() : -Math.random());
+                        ballSpeed *= 1.1;
+                        hit = !hit;
+                     }
+                     else if (ballx <= 0) {
+                        score2 += 1;
+                        ballx = c.width / 2.0 - ballSize / 2.0;
+                        bally = c.height / 2.0 - ballSize / 2.0;
+                        balldirx = (hit ? 1.0 : -1.0);
+                        balldiry = (Math.random() * 3.0) - 2.0;
+                        ballSpeed = 1.0;
+                        counter = 0;
+                     }
+
+                     // right side
+                     if (hit && bally + ballSize >= paddle2 && bally <= paddle2 + paddleHeight && ballx + ballSize >= c.width - paddleWidth) {
+                        balldirx = -balldirx;
+                        balldiry = (balldiry > 0.0 ? Math.random() : -Math.random());
+                        ballSpeed *= 1.1;
+                        hit = !hit;
+                     }
+                     else if (ballx + ballSize >= c.width) {
+                        score1 += 1;
+                        ballx = c.width / 2.0 - ballSize / 2.0;
+                        bally = c.height / 2.0 - ballSize / 2.0;
+                        balldirx = (hit ? 1.0 : -1.0);
+                        balldiry = (Math.random() * 3.0) - 2.0;
+                        ballSpeed = 1.0;
+                        counter = 0;
+                     }
+                  }
+
+                  // render the game
+                  ctx.fillStyle = '#000';
+                  ctx.fillRect(0, 0, c.width, c.height);
+                  ctx.fillStyle = '#fff';
+
+                  ctx.beginPath();
+                  ctx.moveTo(c.width / 2, 0);
+                  ctx.lineTo(c.width / 2, c.height);
+                  ctx.strokeStyle = '#fff';
+                  ctx.stroke();
+
+                  ctx.fillRect(0, paddle1, paddleWidth, paddleHeight);                  
+                  ctx.fillRect(c.width - paddleWidth, paddle2, paddleWidth, paddleHeight);                  
+                  ctx.fillRect(ballx, bally, ballSize, ballSize);
+
+                  if (!focused) {
+                     ctx.font = "24px Pixel"
+                     const string = "PAUSED";
+                     const size = ctx.measureText(string);
+                     ctx.fillText(string, c.width / 2 - size.width / 2, c.height / 2);
+                  }
+                  else {
+                     ctx.font = "8px Pixel"
+                     const score1Size = ctx.measureText(score1);
+                     const score2Size = ctx.measureText(score2);
+
+                     ctx.fillText(score1, c.width / 4 - score1Size.width / 2, c.height / 3);
+                     ctx.fillText(score2, (c.width / 4) * 3 - score2Size.width / 2, c.height / 3);
+                  }
+               }
+               setInterval(updateGame, updateTime);
+            });
+         </script>
 
          <h2>About</h2>
-         <p><span>Like for many others, this was my first graphical game ever. The first version was more crude and had only local PvP. But in January 2025 after making my library CX I remade this project to compare SFML to CX. I liked the process so much that I added new features like bots and a hidden party game-mode that I never finished.</span></p>
+         <p><span></span>Like for many others, this was my first graphical game ever. Now I'm a proud owner of 3 pong clones - one written in SFML, another in CX and the third one in HTML canvas right above.</p>
+         <p><span></span>First one was crude and only had local PvP. But in January 2025 after having done enormous amount of work on my CX library, I decided to put it to test and remade Pong in it. I liked the process so much that I eventually added new features like AI and 2v2.</p>
+         <p><span></span>The HTML Canvas Pong was made in November 2026 (quite some time later) in like an hour to make my website more interesting. It can be comparable to my first Pong.</p>
 
          <h2>Features</h2>
-         <p><span></span>You can play against your friend or against AI. AI has 4 different difficulties, the hardest being practically unbeatable.</p>
+         <p><span></span>You can play against your friend or against AI. AI has 4 different difficulties, the hardest being practically unbeatable. There's also a hidden 2v2 game mode. Source code: <a href="https://github.com/Acerx-AMJ/pong_sfml">SFML Pong</a>, <a href="https://github.com/Acerx-AMJ/pong_cx">CX Pong</a>, <a href="https://github.com/Acerx-AMJ/acerx-amj.github.io/blob/main/projects/pong.html">HTML Pong</a>.</p>
 
          <h2>Gallery</h2>
-         Old SFML version
-         <div class="iframe-container youtube-video"><iframe src="https://www.youtube.com/embed/Ecx2gonomYQ?si=CA3gIfsEq-WkW0u_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-
-         <br>New CX version
-         <div class="iframe-container youtube-video"><iframe src="https://www.youtube.com/embed/gnPkhsDalIU?si=uklKvlNIlNkoAp6n" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-         <div class="iframe-container youtube-video"><iframe src="https://www.youtube.com/embed/CCpSlb4ybsw?si=vwLrW9EMi3BP0uYa" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-         <img src="../assets/pong/1.png"/>
-         <img src="../assets/pong/2.png"/>
-         <img src="../assets/pong/3.png"/>
-         <img src="../assets/pong/4.png"/>
-         <img src="../assets/pong/5.png"/>
-         <img src="../assets/pong/6.png"/>
+         <div class="col2">
+            <img src="../assets/pong/1.png"/>
+            <img src="../assets/pong/3.png"/>
+            <img src="../assets/pong/2.png"/>
+            <img src="../assets/pong/4.png"/>
+            <img src="../assets/pong/5.png"/>
+            <img src="../assets/pong/6.png"/>
+         </div>
       </article>
 
       <script src="../source/image_click.js"></script>
