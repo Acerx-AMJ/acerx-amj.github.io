@@ -158,6 +158,7 @@ html, body {
 .side-sprite-l, .side-sprite-r {
    position: absolute;
    display: none;
+   user-select: none;
 
    @media (width >= calc(42rem + (128px + 16px) * 2 + 20px)) {
       display: block;
@@ -211,11 +212,13 @@ img {
 }
 
 img.img-no-click {
+   cursor: default !important;
+   box-shadow: none !important;
    border: none !important;
    border-radius: 0px;
 }
 
-.iframe-container {
+.youtube-video, .itch-link {
    position: relative;
    overflow: hidden;
    width: 100%;
@@ -510,6 +513,8 @@ img.img-fullscreen {
 }
 
 #x {
+   z-index: 1001;
+   cursor: pointer;
    position: fixed;
    display: none;
    width: 3.5rem;

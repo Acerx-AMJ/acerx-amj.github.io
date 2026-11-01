@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Abyss Ascendant</title>
+      <link rel="stylesheet" href="../style/style.css">
+   </head>
+
+   <body>
+      <header>
+         <a href="../pages/home.html">Home</a>
+         <a href="../pages/projects.html">Projects</a>
+         <a href="../pages/blog.html">Blog</a>
+         <a href="../pages/stories.html">Stories</a>
+      </header>
+
+      <article>
+         <img class="img-no-click" src="../assets/aa1/logo.png"/>
+         <h3>Daniel Vishnevsky</h3>
+         <div class="youtube-video"><iframe src="https://www.youtube.com/embed/LWMql6wVLGo?si=fYNxKppDXWmYEWHr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
+         <h2>About</h2>
+
+         <div class="side-sprite-r"><p style="font-size: 5rem;color: red; transform: rotate(-7deg);">⍙</p></div>
+
+         <p><span></span>Abyss Ascendant is a CLI turn-based story game about curing Earth from an apocalypse. It was made using C++, SQLite, Lua and SFML. The level editor was made using HTML/CSS/JS.</p>
+
+         <div class="side-sprite-l"><p style="font-size: 5rem;color: red; transform: rotate(12deg);">=</p></div>
+
+         <h2>Features</h2>
+         <p><span></span>It features a chapter and level system with branching dialogue, procedurally generated endless mode and daily levels and multiple save system. The best part is that everything can be configured with Lua.</p>
+         <p><span></span>Levels can contain obstacles, coins and enemies and each level can have different goals that must be accomplished for the level to be beat. Each enemy has its own movement pattern and aren't threatening by themselves, but the player cannot fight back and they will appear in hordes.</p>
+         <p><span></span>There's also a simple level editor bundled in that you can localhost.</p>
+
+         <h2>Development</h2>
+
+         <div class="side-sprite-l"><p style="font-size: 5rem;color: red; transform: rotate(-5deg);">@</p></div>
+
+         <p><span></span>This was my first big C++ project after terminal tic-tac-toe, battleships and checkers. I started with a simple map that the player could walk around in. Then added coins that they have to collect. Then added multiple level system (they had to be written in C++ back then). After that I added enemies.</p>
+         
+         <div class="side-sprite-r"><p style="font-size: 6rem;color: red; transform: rotate(-1deg);">✸</p></div>
+
+         <p><span></span>I think what followed next was moving the levels to Lua and the dialogue, which didn't include dialogue branching at first. After that, most likely, came the endless mode. That was such a massive achievement for me. With all of these features the code became hard to navigate and I decided to clean it up. With this came a better main menu and the save system using SQLite.</p>
+         <p><span></span>At some point I also added sounds using SFML, daily levels, custom icons and player colors, dialogue branching and more.</p>
+
+         <div class="side-sprite-r"><p style="font-size: 4.5rem;color: red; transform: rotate(-19deg);">✸</p></div>
+         
+         <p><span></span>This project really made me enjoy programming. You can see it by the sheer scale of it. It's also what got me into story-telling. I'm still trying to write the same story 2 years later. Sadly, I lost the original story and levels but I fully remember it and I'm rewriting it to the best of my ability.</p>
+
+         <h2>Gallery</h2>
+
+         <div class="side-sprite-l"><p style="font-size: 4rem;color: orange; transform: rotate(8deg);">♠</p></div>
+
+         <div class="col2">
+            <img src="../assets/aa1/new1.png"/>
+            <img src="../assets/aa1/new2.png"/>
+            <img src="../assets/aa1/new3.png"/>
+            <img src="../assets/aa1/new4.png"/>
+            <img src="../assets/aa1/new5.png"/>
+            <img src="../assets/aa1/new6.png"/>
+            <img src="../assets/aa1/new7.png"/>
+            <img src="../assets/aa1/new8.png"/>
+         </div>
+      </article>
+
+      <script src="../source/common.js"></script>
+      <script src="../source/image_click.js"></script>
+   </body>
+</html>

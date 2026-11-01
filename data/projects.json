@@ -73,10 +73,10 @@
       "link": "../projects/pong.html"
    }, {
       "date": "Sep 2024 to Oct 2024",
-      "title": "Abyss Descendant",
-      "description": "Terminal coin-collecting story game about surviving in an apocalypse. My first game made with C++.",
-      "image": "<img src=\"../assets/aa1/1.png\"/>",
-      "link": "../projects/abyss_descendant.html"
+      "title": "",
+      "description": "Abyss Ascendant - terminal coin-collecting story game about curing Earth from an apocalypse. My first game made with C++, Lua, SQLite3, SFML and editor with HTML/CSS/JS.",
+      "image": "<img class=\"img-no-click\" src=\"../assets/aa1/logo.png\"/>",
+      "link": "../projects/abyss_ascendant.html"
    }, {
       "date": "Dec 2020 to Aug 2024",
       "title": "Lost Media",
