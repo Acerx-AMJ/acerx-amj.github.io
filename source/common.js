@@ -9,12 +9,12 @@ const settings = {
 };
 
 function applySettings() {
-   const sprites = settings.sprites;
+   let sprites = settings.sprites;
    if (sprites === 'system') {
       sprites = (motionQuery.matches ? 'off' : 'on');
    }
 
-   const theme = settings.theme;
+   let theme = settings.theme;
    if (theme === 'system') {
       theme = (darkQuery.matches ? 'dark' : 'light');
    }
