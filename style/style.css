@@ -342,6 +342,15 @@ body:has(.img-fullscreen) #menu-toggle {
    --fps: 7;
 }
 
+.sprite-campfire {
+   background-image: url('../assets/sprites/campfire.png');
+   --w: 24;
+   --h: 24;
+   zoom: 4;
+   --frames: 3;
+   --fps: 7;
+}
+
 .side-sprite-l, .side-sprite-r {
    position: absolute;
    display: none;

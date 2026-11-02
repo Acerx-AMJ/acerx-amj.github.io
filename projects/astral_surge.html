@@ -12,41 +12,64 @@
    <body>
       <article>
          <h1>Astral Surge</h1>
+
+         <div class="side-sprite-r"><div class="sprite sprite-bat-as" style="--row: 6;transform: rotate(-7deg)"></div></div>
+
          <h3>Daniel Vishnevsky</h3>
 
+         <div class="side-sprite-l"><div class="sprite sprite-bat-as" style="--row: 2;transform: rotate(12deg)"></div></div>
+
+         <div class="youtube-video"><iframe src="https://www.youtube.com/embed/GIY8MS-4_ic?si=hoSCcHzxktVKIvqc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
          <h2>About</h2>
-         <p><span>Astral Surge is a top-down 2D speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode.</span></p>
-         <div class="iframe-container youtube-video">
-            <iframe src="https://www.youtube.com/embed/GIY8MS-4_ic?si=hoSCcHzxktVKIvqc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-         </div>
+
+         <div class="side-sprite-r"><div class="sprite sprite-slime-as" style="--row: 7"></div></div>
+
+         <p><span>Astral Surge is a top-down 2D speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a level editor and endless mode.</span></p>
 
          <h2>Features</h2>
-         <p><span></span>This was a sequel to my original terminal game <a href="abyss_descendant.html">Abyss Descendant</a>. It basically features everything that the terminal version did except for saves and it was more focused on the gameplay instead of the story.</p>
-         <p><span></span>Astral Surge contained an endless mode and a level editor just like its predecessor did and was focused on customizability and modding support. It was basically its own game engine.</p>
+         <p><span></span>This game is basically its own game engine. It loads all tiles, levels and even endless mode layouts from JSON. It's really configurable. You can write your own levels using the level editor.</p>
+
+         <div class="side-sprite-l"><div class="sprite sprite-campfire"></div></div>
+         
+         <p><span></span>The gameplay is primitive but it's pretty fun. You collect coins and reach the finish line while evading traps and enemies. There's a plethora of different enemy and turret types, all configurable in JSON. If the default levels and user-made levels aren't enough, then you can challenge yourself in endless mode.</p>
+         <p><span></span>The game also contains configurable dynamic lighting that can look amazing if done right. It can both go through walls and not. This can also create challenging levels where you have to be careful, like the endless cave theme.</p>
 
          <h2>Development</h2>
-         <p><span></span>I started developing Astral Surge somewhere in the end of 2024, about 3 months after starting coding in C++. Just like <a href="pong.html">Pong</a> I originally used SFML but quickly switched to CX while developing it on the side. I barely knew how to code and it shows when reading my old code as it has too many useless classes, namespaces and templating.</p>
-         <p><span></span>I documented my whole journey on <a href="https://www.youtube.com/playlist?list=PLAYMpoWModGMjiDWBN77FPqGxotpOnEH2">my old Youtube channel</a> post the switch to CX. The source code is not available anywhere and most likely won't be. Since then I kept working on CX and so the current code is not stable nor compilable due to deprecated features. I might revive this in the future, this is also the reason the gallery is so dry.</p>
+
+         <div class="side-sprite-r"><div class="sprite sprite-fire"></div></div>
+         
+         <p><span></span>I tried to port my first game - <a href="abyss_ascendant.html">Abyss Ascendant</a> - to a graphical window. In the end, it turned into a wholly different game. This game is more focused on the gameplay, whereas AA is more focused on the story-telling aspect.</p>
+         <p><span></span>Just like <a href="pong.html">Pong</a>, I originally used SFML but quickly switched to my library <a href="cx_lib.html">CX</a>. I constantly was working on both of them and this project really helped shape CX for real project usage. Whenever I didn't like something about the API, whether SFML or CX, I went and fixed it. This back and forth from game to library is something special.</p>
+         <p><span></span>I documented my whole journey on <a href="https://www.youtube.com/playlist?list=PLAYMpoWModGMjiDWBN77FPqGxotpOnEH2">my old Youtube channel</a> post the switch to CX. At first, I kept the code closed-source. But now it is open-source on <a href="https://github.com/Acerx-AMJ/astral-surge">Github</a>.</p>
+
+         <div class="side-sprite-l"><div class="sprite sprite-slime-as" style="--row: 1"></div></div>
+         
          <p><span></span>Also during the making of this game I learned to do pixel art. Before I wasn't able to draw anything that well but I learned everything from just doing it. I'm pretty proud with the art I've done especially the newer 64x64 industrial art.</p>
-         <p><span></span>I'll leave both the SFML and CX version of the game in the gallery.</p>
 
          <h2>Gallery</h2>
-         Old videos
-         <div class="iframe-container youtube-video"><iframe src="https://www.youtube.com/embed/xw0wwU9iCm0?si=0yiHy5tgAtv07xH5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-         <div class="iframe-container youtube-video"><iframe src="https://www.youtube.com/embed/ivBn0YCEVRw?si=Nw_49SNa11ImInKb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-         <br>Screenshots
-         <img src="../assets/as/1.png"/> 
-         <img src="../assets/as/2.png"/> 
-         <img src="../assets/as/3.png"/> 
-         <img src="../assets/as/4.png"/> 
-         <img src="../assets/as/5.png"/> 
-         <img src="../assets/as/6.png"/> 
-         <img src="../assets/as/7.png"/> 
-         <img src="../assets/as/8.png"/> 
-         <img src="../assets/as/9.png"/> 
-         <img src="../assets/as/10.png"/> 
-         <img src="../assets/as/11.png"/> 
-         <img src="../assets/as/12.png"/>
+         <div class="col2">
+            <img src="../assets/as/1.png"/> 
+            <img src="../assets/as/2.png"/> 
+            <img src="../assets/as/3.png"/> 
+            <img src="../assets/as/4.png"/> 
+            <img src="../assets/as/5.png"/> 
+            <img src="../assets/as/6.png"/> 
+            <img src="../assets/as/7.png"/> 
+            <img src="../assets/as/8.png"/> 
+            <img src="../assets/as/9.png"/> 
+            <img src="../assets/as/10.png"/> 
+            <img src="../assets/as/11.png"/> 
+            <img src="../assets/as/12.png"/>
+            <img src="../assets/as/13.png"/>
+            <img src="../assets/as/14.png"/>
+            <img src="../assets/as/15.png"/>
+            <img src="../assets/as/16.png"/>
+            <img src="../assets/as/17.png"/>
+            <img src="../assets/as/18.png"/>
+            <img src="../assets/as/19.png"/>
+         </div>
+         <div class="sprite sprite-slime-as" style="--row: 3;zoom: 5;"></div><p>^^ hi</p>
       </article>
 
       <script src="../source/image_click.js"></script>
