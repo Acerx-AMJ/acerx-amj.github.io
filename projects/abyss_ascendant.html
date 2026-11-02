@@ -42,6 +42,304 @@
          <div class="side-sprite-r"><p style="font-size: 4.5rem;color: red; transform: rotate(-19deg);">✸</p></div>
          
          <p><span></span>This project really made me enjoy programming. You can see it by the sheer scale of it. It's also what got me into story-telling. I'm still trying to write the same story 2 years later. Sadly, I lost the original story and levels but I fully remember it and I'm rewriting it to the best of my ability. The game is fully open-source on <a href="https://github.com/Acerx-AMJ/abyss_ascendant">Github</a>.</p>
+         <p><span></span>Oh, and the level editor is so simple that I decided to include it here:</p>
+
+         <div id="editor">
+            <h2>Level Editor</h2>
+            <label for="sizeX">Width: </label>
+            <input type="number" id="sizeX" name="sizeX" min="1" max="48" step="1">
+
+            <label for="sizeY">Height: </label>
+            <input type="number" id="sizeY" name="sizeY" min="1" max="32" step="1">
+
+            <label for="tileSelector">Tile:</label>
+            <select id="tileSelector">
+               <option value="EM">Empty</option>
+               <option value="CO">Coin</option>
+               <option value="PL">Player</option>
+               <option value="NY">Nyx</option>
+               <option value="JA">Jake</option>
+               <option value="GA">Gabriel</option>
+               <option value="BR">Bricks</option>
+               <option value="OB">Obstacle</option>
+               <option value="MI">Mine</option>
+               <option value="VB">V bat</option>
+               <option value="HB">H bat</option>
+               <option value="GL">Glimmer</option>
+               <option value="SE">Seeker</option>
+               <option value="LU">Lurker</option>
+               <option value="WA">Wanderer</option>
+               <option value="CH">Chaser</option>
+               <option value="BS">Observer</option>
+               <option value="HU">Hunter</option>
+               <option value="UN">Unknown</option>
+            </select>
+
+            <button id="generate">Resize</button>
+            <button id="save">Generate</button>
+            <p id="cord">X: 1, Y: 1, Type: UN</p>
+            <div id="container"></div><br><hr>
+            <pre id="result">Result:</pre><hr>
+
+            <input type="text" id="load" placeholder="Input a layout.">
+            <button id="loadButton">Load</button>
+
+            <script>
+               document.addEventListener('DOMContentLoaded', () => {
+                  const container  = document.getElementById('container'),  
+                        xInput     = document.getElementById('sizeX'),
+                        yInput     = document.getElementById('sizeY'),
+                        selector   = document.getElementById('tileSelector'),
+                        generate   = document.getElementById('generate'),
+                        save       = document.getElementById('save'),
+                        result     = document.getElementById('result'),
+                        load       = document.getElementById('load'),
+                        loadButton = document.getElementById('loadButton'),
+                        cord       = document.getElementById('cord');
+
+                  const tiles = [];
+
+                  let leftDown = false;
+                  let rightDown = false;
+
+                  let tileType = 'EM';
+                  let sizeX = 16;
+                  let sizeY = 16;
+                  let loadedLayout = '';
+
+                  xInput.value = 16;
+                  yInput.value = 16;
+                  selector.value = 'EM';
+                  load.value = '';
+
+                  // prevent context menu from popping up
+                  document.addEventListener('contextmenu', (event) => {
+                     event.preventDefault();
+                  });
+
+                  // Check if the mouse is down or up.
+                  document.addEventListener('mousedown', (event) => {
+                     const left = (event.button == 0);
+                     const right = (event.button == 2);
+
+                     if (left) {
+                        leftDown = true;
+                     }
+                     else if (right) {
+                        rightDown = true;
+                     }
+                  });
+
+                  document.addEventListener('mouseup', (event) => {
+                     const left = (event.button == 0);
+                     const right = (event.button == 2);
+
+                     if (left) {
+                        leftDown = false;
+                     }
+                     else if (right) {
+                        rightDown = false;
+                     }
+                  });
+
+                  // Handle menu bar UI elements
+                  selector.addEventListener('change', () => {
+                     tileType = selector.value;
+                  });
+
+                  xInput.addEventListener('input', (event) => {
+                     const value = parseInt(event.target.value);
+                     sizeX = value;
+                  });
+
+                  yInput.addEventListener('input', (event) => {
+                     const value = parseInt(event.target.value);
+                     sizeY = value;
+                  });
+
+                  save.addEventListener('click', () => {
+                     const height = tiles.length;
+                     const width = tiles[0].length;
+                     let lua = 'Result:\nlayout = {';
+
+                     for (y = 0; y < height; y++) {
+                        lua += '\n\t{';
+                        for (x = 0; x < width; x++) {
+                           lua += tiles[y][x].id;
+                           if (x < width - 1) {
+                              lua += ',';
+                           }
+                        }
+                        lua += '},';
+                     }
+                     
+                     lua += '\n},'
+                     result.textContent = lua;
+                  });
+
+                  // Handle editor
+                  function createTile(x, y, tileId) {
+                     const obj = document.createElement('div');
+                     obj.style.left = `${x * 15}px`;
+                     obj.style.top = `${y * 15}px`;
+                     obj.classList.add('tile');
+                     obj.id = tileId;
+                     obj.textContent = getFullName(tileId);
+
+                     obj.addEventListener('mouseover', () => {
+                        cord.innerText = `X: ${x + 1}, Y: ${y + 1}, Type: ${obj.id}`;
+
+                        if (leftDown || rightDown) {
+                           const newId = (rightDown ? 'EM' : tileType);
+                           obj.id = newId;
+                           obj.textContent = getFullName(newId);
+                        }
+                     });
+
+                     obj.addEventListener('mousedown', (event) => {
+                        const left = (event.button == 0);
+                        const middle = (event.button == 1);
+                        const right = (event.button == 2);
+
+                        if (left || right) {
+                           const newId = (right ? 'EM' : tileType);
+                           obj.id = newId;
+                           obj.textContent = getFullName(newId);
+                        }
+                        else if (middle) {
+                           event.preventDefault();
+                           tileType = obj.id;
+                           selector.value = tileType;
+                        }
+                     });
+                     return obj;
+                  }
+
+                  loadButton.addEventListener('click', () => {
+                     if (!load.value) {
+                        return;
+                     }
+
+                     loadedLayout = load.value.replace(/\s+/g, '').replace(/{|}/g, '').replace('layout=', '').split(',');
+                     sizeY = load.value.split('}').length - 2;
+                     sizeX = Math.round((load.value.split(',').length - 1) / sizeY);
+
+                     xInput.value = sizeX;
+                     yInput.value = sizeY;
+
+                     tiles.forEach((list) => {list.forEach((tile) => {tile.remove()})})
+                     tiles.length = 0;
+
+                     container.style.width = `${sizeX * 15}px`;
+                     container.style.height = `${sizeY * 15}px`;
+
+                     let index = 0;
+                     for (y = 0; y < sizeY; y++) {
+                        const list = [];
+                        for (x = 0; x < sizeX; x++) {
+                           const obj = createTile(x, y, loadedLayout[index++]);
+                           container.appendChild(obj);
+                           list.push(obj);
+                        }
+                        tiles.push(list);
+                     }
+                  });
+
+                  generate.addEventListener('click', () => {
+                     tiles.forEach((list) => {list.forEach((tile) => {tile.remove()})})
+                     tiles.length = 0;
+                     container.style.width = `${sizeX * 15}px`;
+                     container.style.height = `${sizeY * 15}px`;
+
+                     for (y = 0; y < sizeY; y++) {
+                        const list = [];
+                        for (x = 0; x < sizeX; x++) {
+                           const obj = createTile(x, y, 'EM');
+                           container.appendChild(obj);
+                           list.push(obj);
+                        }
+                        tiles.push(list);
+                     }
+                  });
+               });
+
+               function getFullName(tile) {
+                  switch (tile) {
+                  case 'EM': case 'OB': case 'BR': return '';
+                  case 'CO': return '●';
+                  case 'PL': return '☻';
+                  case 'NY': return '♠';
+                  case 'JA': return '♞';
+                  case 'GA': return '♦';
+                  case 'HB': return '═';
+                  case 'VB': return '║';
+                  case 'GL': return '◆';
+                  case 'SE': return '◊';
+                  case 'LU': return '⯎';
+                  case 'WA': return '✡';
+                  case 'CH': return '●';
+                  case 'BS': return '⍙';
+                  case 'HU': return '@';
+                  case 'MI': return '✸';
+                  default: return '??';
+                  }
+               }
+            </script>
+
+            <style>
+               #editor button, #editor select, #editor input {
+                  color: black;
+               }
+
+               #editor p {
+                  display: inline-block;
+               }
+
+               #container {
+                  position: relative;
+                  top: 15px;
+                  left: 15px;
+                  width: 0px;
+                  height: 0px;
+                  background-color: black;
+               }
+
+               .tile {
+                  position: absolute;
+                  width: 15px;
+                  height: 15px;
+                  user-select: none;
+                  font-size: .66rem;
+                  text-align: center;
+
+                  background-color: #aaa;
+                  color: purple;
+                  border: .1mm solid black;
+                  box-sizing: border-box;
+               }
+
+               .tile:hover {
+                  border: .5mm solid #af0;
+                  animation-delay: 300ms;
+                  animation: loop 300ms ease-in-out infinite;
+               }
+
+               @keyframes loop {
+                  0%   { border-color: #fa0; color: #fa0; }
+                  50%  { border-color: #af0; color: #af0; }
+                  100% { border-color: #fa0; color: #fa0; }
+               }
+
+               #CO { color: #ff0; }
+               #PL { color: #0af; }
+               #NY { color: #fa0; }
+               #JA { color: #af0; }
+               #GA { color: #a0f; }
+               #OB { background-color: #555; }
+               #BR { background-color: rgb(84, 57, 44); }
+               #VB, #HB, #GL, #SE, #LU, #WA, #CH, #BS, #MI, #HU { color: #f00; }
+            </style>
+         </div>
 
          <h2>Gallery</h2>
 
