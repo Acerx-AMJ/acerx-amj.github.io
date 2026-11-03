@@ -1,93 +1,131 @@
 {
    "data": [{
-      "date": "Jan 2026 to present",
       "title": "Personal Website",
-      "description": "My personal portfolio and blog site. Made with HTML/JS/CSS.",
-      "image": "",
-      "link": "../projects/website.html"
+      "description": "My personal portfolio and blog site.",
+      "link": "../projects/website.html",
+      "date": "Jan 2026 to present",
+      "status": "working on",
+      "tags": ["website"],
+      "tech": ["HTML/CSS/JS"]
    }, {
-      "date": "Aug 2026",
       "title": "Dodge the Wraiths",
-      "description": "Dodge the wraiths coming at you. Features 4 game modes. Made in Godot.",
-      "image": "<img src=\"../assets/dtw/2.png\"/>",
-      "link": "../projects/dtw.html"
+      "description": "Dodge the wraiths coming at you. Features 4 game modes.",
+      "image": "../assets/dtw/2.png",
+      "link": "../projects/dtw.html",
+      "date": "Aug 2026",
+      "status": "finished",
+      "tags": ["game"],
+      "tech": ["Godot"]
    }, {
+      "titleImage": "../assets/sandbox2d/logo.png",
+      "description": "Sandbox survival game where you can build, destroy and explore.",
+      "image": "../assets/sandbox2d/14.png",
+      "link": "../projects/sandbox2d.html",
       "date": "Nov 2025 to Apr 2026",
-      "title": "Sandbox-2D",
-      "description": "Sandbox survival game where you can build, destroy and explore. Made with C++ and Raylib.",
-      "image": "<img src=\"../assets/sandbox2d/14.png\"/>",
-      "link": "../projects/sandbox2d.html"
+      "status": "working on",
+      "font": "andy",
+      "tags": ["game"],
+      "tech": ["C++", "Raylib", "SRUlib"]
    }, {
-      "date": "Dec 2025",
       "title": "3D Toy Renderer",
-      "description": "3D toy renderer capable of rendering 3D models from a list of vertices, lines and triangles. Made in 2 days with C and Raylib.",
-      "image": "<img src=\"../assets/toyrender/1.png\"/>",
-      "link": "../projects/toy_renderer.html"
+      "description": "3D toy renderer capable of rendering 3D models from a list of vertices, lines and triangles.",
+      "image": "../assets/toyrender/1.png",
+      "link": "../projects/toy_renderer.html",
+      "date": "Dec 2025",
+      "status": "finished",
+      "tags": ["simulation"],
+      "tech": ["C", "Raylib"]
    }, {
-      "date": "Oct 2025",
       "title": "Block Placer",
-      "description": "Game heavily inspired by Tetris. Play solo, battle against friends in versus or work together in co-op mode! Made with C++ and Raylib.",
-      "image": "<img src=\"../assets/bp/4.png\"/>",
-      "link": "../projects/block_placer.html"
+      "description": "Game heavily inspired by Tetris. Play solo, battle against friends in versus or work together in co-op mode!",
+      "image": "../assets/bp/4.png",
+      "link": "../projects/block_placer.html",
+      "date": "Oct 2025",
+      "status": "finished",
+      "tags": ["game"],
+      "tech": ["C++", "Raylib"]
    }, {
-      "date": "Sep 2025",
       "title": "Screen Simulation",
-      "description": "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. Made with C++ and SFML.",
-      "image": "<img src=\"../assets/screen_sim/1.png\"/>",
-      "link": "../projects/screen_sim.html"
+      "description": "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. It simulates each pixel of the screen.",
+      "image": "../assets/screen_sim/1.png",
+      "link": "../projects/screen_sim.html",
+      "date": "Sep 2025",
+      "status": "finished",
+      "tags": ["simulation"],
+      "tech": ["C++", "SFML"]
    }, {
-      "date": "Aug 2025 to Sep 2025",
       "title": "CLL Interpreter",
-      "description": "A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use. Made with C++.",
-      "image": "<pre class=\"code\"><k>fn</k> <f>fibonacci</f>(n) {\n   <k>return</k> n <k>unless</k> n > 1\n   <f>fibonacci</f>(n - 1) + <f>fibonacci</f>(n - 2)\n}\n\n<k>fn</k> <f>main</f>() {\n   <f>println</f>(<f>fibonacci</f>(5))\n}</pre>",
-      "link": "../projects/cll.html"
+      "description": "A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use.",
+      "custom": "<pre class=\"code\"><k>fn</k> <f>fibonacci</f>(n) {\n   <k>return</k> n <k>unless</k> n > 1\n   <f>fibonacci</f>(n - 1) + <f>fibonacci</f>(n - 2)\n}\n\n<k>fn</k> <f>main</f>() {\n   <f>println</f>(<f>fibonacci</f>(5))\n}</pre>",
+      "link": "../projects/cll.html",
+      "date": "Aug 2025 to Sep 2025",
+      "status": "unfinished",
+      "tags": ["interpreter", "system"],
+      "tech": ["C++"]
    }, {
-      "date": "Aug 2025 & Dec 2025",
       "title": "Dfunge",
-      "description": "2D esoteric programming language based off Befunge-93 with file I/O, functions and other QOL elements. Made with C++.",
-      "image": "<pre class=\"code\" style=\"font-weight:900\">v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n<t>7</t>#  HX  ><t>\",\"</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH\n<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre>",
-      "link": "../projects/dfunge.html"
+      "description": "2D esoteric programming language based off Befunge-93 with file I/O, functions and other QOL elements.",
+      "custom": "<pre class=\"code\" style=\"font-weight:900\">v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n<t>7</t>#  HX  ><t>\",\"</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH\n<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre>",
+      "link": "../projects/dfunge.html",
+      "date": "Aug 2025 & Dec 2025",
+      "status": "finished",
+      "tags": ["interpreter", "system"],
+      "tech": ["C++"]
    }, {
-      "date": "Jun 2025",
       "title": "Kahnaroc",
       "description": "Kahnaroc is a minimalist conlang designed as a lighter and simpler alternative to English with unique punctuation, constant pronunciation and its own writing.",
-      "image": "<pre class=\"code\">დმ ფოინა კრმყმ!</pre>",
-      "link": "../projects/kahnaroc.html"
+      "link": "../projects/kahnaroc.html",
+      "date": "Jun 2025",
+      "status": "finished",
+      "tags": ["conlang", "website"],
+      "tech": ["HTML/CSS/JS"]
    }, {
+      "titleImage": "../assets/cx.png",
+      "description": "Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user.",
+      "link": "../projects/cx_lib.html",
       "date": "Dec 2024 to Jun 2025",
-      "title": "CX Library",
-      "description": "Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user. Made with C++ and SFML.",
-      "image": "<pre class=\"code\">\n<k>void</k> <y>LoadingState</y>::<f>setup_styles</f>() {\n   loading_text.<f>set_string</f>(<t>\"Setting Up Styles...\"</t>);\n   game.<f>initialize_game</f>();\n   loading_bar.<f>set_progress</f>(1.0f);\n   loading_text.<f>set_string</f>(<t>\"Loading Done!\"</t>);\n   audio.<f>play_sound</f>(<t>\"success\"</t>, 1, 0.75f, 1.25f);\n}</pre>",
-      "link": "../projects/cx_lib.html"
+      "status": "finished",
+      "tags": ["library"],
+      "tech": ["C++", "SFML"]
    }, {
+      "titleImage": "../assets/as/logo.png",
+      "description": "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode.",
+      "link": "../projects/astral_surge.html",
       "date": "Nov 2024 to Jun 2025",
-      "title": "Astral Surge",
-      "description": "Speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode. Made with C++ and SFML.",
-      "image": "<img src=\"../assets/as/3.png\"/>",
-      "link": "../projects/astral_surge.html"
+      "status": "unfinished",
+      "tags": ["game"],
+      "tech": ["C++", "SFML", "CX"]
    }, {
+      "title": "Pong",
+      "description": "Three different Pong clones. Battle against a friend or go against a bot of varying difficulties.",
+      "link": "../projects/pong.html",
       "date": "Oct 2024 & Jan 2025 & Nov 2026",
-      "title": "<h2 style=\"font-family: 'Pixel'\">Pong</h2>",
-      "description": "<p style=\"font-family: 'Pixel'\">Yet another Pong clone. Battle against a friend or go against a bot. Made with C++ and SFML/CX/HTML.</p>",
-      "image": "<img src=\"../assets/pong/html.png\"/>",
-      "link": "../projects/pong.html"
+      "image": "../assets/pong/html.png",
+      "status": "finished",
+      "font": "pixel",
+      "tags": ["game"],
+      "tech": ["C++", "SFML", "CX", "HTML/CSS/JS"]
    }, {
-      "date": "Sep 2024",
       "title": "Bank Simulation",
-      "description": "Local bank simulation made using C++ and SQLite3.",
-      "image": "<img src=\"../assets/bank/1.png\"/>",
-      "link": "../projects/bank.html"
+      "description": "Local bank simulation capable of deposits, withdrawals and transactions between accounts.",
+      "link": "../projects/bank.html",
+      "date": "Sep 2024",
+      "image": "../assets/bank/1.png",
+      "status": "finished",
+      "tags": ["system", "simulation"],
+      "tech": ["C++", "SQLite"]
    }, {
+      "titleImage": "../assets/aa1/logo.png",
+      "description": "Abyss Ascendant - terminal coin-collecting story game about curing Earth from an apocalypse. Includes a level editor.",
+      "link": "../projects/abyss_ascendant.html",
       "date": "Sep 2024 to Oct 2024",
-      "title": "",
-      "description": "Abyss Ascendant - terminal coin-collecting story game about curing Earth from an apocalypse. My first game made with C++, Lua, SQLite3, SFML and editor with HTML/CSS/JS.",
-      "image": "<img class=\"img-no-click\" src=\"../assets/aa1/logo.png\"/>",
-      "link": "../projects/abyss_ascendant.html"
+      "status": "finished",
+      "tags": ["game"],
+      "tech": ["C++", "SFML", "CX", "HTML/CSS/JS", "SQLite", "Lua"]
    }, {
-      "date": "Dec 2020 to Aug 2024",
       "title": "Lost Media",
       "description": "Vague memories of lost projects prior to September 2024.",
-      "image": "",
-      "link": "../projects/lost_media.html"
+      "link": "../projects/lost_media.html",
+      "date": "Dec 2020 to Aug 2024"
    }]
 }
