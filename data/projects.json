@@ -6,7 +6,7 @@
       "date": "Jan 2026 to present",
       "status": "working on",
       "tags": ["website"],
-      "tech": ["HTML/CSS/JS"]
+      "tech": ["HTML"]
    }, {
       "title": "Dodge the Wraiths",
       "description": "Dodge the wraiths coming at you. Features 4 game modes.",
@@ -78,7 +78,7 @@
       "date": "Jun 2025",
       "status": "finished",
       "tags": ["conlang", "website"],
-      "tech": ["HTML/CSS/JS"]
+      "tech": ["HTML"]
    }, {
       "titleImage": "../assets/cx.png",
       "description": "Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user.",
@@ -104,7 +104,7 @@
       "status": "finished",
       "font": "pixel",
       "tags": ["game"],
-      "tech": ["C++", "SFML", "CX", "HTML/CSS/JS"]
+      "tech": ["C++", "SFML", "CX", "HTML"]
    }, {
       "title": "Bank Simulation",
       "description": "Local bank simulation capable of deposits, withdrawals and transactions between accounts.",
@@ -121,7 +121,7 @@
       "date": "Sep 2024 to Oct 2024",
       "status": "finished",
       "tags": ["game"],
-      "tech": ["C++", "SFML", "CX", "HTML/CSS/JS", "SQLite", "Lua"]
+      "tech": ["C++", "SFML", "CX", "HTML", "SQLite", "Lua"]
    }, {
       "title": "Lost Media",
       "description": "Vague memories of lost projects prior to September 2024.",

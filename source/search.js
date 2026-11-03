@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const script = document.getElementById('search');
     const jsonpath = script.dataset.json;
     const simple = (script.dataset.simpleFormat === 'true');
-    const perPage = 2;
+    const perPage = 5;
     const maxButtons = 7;
 
     const list = document.getElementById('projects');
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.appendChild(el('p', d.description));
             }
 
-            const meta = [d.status, (d.tags ?? []).join(', '), (d.tech ?? []).join(', ')].filter(Boolean).join(' · ');
+            const meta = [d.status, (d.tags ?? []).join(', '), (d.tech ?? []).join(', ')].filter(Boolean).join(' / ');
             if (meta) {
                 card.appendChild(el('pre', meta, 'card-meta'));
             }
