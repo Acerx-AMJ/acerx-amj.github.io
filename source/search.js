@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const jsonpath = script.dataset.json;
     const simple = (script.dataset.simpleFormat === 'true');
     const perPage = 5;
-    const maxButtons = 7;
+    const maxButtons = 7; // changing this will break it
 
     const list = document.getElementById('projects');
     const searchbar = document.getElementById('search-bar');
@@ -210,24 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
             let pages = [...Array(pageCount).keys()];
 
             if (arrows) {
-                // near the edges show 4 numbers so the row doesn't jump around
-                let near = [page - 1, page, page + 1];
-                if (page <= 2) {
-                    near = [0, 1, 2, 3];
-                } else if (page >= pageCount - 3) {
-                    near = [pageCount - 4, pageCount - 3, pageCount - 2, pageCount - 1];
-                }
-
-                const shown = [...new Set([0, pageCount - 1, ...near])].sort((a, b) => a - b);
-                pages = [];
-                for (let i = 0; i < shown.length; i++) {
-                    const gap = (i > 0 ? shown[i] - shown[i - 1] : 0);
-                    if (gap === 2) {
-                        pages.push(shown[i] - 1);
-                    } else if (gap > 2) {
-                        pages.push('…');
-                    }
-                    pages.push(shown[i]);
+                if (page <= 3) {
+                    pages = [0, 1, 2, 3, 4, '…', pageCount - 1];
+                } else if (page >= pageCount - 4) {
+                    pages = [0, '…', pageCount - 5, pageCount - 4, pageCount - 3, pageCount - 2, pageCount - 1];
+                } else {
+                    pages = [0, '…', page - 1, page, page + 1, '…', pageCount - 1];
                 }
                 arrow('‹', 'Previous page', page - 1, page === 0);
             }

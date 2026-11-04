@@ -8,10 +8,14 @@ const cpp_data = {
       'throw', 'true', 'try', 'typedef', 'typeid', 'typename', 'union', 'unsigned', 'using', 'virtual', 'void', 'volatile', 'while'
    ]),
    types: new Set([
-      'Vector2', 'Vector3', 'Vector4', 'Rectangle', 'Color', 'RatioType', 'Map2D', 'Map1D', 'LoadingState'
+      'Vector2', 'Vector3', 'Vector4', 'Rectangle', 'Color', 'RatioType', 'Map2D', 'Map1D', 'LoadingState', 'RenderWindow', 'VideoMode',
+      'EventHandler', 'AssetManager', 'Text', 'vector', 'string'
    ]),
    line_comment: /\/\/.*/,
    block_comment: /\/\*[\s\S]*?\*\//,
+   scope: true,
+   directive: /(?<=^[ \t]*)#[ \t]*[A-Za-z_]\w*/,
+   include_path: /(?<=^[ \t]*#[ \t]*include[ \t]*)<[^>\n]*>/,
 };
 
 const cll_data = {
@@ -24,32 +28,67 @@ const cll_data = {
    block_comment: /\/\*[\s\S]*?\*\//,
 };
 
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 function highlight(code, language) {
    const pattern = new RegExp([
-      language.line_comment,
-      language.block_comment,
-      /"(?:\\.|[^"\\])*"/, // string
-      /\b[A-Za-z_]\w*(?=\()/, // function
-      /\b[A-Za-z_]\w*\b/, // identifier/keyword/types
-   ].map(r => `(${r.source})`).join('|'), 'g');
+      ['comment', language.line_comment],
+      ['block', language.block_comment],
+      ['directive', language.directive],
+      ['path', language.include_path],
+      ['str', /"(?:\\.|[^"\\])*"/],
+      ['qualified', language.scope && /\b[A-Za-z_]\w*(?:::[A-Za-z_]\w*)+/],
+      ['func', /\b[A-Za-z_]\w*(?=\()/],
+      ['ident', /\b[A-Za-z_]\w*\b/],
+   ].filter(([name, regex]) => regex).map(([name, regex]) => `(?<${name}>${regex.source})`).join('|'), 'gm');
 
-   return code.replace(pattern, (match, comment, block, str, func, ident) => {
-      const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      if (comment !== undefined) return `<c>${esc(comment)}</c>`;
-      if (block !== undefined) return `<c>${esc(block)}</c>`;
-      if (str !== undefined) return `<t>${esc(str)}</t>`;
-      if (func !== undefined) return `<f>${esc(func)}</f>`;
-      if (ident !== undefined && language.types.has(ident)) return `<y>${esc(ident)}</y>`;
-      if (ident !== undefined && language.keywords.has(ident)) return `<k>${esc(ident)}</k>`;
-      return esc(match);
-   });
+   let result = '';
+   let end = 0;
+
+   for (const match of code.matchAll(pattern)) {
+      const text = match[0];
+      const groups = match.groups;
+      result += esc(code.slice(end, match.index));
+      end = match.index + text.length;
+
+      if (groups.comment !== undefined || groups.block !== undefined) {
+         result += `<c>${esc(text)}</c>`;
+      } else if (groups.str !== undefined || groups.path !== undefined) {
+         result += `<t>${esc(text)}</t>`;
+      } else if (groups.directive !== undefined) {
+         result += `<k>${esc(text)}</k>`;
+      } else if (groups.qualified !== undefined) {
+         const parts = text.split('::');
+         if (language.types.has(text) || language.types.has(parts[parts.length - 1])) {
+            result += `<y>${esc(text)}</y>`;
+         } else {
+            result += parts.map((part, i) => {
+               if (language.types.has(part)) {
+                  return `<y>${esc(part)}</y>`;
+               } else if (i === parts.length - 1 && code[end] === '(') {
+                  return `<f>${esc(part)}</f>`;
+               }
+               return esc(part);
+            }).join('::');
+         }
+      } else if (language.types.has(text)) {
+         result += `<y>${esc(text)}</y>`;
+      } else if (language.keywords.has(text)) {
+         result += `<k>${esc(text)}</k>`;
+      } else if (groups.func !== undefined) {
+         result += `<f>${esc(text)}</f>`;
+      } else {
+         result += esc(text);
+      }
+   }
+   return result + esc(code.slice(end));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
    for (let cpp of document.querySelectorAll('.code-cpp')) {
-      cpp.innerHTML = highlight(cpp.innerHTML, cpp_data);
+      cpp.innerHTML = highlight(cpp.textContent, cpp_data);
    }
    for (let cll of document.querySelectorAll('.code-cll')) {
-      cll.innerHTML = highlight(cll.innerHTML, cll_data);
+      cll.innerHTML = highlight(cll.textContent, cll_data);
    }
 });

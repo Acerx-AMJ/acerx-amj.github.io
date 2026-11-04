@@ -11,8 +11,13 @@
 
    <body>
       <article>
-         <h1>CX Library</h1>
+         <img class="img-no-click" src="../assets/cx.png"/>
          <h3>Daniel Vishnevsky</h3>
+         <h2>About</h2>
+         <p><span></span>Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user. It's designed for game development and applications in mind.</p>
+
+         <div class="side-sprite-l"><div style="width:64px;height:64px;background-color:yellow;border-radius:100%;"></div></div>
+         
          <pre class="code code-cpp">
 void LoadingState::setup_styles() {
    loading_text.set_string("Setting Up Styles...");
@@ -23,33 +28,68 @@ void LoadingState::setup_styles() {
 }
 </pre>
 
-         <h2>About</h2>
-         <p><span></span>Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user. Made with C++ and SFML.</p>
-
          <h2>Features</h2>
-         <p><span></span>This library is easily integratable with SFML. It features a lot of utility UI elements and has a wide variety of managers like asset, audio, navigation, particle and event manager.</p>
-         <p><span></span>To add it had a lot of utility. Easier to use vector2, vector3, vector4 and vector5 structs with loads of math functions built-in. A dedicated math library, raycasting, colors, camera handler and even a grid for easy element positioning.</p>
-         <p><span></span>The library gave the user multiple options for positioning - either position elements by the top-left corner, the center or the bottom-right corner. You could also position elements by a single side. Each UI element had loads of small utility functions that make life easier. There are also saveable styles for each element.</p>
+         <p><span></span>This library is easily integratable with SFML. It features a lot of utility UI elements and has a wide variety of managers like asset, audio, navigation, particle, event and animation manager.</p>
+
+         <div class="side-sprite-r"><div style="width:96px;height:96px;background-color:red;border-radius:100%;"></div></div>
+
+         <p><span></span>To add, it had a lot of utility. Easier to use vector2, vector3, vector4 and vector5 structures with loads of math functions built-in. A dedicated math library, raycasting, colors, camera handler and even a grid for easy element positioning.</p>
+         <p><span></span>The library gives the user multiple options for positioning - either position elements by the top-left corner, the center or the bottom-right corner. You can also position elements by a single side. Each UI element had loads of small utility functions that make life easier. There are also saveable styles for each element.</p>
+
+         <div class="side-sprite-r"><div style="width:96px;height:96px;background-color:green;transform: rotate(-9deg);"></div></div>
  
+         <h2>Hello, World!</h2>
+         <pre class="code code-cpp">
+#include &lt;CX/AssetManager.hpp&gt;
+#include &lt;CX/EventHandler/EventHandler.hpp&gt;
+#include &lt;CX/Text/Text.hpp&gt;
+
+int main() {
+   sf::RenderWindow window (sf::VideoMode(800, 600), "Hello, CX!");
+   window.setFramerateLimit(60);
+
+   cx::EventHandler event (window);
+   cx::AssetManager asset;
+   asset.load_font("font.ttf");
+
+   cx::Text text ("Hello, World!", *asset.get_font("font"), event.get_center());
+
+   while (window.isOpen()) {
+      event.update();
+
+      window.clear();
+      text.render(window);
+      window.display();
+   }
+}
+</pre>
+
+         <div class="side-sprite-l"><div style="width:64px;height:64px;background-color:blue;transform: rotate(11deg);"></div></div>
+
          <h2>Development</h2>
          <p><span></span>I started making this somewhere in December of 2024 to make writing SFML games and UI easier and it was my first library ever. I rewrote <a href="astral_surge.html">Astral Surge</a> in CX Library and eventually did the same with <a href="pong.html">Pong</a> to see its capabilities. Since I was working on different games in parallel, I could easily see what features were missing, which needed to be tweaked and which were useless.</p>
-         <p><span></span>And it did make my life easier. It's somewhere between SFML and Raylib in ease of use I'd say. I stopped developing it at the same time I stopped developing <a href="astral_surge.html">Astral Surge</a>. You can see the source-code on <a href="https://github.com/chalcinxx/CX-Library">Github</a> and a few videos are available <a href="https://www.youtube.com/playlist?list=PLAYMpoWModGMg_LQP95JPv7_zTiewID7Z">at my old Youtube channel</a>.</p>
-         <p><span></span>The main point of this library was to make doing any tiny thing really easy in SFML. It's kind of like TailwindCSS for CSS. The library's sole purpose was to make life easier and I feel like it served it well. I stopped development solely because I got tired from making it. I was developing it for half a year so no surprise there.</p>
+         <p><span></span>I stopped developing it at the same time I stopped developing <a href="astral_surge.html">Astral Surge</a>. You can see the source-code on <a href="https://github.com/Acerx-AMJ/CX-Lib">Github</a> and a few videos are available <a href="https://www.youtube.com/playlist?list=PLAYMpoWModGMg_LQP95JPv7_zTiewID7Z">at my old Youtube channel</a>.</p>
+
+         <div class="side-sprite-r"><div style="width:80px;height:80px;background-color:orange;clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div></div>
+         
+         <p><span></span>The main point of this library was to make doing any tiny thing really easy in SFML. It's kind of like Tailwind CSS for CSS. The library's sole purpose was to make life easier and I feel like it served it well. I stopped development solely because I got tired from making it. I was developing it for half a year so no surprise there.</p>
          <p><span></span>Enjoy the old-school Mint setup I've got there.</p>
 
          <h2>Gallery</h2>
-         <img src="../assets/cx/1.png"/>
-         <img src="../assets/cx/2.png"/>
-         <img src="../assets/cx/3.png"/>
-         <img src="../assets/cx/4.png"/>
-         <img src="../assets/cx/5.png"/>
-         <img src="../assets/cx/6.png"/>
-         <img src="../assets/cx/7.png"/>
-         <img src="../assets/cx/8.png"/>
-         <img src="../assets/cx/9.png"/>
-         <img src="../assets/cx/11.png"/>
-         <img src="../assets/cx/12.png"/>
-         <img src="../assets/cx/10.png"/>
+         <div class="col2">
+            <img src="../assets/cx/1.png"/>
+            <img src="../assets/cx/2.png"/>
+            <img src="../assets/cx/3.png"/>
+            <img src="../assets/cx/4.png"/>
+            <img src="../assets/cx/5.png"/>
+            <img src="../assets/cx/6.png"/>
+            <img src="../assets/cx/7.png"/>
+            <img src="../assets/cx/8.png"/>
+            <img src="../assets/cx/9.png"/>
+            <img src="../assets/cx/11.png"/>
+            <img src="../assets/cx/12.png"/>
+            <img src="../assets/cx/10.png"/>
+         </div>
       </article>
 
       <script src="../source/image_click.js"></script>

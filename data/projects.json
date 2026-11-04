@@ -81,7 +81,7 @@
       "tech": ["HTML"]
    }, {
       "titleImage": "../assets/cx.png",
-      "description": "Graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user.",
+      "description": "CX is a graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user.",
       "link": "../projects/cx_lib.html",
       "date": "Dec 2024 to Jun 2025",
       "status": "finished",
