@@ -515,8 +515,10 @@ article img:not(#x):not(.img-fullscreen) {
 }
 
 .col2 > * {
-   margin: 0;
-   margin-bottom: 1rem;
+   display: inline;
+   margin-top: 0 !important;
+   padding: 0 !important;
+   margin-bottom: 0.5rem !important;
    break-inside: avoid;
 }
 
