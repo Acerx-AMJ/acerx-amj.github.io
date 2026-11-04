@@ -39,6 +39,7 @@
                const c = document.getElementById('pong');
                const ctx = c.getContext('2d');
 
+               const maxBounceAngle = 5 * Math.PI / 12;
                const ballCounter = 3000; // in ms
                const updateTime = 20;
                const paddleWidth = 6;
@@ -59,11 +60,15 @@
                let score1 = 0;
                let score2 = 0;
 
-               let focused = true;
+               let focused = false;
                let wDown = false;
                let sDown = false;
                let iDown = false;
                let kDown = false;
+
+               c.addEventListener('click', () => {
+                  focused = !focused;
+               });
 
                window.addEventListener('keydown', (e) => {
                   if (e.keyCode == 83) wDown = true;
@@ -86,6 +91,30 @@
                   return (x < lo ? lo : x > hi ? hi : x);
                }
 
+               function handleSide(collidingWithPaddle, outOfBounds, paddlePos, isRightSide) {
+                  if (collidingWithPaddle) {
+                     const intersect = (paddlePos + paddleHeight / 2) - (bally + ballSize / 2);
+                     balldiry += intersect * -0.1;
+                     balldirx = -balldirx;
+                     ballSpeed *= 1.1;
+                     hit = !hit;
+                  }
+                  else if (outOfBounds) {
+                     if (isRightSide) {
+                        score1 += 1;
+                     }
+                     else {
+                        score2 += 1;
+                     }
+                     ballx = c.width / 2.0 - ballSize / 2.0;
+                     bally = c.height / 2.0 - ballSize / 2.0;
+                     balldirx = (hit ? 1.0 : -1.0);
+                     balldiry = (Math.random() * 3.0) - 2.0;
+                     ballSpeed = 1.0;
+                     counter = 0;
+                  }
+               }
+
                function updateGame() {
                   // update the game
                   if (focused) {
@@ -103,39 +132,8 @@
                         balldiry = -balldiry;
                      }
 
-                     // left side
-                     if (!hit && bally + ballSize >= paddle1 && bally <= paddle1 + paddleHeight && ballx <= paddleWidth) {
-                        balldirx = -balldirx;
-                        balldiry = (balldiry > 0.0 ? Math.random() : -Math.random());
-                        ballSpeed *= 1.1;
-                        hit = !hit;
-                     }
-                     else if (ballx <= 0) {
-                        score2 += 1;
-                        ballx = c.width / 2.0 - ballSize / 2.0;
-                        bally = c.height / 2.0 - ballSize / 2.0;
-                        balldirx = (hit ? 1.0 : -1.0);
-                        balldiry = (Math.random() * 3.0) - 2.0;
-                        ballSpeed = 1.0;
-                        counter = 0;
-                     }
-
-                     // right side
-                     if (hit && bally + ballSize >= paddle2 && bally <= paddle2 + paddleHeight && ballx + ballSize >= c.width - paddleWidth) {
-                        balldirx = -balldirx;
-                        balldiry = (balldiry > 0.0 ? Math.random() : -Math.random());
-                        ballSpeed *= 1.1;
-                        hit = !hit;
-                     }
-                     else if (ballx + ballSize >= c.width) {
-                        score1 += 1;
-                        ballx = c.width / 2.0 - ballSize / 2.0;
-                        bally = c.height / 2.0 - ballSize / 2.0;
-                        balldirx = (hit ? 1.0 : -1.0);
-                        balldiry = (Math.random() * 3.0) - 2.0;
-                        ballSpeed = 1.0;
-                        counter = 0;
-                     }
+                     handleSide((!hit && bally + ballSize >= paddle1 && bally <= paddle1 + paddleHeight && ballx <= paddleWidth), (ballx <= 0), paddle1, false);
+                     handleSide((hit && bally + ballSize >= paddle2 && bally <= paddle2 + paddleHeight && ballx + ballSize >= c.width - paddleWidth), (ballx + ballSize >= c.width), paddle2, true);
                   }
 
                   // render the game
@@ -158,6 +156,11 @@
                      const string = "PAUSED";
                      const size = ctx.measureText(string);
                      ctx.fillText(string, c.width / 2 - size.width / 2, c.height / 2);
+
+                     ctx.font = "8px Pixel"
+                     const smallString = "CLICK TO RESUME";
+                     const smallSize = ctx.measureText(smallString);
+                     ctx.fillText(smallString, c.width / 2 - smallSize.width / 2, c.height / 2 + 20);
                   }
                   else {
                      ctx.font = "8px Pixel"

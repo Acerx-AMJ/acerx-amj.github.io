@@ -692,6 +692,11 @@ c { color: var(--code-comment) }
    margin-bottom: 0;
 }
 
+pre:not(.code) {
+   word-wrap: break-word;
+   white-space: pre-wrap;
+}
+
 /*
    Search
 */
