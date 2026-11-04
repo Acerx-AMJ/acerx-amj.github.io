@@ -801,7 +801,7 @@ c { color: var(--code-comment) }
    color: var(--text);
    font-family: var(--font);
    font-size: 1.25rem;
-   border-radius: calc(var(--border-radius) * 2);
+   border-radius: calc(var(--border-radius) * 1.5);
    border: 1.5px solid var(--text-light);
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
    background-color: var(--background);
