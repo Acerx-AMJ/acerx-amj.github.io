@@ -6,7 +6,7 @@ I love creating all kinds of projects from games to interpreters and websites. M
 I mostly use C++, C, Javascript, Python and Lua. But I've also experimented with various esolangs. My main driver is VS Code on Fedora. Library and tool wise I use Raylib, SFML, CMake and have used Make, nlohmann-json, Sqlite, LOVE 2D and fmt library. I would also say that I am efficient with git. I have tried terminal only development, tried VS, experimented with docker on WSL, played around with assembly in Compiler Explorer and ran various benchmarks in Quick Bench. I like to experiment a lot.
 
 ## Website
-This website was made as a personal portfolio and blog site. Only I have access to write blogs, which go over topics of my interest and new updates for any of my projects. The blogs are accessible to anyone to read free of charge or advertisements. This website was made with pure HTML/CSS/JS. I did try Typescript, Tailwind CSS and Jquery for it but they all proved to be too much for this little project.
+This website was made as a personal portfolio and blog site. Only I have access to write blogs, which go over topics of my interest and new updates for any of my projects. The blogs are accessible to anyone to read free of charge or advertisements. This website was made with pure HTML/CSS/JS. I did try Typescript, Tailwind CSS and Jquery for it but they all proved to be too much for this little project. Comments are powered by Giscus with Github Discussions.
 
 ## License
 This project is licensed under [MIT License](LICENSE). All blogs on my website are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).

@@ -18,27 +18,29 @@
 
          <h2>About</h2>
          <p><span></span>3D toy renderer capable of rendering 3D models from a list of vertices, lines and triangles. Made in 2 days with C and Raylib.</p>
-         <div class="iframe-container youtube-video">
-            <iframe src="https://www.youtube.com/embed/CMZrW-OgBLg?si=D_c_V0M_XEIuxVcf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-         </div>
-         <div class="flex-row">
+         <div class="iframe-container youtube-video"><iframe src="https://www.youtube.com/embed/0_ZkHj0B9dI?si=VBH9-dTTCB_50kzZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+         <header style="margin-top:1rem">
             <a href="https://github.com/Acerx-AMJ/3D_toy_renderer">Source</a>
             <a href="https://www.youtube.com/watch?v=CMZrW-OgBLg">Youtube</a>
-         </div>
+         </header>
 
          <h2>Features</h2>
          <p><span></span>It can handle any count of models, vertices, triangles and lines and has multiple render options and draw colors toggleable with certain keybinds. I have implemented 3D position and Euler angles rotation.</p>
+         <p><span></span>By default, I've included a few models: square, triangular prism, pyramid, cylinder, sphere and a low-poly duck model I quickly crafted in Blender. But it can render any model, if supplied the necessary data (although, it cannot render textures).</p>
  
          <h2>Development</h2>
          <p><span></span>Since this only took two days to implement there's not much to document. In the first day I implemented all of the 3D logic and in the second day I added a bunch of models and polished it up. It was a fun challenge. Source code is available on <a href="https://github.com/Acerx-AMJ/3D_toy_renderer">Github</a>.</p>
+         <p><span></span>Later on I decided to fix a major flaw: there was a mirroring issue when the model had negative Z. Now both the controls and the rendering logic is better. Triangles and lines might disappear when camera is inside of them, however it is much better than it was before.</p>
 
          <h2>Gallery</h2>
-         <img src="../assets/toyrender/1.png"/> 
-         <img src="../assets/toyrender/2.png"/> 
-         <img src="../assets/toyrender/3.png"/> 
-         <img src="../assets/toyrender/4.png"/> 
-         <img src="../assets/toyrender/5.png"/> 
-         <img src="../assets/toyrender/6.png"/>
+         <div class="col2">
+            <img src="../assets/toyrender/1.png"/> 
+            <img src="../assets/toyrender/2.png"/> 
+            <img src="../assets/toyrender/3.png"/> 
+            <img src="../assets/toyrender/4.png"/> 
+            <img src="../assets/toyrender/5.png"/> 
+            <img src="../assets/toyrender/6.png"/>
+         </div>
       </article>
 
       <script src="../source/image_click.js"></script>
