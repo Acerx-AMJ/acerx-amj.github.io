@@ -127,9 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
    header.innerHTML = pages.map(([name, file]) => `<a ${here === file + '.html' ? 'class="link-disabled"' : 'href="../pages/' + file + '.html"'}>${name}</a>`).join('');
    document.body.insertBefore(header, document.body.firstChild);
 
-   // create blog comments
+   // create blog and project comments
    const article = document.querySelector('article');
-   if (article && location.pathname.includes('/blogs/')) {
+   const pathname = location.pathname;
+
+   if (article && (pathname.includes('/blogs/') || pathname.includes('/projects/'))) {
       const container = document.createElement('div');
       container.className = 'giscus';
       article.appendChild(container);
