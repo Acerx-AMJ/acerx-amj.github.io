@@ -648,6 +648,31 @@ iframe {
    color: var(--text);
 }
 
+.copy-button {
+   display: block;
+   width: 2rem;
+   height: 2rem;
+   position: sticky;
+   left: calc(100% - 2rem);
+   bottom: calc(100% - 2rem);
+   margin: 0 0 -2rem;
+   cursor: pointer;
+   background-color: var(--background);
+   border-radius: var(--border-radius);
+   border: 1px solid var(--text-light);
+   color: var(--text);
+   opacity: 0.4;
+}
+
+.copy-button:hover {
+   opacity: 1;
+}
+
+.copy-green {
+   color: var(--code-string);
+   border-color: var(--code-string);
+}
+
 k { color: var(--code-keyword) }
 f { color: var(--code-function) }
 y { color: var(--code-type) }

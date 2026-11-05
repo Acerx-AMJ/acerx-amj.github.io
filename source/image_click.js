@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-   const images = document.querySelectorAll("img:not(.img-no-click)");
+   const images = [...document.querySelectorAll("img:not(.img-no-click)")]; // convert to array
    const article = document.querySelectorAll("article")[0];
 
    const background = document.createElement('div');
@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
    x.style.display = "none";
    article.appendChild(x);
 
+   let currentIndex = 0;
    let current = null;
    let previousFromBottom = 0;
 
@@ -42,8 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
       window.scrollTo(0, document.documentElement.scrollHeight - previousFromBottom);
    }
 
-   for (const image of images) {
-      image.addEventListener("click", () => (current === null ? setImage(image) : resetImage()));
+   for (let i = 0; i < images.length; ++i) {
+      const image = images[i];
+      image.addEventListener("click", () => {
+         if (current === null) {
+            setImage(image);
+            currentIndex = i;
+         }
+         else {
+            resetImage();
+         }
+      });
    }
 
    x.addEventListener("click", () => {
@@ -51,9 +61,18 @@ document.addEventListener("DOMContentLoaded", () => {
    });
 
    document.addEventListener("keyup", function(event) {
-      let key = event.key || event.keyCode;
-      if (key == "Escape") {
+      if (event.key == "Escape") {
          resetImage();
+      }
+      else if (event.key == 'ArrowLeft' && current !== null) {
+         currentIndex = (currentIndex == 0 ? images.length - 1 : currentIndex - 1);
+         resetImage();
+         setImage(images[currentIndex]);
+      }
+      else if (event.key == 'ArrowRight' && current != null) {
+         currentIndex = (currentIndex + 1) % images.length;
+         resetImage();
+         setImage(images[currentIndex]);
       }
    });
 });

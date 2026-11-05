@@ -85,10 +85,26 @@ function highlight(code, language) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-   for (let cpp of document.querySelectorAll('.code-cpp')) {
+   for (const cpp of document.querySelectorAll('.code-cpp')) {
       cpp.innerHTML = highlight(cpp.textContent, cpp_data);
    }
-   for (let cll of document.querySelectorAll('.code-cll')) {
+   for (const cll of document.querySelectorAll('.code-cll')) {
       cll.innerHTML = highlight(cll.textContent, cll_data);
+   }
+
+   for (const pre of document.querySelectorAll('.code.copy')) {
+      const button = document.createElement('button');
+      const code = pre.textContent;
+
+      button.className = 'copy-button';
+      button.textContent = '⎘';
+      button.addEventListener('click', async () => {
+         await navigator.clipboard.writeText(code);
+         button.className ='copy-button copy-green';
+         setTimeout(() => button.className = 'copy-button', 1500);
+
+         // button.textContent = 'V';
+      });
+      pre.appendChild(button);
    }
 });

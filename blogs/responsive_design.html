@@ -22,7 +22,7 @@
          <p><span></span>I was working on my game while submitting devlogs on the side on Hackclub Flavortown. Everything was going well (for the most part) until one of the reviewers showed me a video. The image above looked horrendous. Buttons were out of the screen, the scrollframe was extremely squished and the title was gone as well. It was impossible to create a world unless you knew the shortcut. That's kind of bad.</p>
          <h2>Hardcoded UI</h2>
          <p><span></span>The core issue here is that UI element positions and size are hardcoded. What a surprise. I'm turning into those blogs that explain what variables are before tackling an error... Anyway, UI before this update looked along the lines of this:</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 // definitions:
 // drawText(position, text, fontsize)
 // drawTexture(texture, position, size, rotation)
@@ -30,12 +30,11 @@
 
 drawText(getScreenCenter({0, -175.0f}), loadingText, 80);
 drawText(getScreenCenter({0, 100.0f}), splashText, 40);
-drawTexture(loadingTexture, getScreenCenter(), {70.0f, 70.0f}, iconRotation);
-</pre>
+drawTexture(loadingTexture, getScreenCenter(), {70.0f, 70.0f}, iconRotation);</pre>
          <p><span></span>It's a simplified snippet of my loading state renderer. Nothing crazy. Now I wonder what my game looked like at 800x600 resolution since I'm designing the UI on 1920x1080 resolution. Probably not great, if you can see anything that is.</p>
          <h2>Solution</h2>
          <p><span></span>Fixing this took 3 helper functions and depending on your architecture it might also take another state management function. But that's not necessary. It's really as simple as</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 float getWidthRatio() {
    return GetScreenWidth() / 1920.0f; // the width of YOUR resolution AKA the resolution which is used to design the UI layout
 }
@@ -46,26 +45,24 @@ float getHeightRatio() {
 
 float getCubicRatio() {
    return min(getWidthRatio(), getHeightRatio());
-}
-</pre>
+}</pre>
          <p>So let's go over these three functions first:</p>
          <p><span></span>&#x2022 getWidthRatio() is used for the X axis, that is width, padding and offsets. If you style your UI on 1920x1080 and the user is on a resolution half of that then they will see the object twice smaller in pixel space. That's what we're going for!</p>
          <p><span></span>&#x2022 getHeightRatio() is the same as the previous function but is used for the Y axis instead.</p>
          <p><span></span>&#x2022 getCubicRatio() is used for objects that must retain the same resolution (that is, will have the same width to height ratio) or for font sizes. It takes the minimum of both ratios as a safe option to avoid overflowing. You could also add a 4th helper function (highly recommended) for fonts and font spacing:</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 float getFontSize(float fontsize) {
    return getCubicRatio() * fontsize;
 }</pre>
          <h2>In Practice</h2>
          <p><span></span>It's simple, just multiply by them! Here's the previous example using the new functions:</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 float hr = getHeightRatio();
 float cr = getCubicRatio();
 
 drawText(getScreenCenter({0, hr * -175.0f}), loadingText, getFontSize(80));
 drawText(getScreenCenter({0, hr * 100.0f}), splashText, getFontSize(40));
-drawTexture(loadingTexture, getScreenCenter(), {cr * 70.0f, cr * 70.0f}, iconRotation);
-</pre>
+drawTexture(loadingTexture, getScreenCenter(), {cr * 70.0f, cr * 70.0f}, iconRotation);</pre>
          <p><span></span>Just don't multiply by it twice as that'll make the object shrink more based on the resolution instead. Also, I'd recommend to write your own draw utility that automatically applies these but beware when to use cubic ratio and when the size ratios.</p>
          <p><span></span>About the state management function: if you create some UI elements as objects (e.g. buttons, sliders - with saveable state) and use a state handler then I'd advise you to write a function that applies these ratios whenever the window is resized for a specific state.</p>
          <p><span></span>That's how I handle it in my game and it just works. There's simply no need for more abstraction in games. Websites are a different story but this simply isn't one!</p>

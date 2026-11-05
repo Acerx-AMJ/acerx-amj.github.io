@@ -31,7 +31,7 @@
 
          <h2 id="Vectors">Vectors</h2>
          <p><span></span>Vectors are a really common data structure. So let's start with that! I'll show you common code. Can you spot the issue here?</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 std::vector&lt;int&gt; nums;
 
 for (int i = 0; i &lt; 100000; ++i) {
@@ -40,7 +40,7 @@ for (int i = 0; i &lt; 100000; ++i) {
 </pre>
          <p><span></span>The problem is that we knew the size of the array at runtime but chose to allocate the members dynamically. Every time we push back a number there's a chance that the whole vector reallocates, meaning it copies itself in a different spot on the heap. And that can get really expensive.</p>
          <p><span></span>Even though the use of a better data structure would be better here, the main topic I want to go over in this section is <b>std::vector::reserve()</b> and <b>std::vector::resize()</b>. This is easily fixable by adding a single method call:</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 std::vector&lt;int&gt; nums;
 nums.reserve(100000);
 
@@ -49,7 +49,7 @@ for (int i = 0; i &lt; 100000; ++i) {
 }
 </pre>
          <p><span></span>And you can use <b>std::vector::resize()</b> if you need member access instead:</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 std::vector&lt;int&gt; nums;
 nums.resize(100000);
 
@@ -101,7 +101,7 @@ for (int i = 0; i &lt; 100000; ++i) {
          <p><span></span>That explains why it's slower at low N but tells us nothing about why it's so fast at high N. For that we must look into <b>std::vector::push_back()</b> and <b>std::vector::operator[]</b>. Every time we push an element, <b>std::vector::push_back()</b> checks whether or not we have gone past the capacity and if we have, it reallocates memory. We'll cover this later but branching in big loops is bad. <b>std::vector::operator[]</b> on the other hand, does not check that, meaning there's no branching whatsoever.</p>
          <p><span></span>I use this all the time and there's no drawback to it, even when we're only using 10 elements the performance gain is huge. And we don't need to know the size of the vector, we can estimate it and boost performance that way as well. Just remember that you shouldn't use <b>std::vector::push_back()</b> after calling <b>std::vector::resize()</b> as you'll push after the vector's size.</p>
          <p><span></span>Also, you can reserve 2D vectors like this, and the performance gain once again is insane:</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 auto map = std::vector&lt;std::vector&lt;int&gt;&gt;(SIZE_Y, std::vector&lt;int&gt;(SIZE_X, 0));
 // Do stuff with it...
 </pre>
@@ -113,7 +113,7 @@ auto map = std::vector&lt;std::vector&lt;int&gt;&gt;(SIZE_Y, std::vector&lt;int&
          
          <h4>push_back vs emplace_back</h4>
          <p><span></span>Another common scenario is this:</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 struct Vector3 {
    int x, y, z;
 };
@@ -131,7 +131,7 @@ for (int i = 0; i &lt; 100; ++i) {
          
          <h4>2D vs 1D vectors</h4>
          <p><span></span>Also, I wanted to compare use of nested vectors against a single vector as a 2D grid. I knew beforehand that a single vector would be more performant but by how much? To find out I created two simple structs:</p>
-         <pre class="code code-cpp">
+         <pre class="code code-cpp copy">
 struct Map2D {
   std::vector&lt;std::vector&lt;int&gt;&gt; map;
   size_t width, height;
