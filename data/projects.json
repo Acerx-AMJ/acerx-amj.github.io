@@ -47,7 +47,7 @@
    }, {
       "title": "Screen Simulation",
       "description": "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. It simulates each pixel of the screen.",
-      "image": "../assets/screen_sim/1.png",
+      "image": "../assets/screen_sim/9.png",
       "link": "../projects/screen_sim.html",
       "date": "Sep 2025",
       "status": "finished",
