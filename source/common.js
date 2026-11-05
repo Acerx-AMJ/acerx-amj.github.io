@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
    body.appendChild(footer);
 
    // create sidebar
-   const pages = [['Home', 'home'], ['Projects', 'projects'], ['Blog', 'blog'], ['Stories', 'stories']];
+   const pages = [['Home', 'home'], ['Projects', 'projects'], ['Blog', 'blog'], ['Stories', 'stories'], ['Discussion', 'discussion']];
    const here = location.pathname.split('/').pop();
 
    const toggle = document.createElement('button');
@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
    menu.innerHTML = `
       ${pages.map(([name, file]) =>
          `<a ${here === file + '.html' ? '' : 'href="../pages/' + file + '.html"'} ${here === file + '.html' ? ' aria-current="page"' : ''}>${name}</a>`).join('')}
-         <a href="mailto:&#097;&#106;&#109;&#046;&#097;&#099;&#101;&#114;&#120;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">Contact Me</a>
       <div id="menu-settings">
          <label>Theme
             <select id="theme-select">
@@ -130,8 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
    // create blog and project comments
    const article = document.querySelector('article');
    const pathname = location.pathname;
+   const isDiscussion = (here === 'discussion.html');
 
-   if (article && (pathname.includes('/blogs/') || pathname.includes('/projects/'))) {
+   if (article && (pathname.includes('/blogs/') || pathname.includes('/projects/') || isDiscussion)) {
       const container = document.createElement('div');
       container.className = 'giscus';
       article.appendChild(container);
@@ -147,11 +147,11 @@ document.addEventListener('DOMContentLoaded', () => {
          categoryId: 'DIC_kwDORAc60s4DKbWx',
          mapping: 'pathname',
          strict: '1',
-         reactionsEnabled: '1',
+         reactionsEnabled: (isDiscussion ? '0' : '1'),
          inputPosition: 'top',
          theme: giscusTheme(),
          lang: 'en',
-         loading: 'lazy',
+         loading: (isDiscussion ? null : 'lazy'),
       });
       article.appendChild(comments);
    }
