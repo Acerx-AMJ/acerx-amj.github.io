@@ -84,6 +84,17 @@
             <img src="../assets/bank/1.png"/>
          </div>
 
+         <h2>Extras</h2>
+         <p>Factorial of a million printed as hex with zeroes striped in python. It has 5565709 digits.</p>
+         <pre class="code copy">
+<k>import</k> math
+<k>import</k> sys
+
+sys.<f>set_int_max_str_digits</f>(10000000)
+f = math.<f>factorial</f>(1000000)
+<f>print</f>(<f>hex</f>(f).<f>rstrip</f>('0'))
+</pre>
+
          <div class="side-sprite-r"><div class="sprite sprite-bat-as" style="transform: rotate(-7deg)"></div></div>
 
          <h2>This website</h2>
@@ -96,5 +107,6 @@
       </article>
 
       <script src="../source/image_click.js"></script>
+      <script src="../source/code-highlight.js"></script>
    </body>
 </html>
