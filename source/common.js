@@ -8,6 +8,12 @@ const settings = {
    sprites: localStorage.getItem('sprites') ?? 'system',
 };
 
+function giscusTheme() {
+   if (settings.theme === '8bit') return 'https://acerx-amj.github.io/style/8bit-giscus.css';
+   if (settings.theme === 'fun')  return 'https://acerx-amj.github.io/style/fun-giscus.css';
+   return (settings.theme === 'light' ? 'light' : 'transparent_dark');
+}
+
 function applySettings() {
    let sprites = settings.sprites;
    if (sprites === 'system') {
@@ -21,6 +27,11 @@ function applySettings() {
 
    document.documentElement.setAttribute('data-theme', theme);
    document.documentElement.setAttribute('data-sprites', sprites);
+
+   const giscus = document.querySelector('iframe.giscus-frame');
+   if (giscus) {
+      giscus.contentWindow.postMessage({ giscus: { setConfig: { theme: giscusTheme() } } }, 'https://giscus.app');
+   }
 }
 
 darkQuery.addEventListener('change', applySettings);
@@ -115,4 +126,31 @@ document.addEventListener('DOMContentLoaded', () => {
    const header = document.createElement('header');
    header.innerHTML = pages.map(([name, file]) => `<a ${here === file + '.html' ? 'class="link-disabled"' : 'href="../pages/' + file + '.html"'}>${name}</a>`).join('');
    document.body.insertBefore(header, document.body.firstChild);
+
+   // create blog comments
+   const article = document.querySelector('article');
+   if (article && location.pathname.includes('/blogs/')) {
+      const container = document.createElement('div');
+      container.className = 'giscus';
+      article.appendChild(container);
+
+      const comments = document.createElement('script');
+      comments.src = 'https://giscus.app/client.js';
+      comments.async = true;
+      comments.crossOrigin = 'anonymous';
+      Object.assign(comments.dataset, {
+         repo: 'Acerx-AMJ/acerx-amj.github.io',
+         repoId: 'R_kgDORAc60g',
+         category: 'Announcements',
+         categoryId: 'DIC_kwDORAc60s4DKbWx',
+         mapping: 'pathname',
+         strict: '1',
+         reactionsEnabled: '1',
+         inputPosition: 'top',
+         theme: giscusTheme(),
+         lang: 'en',
+         loading: 'lazy',
+      });
+      article.appendChild(comments);
+   }
 });

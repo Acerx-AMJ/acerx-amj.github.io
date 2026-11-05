@@ -1,0 +1,10 @@
+@import url("https://giscus.app/themes/transparent_dark.css");
+
+@font-face {
+   font-family: 'Pixel';
+   src: url('https://acerx-amj.github.io/assets/fonts/PressStart2P-Regular.ttf');
+}
+
+main, main * {
+   font-family: 'Pixel', monospace;
+}

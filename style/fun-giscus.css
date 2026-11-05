@@ -1,0 +1,10 @@
+@import url("https://giscus.app/themes/transparent_dark.css");
+
+@font-face {
+   font-family: 'Andy';
+   src: url('https://acerx-amj.github.io/assets/fonts/andy.ttf');
+}
+
+main, main * {
+   font-family: 'Andy', sans-serif;
+}

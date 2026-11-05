@@ -111,9 +111,9 @@
 
    --border-radius: 0px;
 
-   --font-heading: "Pixel", sans-serif;
-   --font: "Pixel", sans-serif;
-   --font-mono: "Pixel", sans-serif;
+   --font-heading: "Pixel", monospace;
+   --font: "Pixel", monospace;
+   --font-mono: "Pixel", monospace;
 }
 
 [data-theme="fun"] {
@@ -612,6 +612,14 @@ th {
 
 .itch-link {
    padding-top: 25%; /* just works */
+}
+
+.giscus-frame {
+   position: static;
+}
+
+.giscus-frame * {
+   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 iframe {
