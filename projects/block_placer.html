@@ -94,6 +94,7 @@
                const lostSound = new Audio('/assets/sfx/lost.wav');
                const clearSound = new Audio('/assets/sfx/score.wav');
                const backToBackSound = new Audio('/assets/sfx/combo.wav');
+               const clickSound = new Audio('/assets/sfx/click.wav');
 
                let nextGrid, grid, bag, rotation, tetromino, nextTetromino, color, nextColor, posx, posy, previewy, totalClears, level, combo, difficultCount, softDrop, hardDrop, downAfter, downTimer, score;
 
@@ -178,10 +179,12 @@
 
                   if (e.code === 'Escape') {
                      focused = !focused;
+                     playSound(clickSound);
                   }
 
                   if (e.code === 'KeyF') {
                      (document.fullscreenElement ? document.exitFullscreen() : c.requestFullscreen());
+                     playSound(clickSound);
                   }
                });
 

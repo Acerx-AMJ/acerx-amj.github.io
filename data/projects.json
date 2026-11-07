@@ -1,5 +1,15 @@
 {
    "data": [{
+      "title": "Paint Together",
+      "description": "Simple paint program capable of collaboration in a LAN.",
+      "image": "/assets/paint/1.png",
+      "link": "/projects/paint_together.html",
+      "date": "Apr 2026",
+      "status": "finished",
+      "tags": ["system", "network", "graphics", "demo"],
+      "tech": ["C++", "SFML", "Raylib", "HTML"],
+      "start": "2026-04"
+   },{
       "title": "Personal Website",
       "description": "My personal portfolio and blog site.",
       "link": "/projects/website.html",
@@ -15,7 +25,7 @@
       "link": "/projects/dtw.html",
       "date": "Aug 2026",
       "status": "finished",
-      "tags": ["game"],
+      "tags": ["game", "graphics"],
       "tech": ["Godot"],
       "start": "2026-08"
    }, {
@@ -26,7 +36,7 @@
       "date": "Nov 2025 to Apr 2026",
       "status": "working on",
       "font": "andy",
-      "tags": ["game"],
+      "tags": ["game", "graphics"],
       "tech": ["C++", "Raylib", "SRUlib"],
       "start": "2025-10-02"
    }, {
@@ -36,7 +46,7 @@
       "link": "/projects/toy_renderer.html",
       "date": "Dec 2025",
       "status": "finished",
-      "tags": ["simulation"],
+      "tags": ["simulation", "graphics"],
       "tech": ["C", "Raylib"],
       "start": "2025-12"
    }, {
@@ -47,7 +57,7 @@
       "font": "pixel",
       "date": "Oct 2025 & Nov 2026",
       "status": "finished",
-      "tags": ["game", "demo"],
+      "tags": ["game", "demo", "graphics"],
       "tech": ["C++", "Raylib", "HTML"],
       "start": "2025-10-01"
    }, {
@@ -57,7 +67,7 @@
       "link": "/projects/screen_sim.html",
       "date": "Sep 2025",
       "status": "finished",
-      "tags": ["simulation"],
+      "tags": ["simulation", "graphics"],
       "tech": ["C++", "SFML"],
       "start": "2025-09"
    }, {
@@ -103,7 +113,7 @@
       "link": "/projects/astral_surge.html",
       "date": "Nov 2024 to Jun 2025",
       "status": "unfinished",
-      "tags": ["game"],
+      "tags": ["game", "graphics"],
       "tech": ["C++", "SFML", "CX"],
       "start": "2024-11"
    }, {
@@ -114,7 +124,7 @@
       "image": "/assets/pong/html.png",
       "status": "finished",
       "font": "pixel",
-      "tags": ["game", "demo"],
+      "tags": ["game", "demo", "graphics"],
       "tech": ["C++", "SFML", "CX", "HTML"],
       "start": "2024-10"
    }, {

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta name="author" content="Daniel Vishnevsky">
+      <meta name="description" content="Simple paint program capable of collaboration in a LAN">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Paint Together</title>
+      <link rel="stylesheet" href="/style/style.css">
+      <script src="/source/common.js"></script>
+
+      <style>
+         #canvas {
+            border: 1px solid var(--text);
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-inline: auto;
+         }
+      </style>
+   </head>
+
+   <body>
+      <article>
+         <h1>Paint Together</h1>
+         <h3>Daniel Vishnevsky</h3>
+
+         <div class="side-sprite-r"><div style="width:96px;height:96px;background-color:red;border-radius:100%;"></div></div>
+         <div class="side-sprite-r"><div style="margin-top:70px;width:64px;height:64px;background-color:red;border-radius:100%;"></div></div>
+         <div class="side-sprite-l"><div style="margin-top:-50px;width:50px;height:50px;background-color:red;border-radius:100%;"></div></div>
+
+         <p>Local demo. Draw with left click, change brush size with scroll wheel, change color with arrow keys, F - fullscreen</p>
+         <canvas id="canvas"></canvas>
+         <script>
+            document.addEventListener('DOMContentLoaded', () => {
+               const c = document.getElementById('canvas');
+               const ctx = c.getContext('2d');
+
+               const defaultWidth = c.width;
+               const defaultHeight = c.height;
+               const updateTime = 20;
+               const clickSound = new Audio('/assets/sfx/click.wav');
+
+               const minRadius = 0.5;
+               const maxRadius = 50;
+               const colors = ['#f00', '#fa0', '#ff0', '#0f0', '#0a0', '#0ff', '#00f', '#a0f', '#f0f', '#a50', '#000', '#aaa', '#fff']
+
+               const targetWidth = defaultWidth * 4;
+               const targetHeight = defaultHeight * 4;
+               const target = new OffscreenCanvas(targetWidth, targetHeight);
+               const tctx = target.getContext('2d');            
+               tctx.fillStyle = '#fff';
+               tctx.fillRect(0, 0, target.width, target.height);
+
+               let radius = 5;
+               let colorIndex = 0;
+               let color = colors[colorIndex];
+               let focused = false;
+               let down = false;
+               let queue = [];
+               let mousepos = {x: 0, y: 0};
+
+               c.addEventListener('click', () => {
+                  if (!focused) focused = true;
+               });
+
+               c.addEventListener('mousedown', (e) => {
+                  if (e.which === 1) down = true;
+               });
+
+               c.addEventListener('mouseup', (e) => {
+                  if (e.which === 1) down = false;
+               });
+
+               c.addEventListener('mousemove', (e) => {
+                  if (e.which === 1) {
+                     const rect = c.getBoundingClientRect();
+                     const scale = Math.min(c.clientWidth / defaultWidth, c.clientHeight / defaultHeight);
+                     const x = (e.clientX - rect.left - c.clientLeft - (c.clientWidth - defaultWidth * scale) / 2) / scale;
+                     const y = (e.clientY - rect.top - c.clientTop - (c.clientHeight - defaultHeight * scale) / 2) / scale;
+                     mousepos = {x: x, y: y};
+                     if (focused && down) {
+                        queue.push({x: x, y: y, color: color, r: radius});
+                     }
+                  }
+               });
+
+               c.addEventListener('wheel', (e) => {
+                  e.preventDefault();
+                  radius = Math.min(Math.max(radius + e.deltaY * -0.01, minRadius), maxRadius);
+               });
+
+               window.addEventListener('blur', () => {
+                  focused = false;
+                  down = false;
+               });
+
+               window.addEventListener('keyup', (e) => {
+                  if (focused && e.code === 'ArrowLeft') {
+                     colorIndex = (colorIndex === 0 ? colors.length - 1 : colorIndex - 1);
+                     color = colors[colorIndex];
+                  }
+
+                  if (focused && e.code === 'ArrowRight') {
+                     colorIndex = (colorIndex + 1) % colors.length;
+                     color = colors[colorIndex];
+                  }
+                  
+                  if (e.code === 'Escape') {
+                     focused = !focused;
+                     playSound(clickSound);
+                  }
+
+                  if (e.code === 'KeyF') {
+                     (document.fullscreenElement ? document.exitFullscreen() : c.requestFullscreen());
+                     playSound(clickSound);
+                  }
+               });
+
+               function playSound(sound) {
+                  sound.pause();
+                  sound.currentTime = 0;
+                  sound.play();
+               }
+
+               function resize() {
+                  const scale = Math.min(c.clientWidth / defaultWidth, c.clientHeight / defaultHeight) * devicePixelRatio;
+                  const width = Math.round(defaultWidth * scale);
+                  if (width !== c.width) {
+                     c.width = width;
+                     c.height = Math.round(defaultHeight * scale);
+                  }
+               }
+               new ResizeObserver(resize).observe(c);
+
+               function updateGame() {
+                  tctx.setTransform(targetWidth / defaultWidth, 0, 0, targetHeight / defaultHeight, 0, 0);
+                  ctx.setTransform(c.width / defaultWidth, 0, 0, c.height / defaultHeight, 0, 0);
+                  ctx.fillStyle = '#000';
+                  ctx.fillRect(0, 0, defaultWidth, defaultHeight);
+
+                  for (const data of queue) {
+                     tctx.beginPath();
+                     tctx.arc(data.x, data.y, data.r, 0, 2 * Math.PI, false);
+                     tctx.fillStyle = data.color;
+                     tctx.fill();
+                  }
+                  queue.length = 0;
+
+                  ctx.drawImage(target, 0, 0, target.width, target.height, 0, 0, defaultWidth, defaultHeight);
+
+                  ctx.beginPath();
+                  ctx.arc(mousepos.x, mousepos.y, radius, 0, 2 * Math.PI, false);
+                  ctx.fillStyle = color;
+                  ctx.fill();
+
+                  if (!focused) {
+                     ctx.fillStyle = '#000a';
+                     ctx.fillRect(0, 0, defaultWidth, defaultHeight);
+
+                     ctx.fillStyle = '#fff';
+                     ctx.font = "24px Ubuntu";
+                     const string = "PAUSED";
+                     const size = ctx.measureText(string);
+                     ctx.fillText(string, defaultWidth / 2 - size.width / 2, defaultHeight / 2);
+
+                     ctx.font = "8px Ubuntu";
+                     const smallString = "CLICK TO RESUME";
+                     const smallSize = ctx.measureText(smallString);
+                     ctx.fillText(smallString, defaultWidth / 2 - smallSize.width / 2, defaultHeight / 2 + 20);
+                  }
+               }
+               setInterval(updateGame, updateTime);
+            });
+         </script>
+
+         <div class="side-sprite-l"><div style="width:32px;height:32px;background-color:#0f0;border-radius:100%;"></div></div>
+         <div class="side-sprite-l"><div style="margin-top:10px;width:96px;height:96px;background-color:#0f0;border-radius:100%;"></div></div>
+         <div class="side-sprite-l"><div style="margin-top:100px;width:48px;height:48px;background-color:#0f0;border-radius:100%;"></div></div>
+
+         <h2>About</h2>
+         <p><span></span>Paint Together is a LAN drawing application. It's very simple to use. It's split in two applications - server and client. The server is responsible for retrieving state from all clients, saving it in the history and distributing the changes to all clients.</p>
+         <p><span></span>The client is responsible for displaying and modifying the canvas. The canvas can be modified using a few select colors. It's really primitive but that's the fun of it. SFML is used for the networking while Raylib is used for the graphics.</p>
+
+         <div class="side-sprite-r"><div style="width:64px;height:64px;background-color:yellow;border-radius:100%;"></div></div>
+         <div class="side-sprite-r"><div style="margin-top:70px;width:108px;height:108px;background-color:yellow;border-radius:100%;"></div></div>
+
+         <div class="youtube-video"><iframe src="https://www.youtube.com/embed/S71_24ZkZP0?si=NQPlcD_Xjg9lkULr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
+         <h2>Development</h2>
+         <p><span></span>This is a simple project but I've been wanting to make it for like a year. One day I just decided to do it and it took only like 2 days to do it + a few line change a few months later to make it work in a LAN. Overall a nice project to add to your portfolio.</p>
+         <p><span></span>Later on I added a HTML Canvas demo that does not include any networking at all. Added it just for fun.</p>
+
+         <div class="side-sprite-l"><div style="margin-top:70px;width:96px;height:96px;background-color:blue;border-radius:100%;"></div></div>
+
+         <h2>Gallery</h2>
+         <div class="col2">
+            <img src="/assets/paint/1.png"/>
+            <img src="/assets/paint/2.png"/>
+            <img src="/assets/paint/3.png"/>
+            <img src="/assets/paint/4.png"/>
+         </div>
+      </article>
+
+      <script src="/source/image_click.js"></script>
+   </body>
+</html>
