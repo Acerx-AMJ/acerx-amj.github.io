@@ -7,7 +7,7 @@
    font-style: normal;
    font-weight: 400;
    font-display: swap;
-   src: url('../assets/fonts/Ubuntu-Regular.ttf');
+   src: url('/assets/fonts/Ubuntu-Regular.ttf');
 }
 
 @font-face {
@@ -15,7 +15,7 @@
    font-style: normal;
    font-weight: 700;
    font-display: swap;
-   src: url('../assets/fonts/Ubuntu-Bold.ttf');
+   src: url('/assets/fonts/Ubuntu-Bold.ttf');
 }
 
 @font-face {
@@ -23,21 +23,21 @@
    font-style: normal;
    font-weight: 400;
    font-display: swap;
-   src: url('../assets/fonts/MonaspaceNeon-Regular.otf');
+   src: url('/assets/fonts/MonaspaceNeon-Regular.otf');
 }
 
 @font-face {
    font-family: "Pixel";
    font-style: normal;
    font-display: swap;
-   src: url('../assets/fonts/PressStart2P-Regular.ttf');
+   src: url('/assets/fonts/PressStart2P-Regular.ttf');
 }
 
 @font-face {
    font-family: "Andy";
    font-style: normal;
    font-display: swap;
-   src: url('../assets/fonts/andy.ttf');
+   src: url('/assets/fonts/andy.ttf');
 }
 
 /*
@@ -269,13 +269,13 @@ body:has(.img-fullscreen) #menu-toggle {
 }
 
 .sprite-demon {
-   background-image: url('../assets/sprites/demon1.png');
+   background-image: url('/assets/sprites/demon1.png');
    --frames: 2;
    --fps: 10;
 }
 
 .sprite-demon-large {
-   background-image: url('../assets/sprites/demon_large1.png');
+   background-image: url('/assets/sprites/demon_large1.png');
    --w: 128;
    --h: 128;
    --frames: 2;
@@ -283,13 +283,13 @@ body:has(.img-fullscreen) #menu-toggle {
 }
 
 .sprite-slime {
-   background-image: url('../assets/sprites/slime_extended.png');
+   background-image: url('/assets/sprites/slime_extended.png');
    --frames: 2;
    --fps: 6;
 }
 
 .sprite-player-sandbox2d {
-   background-image: url('../assets/sprites/player.png');
+   background-image: url('/assets/sprites/player.png');
    --w: 16;
    --h: 24;
    zoom: 5;
@@ -301,7 +301,7 @@ body:has(.img-fullscreen) #menu-toggle {
 }
 
 .sprite-bat-as {
-   background-image: url('../assets/sprites/bat.png');
+   background-image: url('/assets/sprites/bat.png');
    --w: 16;
    --h: 16;
    zoom: 4;
@@ -310,7 +310,7 @@ body:has(.img-fullscreen) #menu-toggle {
 }
 
 .sprite-slime-as {
-   background-image: url('../assets/sprites/slime.png');
+   background-image: url('/assets/sprites/slime.png');
    --w: 16;
    --h: 16;
    zoom: 3;
@@ -319,7 +319,7 @@ body:has(.img-fullscreen) #menu-toggle {
 }
 
 .sprite-fire {
-   background-image: url('../assets/sprites/fire.png');
+   background-image: url('/assets/sprites/fire.png');
    --w: 16;
    --h: 16;
    zoom: 6;
@@ -328,7 +328,7 @@ body:has(.img-fullscreen) #menu-toggle {
 }
 
 .sprite-campfire {
-   background-image: url('../assets/sprites/campfire.png');
+   background-image: url('/assets/sprites/campfire.png');
    --w: 24;
    --h: 24;
    zoom: 4;

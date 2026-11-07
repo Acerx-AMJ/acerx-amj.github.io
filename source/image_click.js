@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
    const x = document.createElement('img');
    x.id = "x";
-   x.src = "../assets/x.png";
+   x.src = "/assets/x.png";
    x.style.display = "none";
    article.appendChild(x);
 

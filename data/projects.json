@@ -2,7 +2,7 @@
    "data": [{
       "title": "Personal Website",
       "description": "My personal portfolio and blog site.",
-      "link": "../projects/website.html",
+      "link": "/projects/website.html",
       "date": "Jan 2026 to present",
       "status": "working on",
       "tags": ["website"],
@@ -10,17 +10,17 @@
    }, {
       "title": "Dodge the Wraiths",
       "description": "Dodge the wraiths coming at you. Features 4 game modes.",
-      "image": "../assets/dtw/2.png",
-      "link": "../projects/dtw.html",
+      "image": "/assets/dtw/2.png",
+      "link": "/projects/dtw.html",
       "date": "Aug 2026",
       "status": "finished",
       "tags": ["game"],
       "tech": ["Godot"]
    }, {
-      "titleImage": "../assets/sandbox2d/logo.png",
+      "titleImage": "/assets/sandbox2d/logo.png",
       "description": "Sandbox-2D is a sandbox survival game where you can build, destroy and explore.",
-      "image": "../assets/sandbox2d/14.png",
-      "link": "../projects/sandbox2d.html",
+      "image": "/assets/sandbox2d/14.png",
+      "link": "/projects/sandbox2d.html",
       "date": "Nov 2025 to Apr 2026",
       "status": "working on",
       "font": "andy",
@@ -29,17 +29,17 @@
    }, {
       "title": "3D Toy Renderer",
       "description": "3D toy renderer capable of rendering 3D models from a list of vertices, lines and triangles.",
-      "image": "../assets/toyrender/1.png",
-      "link": "../projects/toy_renderer.html",
+      "image": "/assets/toyrender/1.png",
+      "link": "/projects/toy_renderer.html",
       "date": "Dec 2025",
       "status": "finished",
       "tags": ["simulation"],
       "tech": ["C", "Raylib"]
    }, {
-      "titleImage": "../assets/bp/logo.png",
+      "titleImage": "/assets/bp/logo.png",
       "description": "Block placer is a game heavily inspired by Tetris. Play solo, battle against friends in versus or work together in co-op mode!",
-      "image": "../assets/bp/3.png",
-      "link": "../projects/block_placer.html",
+      "image": "/assets/bp/3.png",
+      "link": "/projects/block_placer.html",
       "font": "pixel",
       "date": "Oct 2025 & Nov 2026",
       "status": "finished",
@@ -48,8 +48,8 @@
    }, {
       "title": "Screen Simulation",
       "description": "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. It simulates each pixel of the screen.",
-      "image": "../assets/screen_sim/9.png",
-      "link": "../projects/screen_sim.html",
+      "image": "/assets/screen_sim/9.png",
+      "link": "/projects/screen_sim.html",
       "date": "Sep 2025",
       "status": "finished",
       "tags": ["simulation"],
@@ -58,7 +58,7 @@
       "title": "CLL Interpreter",
       "description": "A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use.",
       "custom": "<pre class=\"code\"><k>fn</k> <f>fibonacci</f>(n) {\n   <k>return</k> n <k>unless</k> n > 1\n   <f>fibonacci</f>(n - 1) + <f>fibonacci</f>(n - 2)\n}\n\n<k>fn</k> <f>main</f>() {\n   <f>println</f>(<f>fibonacci</f>(5))\n}</pre>",
-      "link": "../projects/cll.html",
+      "link": "/projects/cll.html",
       "date": "Aug 2025 to Sep 2025",
       "status": "unfinished",
       "tags": ["interpreter", "system"],
@@ -66,7 +66,7 @@
    }, {
       "description": "DFunge and CFunge are 2D esoteric programming languages based off Befunge-93 with file I/O, functions and other QOL elements.",
       "custom": "<pre class=\"code\" style=\"font-weight:900\">v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n<t>7</t>#  HX  ><t>\",\"</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH\n<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre>",
-      "link": "../projects/dfunge.html",
+      "link": "/projects/dfunge.html",
       "date": "Aug 2025 & Dec 2025",
       "status": "finished",
       "tags": ["interpreter", "system"],
@@ -74,23 +74,23 @@
    }, {
       "title": "Kahnaroc",
       "description": "Kahnaroc is a minimalist conlang designed as a lighter and simpler alternative to English with unique punctuation, constant pronunciation and its own writing.",
-      "link": "../projects/kahnaroc.html",
+      "link": "/projects/kahnaroc.html",
       "date": "Jun 2025",
       "status": "finished",
       "tags": ["conlang", "website"],
       "tech": ["HTML"]
    }, {
-      "titleImage": "../assets/cx.png",
+      "titleImage": "/assets/cx.png",
       "description": "CX is a graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user.",
-      "link": "../projects/cx_lib.html",
+      "link": "/projects/cx_lib.html",
       "date": "Dec 2024 to Jun 2025",
       "status": "finished",
       "tags": ["library"],
       "tech": ["C++", "SFML"]
    }, {
-      "titleImage": "../assets/as/logo.png",
+      "titleImage": "/assets/as/logo.png",
       "description": "Astral Surge is a speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode.",
-      "link": "../projects/astral_surge.html",
+      "link": "/projects/astral_surge.html",
       "date": "Nov 2024 to Jun 2025",
       "status": "unfinished",
       "tags": ["game"],
@@ -98,9 +98,9 @@
    }, {
       "title": "Pong",
       "description": "Three different Pong clones. Battle against a friend or go against a bot of varying difficulties.",
-      "link": "../projects/pong.html",
+      "link": "/projects/pong.html",
       "date": "Oct 2024 & Jan 2025 & Nov 2026",
-      "image": "../assets/pong/html.png",
+      "image": "/assets/pong/html.png",
       "status": "finished",
       "font": "pixel",
       "tags": ["game", "demo"],
@@ -108,16 +108,16 @@
    }, {
       "title": "Bank Simulation",
       "description": "Local bank simulation capable of deposits, withdrawals and transactions between accounts.",
-      "link": "../projects/bank.html",
+      "link": "/projects/bank.html",
       "date": "Sep 2024",
-      "image": "../assets/bank/1.png",
+      "image": "/assets/bank/1.png",
       "status": "finished",
       "tags": ["system", "simulation"],
       "tech": ["C++", "SQLite"]
    }, {
-      "titleImage": "../assets/aa1/logo.png",
+      "titleImage": "/assets/aa1/logo.png",
       "description": "Abyss Ascendant - terminal coin-collecting story game about curing Earth from an apocalypse. Includes a level editor.",
-      "link": "../projects/abyss_ascendant.html",
+      "link": "/projects/abyss_ascendant.html",
       "date": "Sep 2024 to Oct 2024",
       "status": "finished",
       "tags": ["game"],
@@ -125,7 +125,7 @@
    }, {
       "title": "Lost Media",
       "description": "Vague memories of lost projects prior to September 2024.",
-      "link": "../projects/lost_media.html",
+      "link": "/projects/lost_media.html",
       "date": "Dec 2020 to Aug 2024"
    }]
 }

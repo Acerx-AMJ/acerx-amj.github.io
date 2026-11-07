@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
    menu.id = 'menu';
    menu.innerHTML = `
       ${pages.map(([name, file]) =>
-         `<a ${here === file + '.html' ? '' : 'href="../pages/' + file + '.html"'} ${here === file + '.html' ? ' aria-current="page"' : ''}>${name}</a>`).join('')}
+         `<a ${here === file + '.html' ? '' : 'href="/pages/' + file + '.html"'} ${here === file + '.html' ? ' aria-current="page"' : ''}>${name}</a>`).join('')}
       <div id="menu-settings">
          <label>Theme
             <select id="theme-select">
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
    // create header
    const header = document.createElement('header');
-   header.innerHTML = pages.map(([name, file]) => `<a ${here === file + '.html' ? 'class="link-disabled"' : 'href="../pages/' + file + '.html"'}>${name}</a>`).join('');
+   header.innerHTML = pages.map(([name, file]) => `<a ${here === file + '.html' ? 'class="link-disabled"' : 'href="/pages/' + file + '.html"'}>${name}</a>`).join('');
    document.body.insertBefore(header, document.body.firstChild);
 
    // create blog and project comments
