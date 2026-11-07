@@ -30,7 +30,7 @@
          <img class="img-no-click" src="../assets/bp/logo.png"/>
          <h3>Daniel Vishnevsky</h3>
          <p>Move - A/S/D, rotate - W, send - SPACE, fullscreen - F</p>
-         <canvas id="block"></canvas>
+         <canvas id="block" width="240" height="176"></canvas>
          <script>
             document.addEventListener('DOMContentLoaded', () => {
                const c = document.getElementById('block');
@@ -38,6 +38,8 @@
 
                const defaultWidth = c.width;
                const defaultHeight = c.height;
+               const boardOffsetX = 9;
+               const nextOffsetX = 23;
 
                const updateTime = 20;
                const deathTime = 1000;
@@ -90,6 +92,7 @@
 
                const placeSound = new Audio('/assets/sfx/place.wav');
                const lostSound = new Audio('/assets/sfx/lost.wav');
+               const clearSound = new Audio('/assets/sfx/score.wav');
                const backToBackSound = new Audio('/assets/sfx/combo.wav');
 
                let nextGrid, grid, bag, rotation, tetromino, nextTetromino, color, nextColor, posx, posy, previewy, totalClears, level, combo, difficultCount, softDrop, hardDrop, downAfter, downTimer, score;
@@ -379,6 +382,7 @@
                   else {
                      combo += 1;
                      addScore(50 * combo);
+                     playSound(clearSound);
                   }
 
                   if (cleared.length === 1) {
@@ -512,7 +516,7 @@
                      for (let x = 0; x < gridwidth; ++x) {
                         const tile = grid[y][x];
                         if (!tile.empty) {
-                           drawTile(x, y, tile.color);
+                           drawTile(boardOffsetX + x, y, tile.color);
                         }
                      }
                   }
@@ -521,7 +525,7 @@
                      for (let x = 0; x < nextgridsize; ++x) {
                         const tile = nextGrid[y][x];
                         if (!tile.empty) {
-                           drawTile(gridwidth + 2 + x, 4 + y, tile.color);
+                           drawTile(nextOffsetX + x, 3 + y, tile.color);
                         }
                      }
                   }
@@ -529,7 +533,7 @@
                   for (let y = posy; y < tetromino.length + posy && y < gridheight; ++y) {
                      for (let x = posx; x < tetromino.length + posx && x < gridwidth; ++x) {
                         if (tetromino[y - posy][x - posx]) {
-                           drawTile(x, y, color);
+                           drawTile(boardOffsetX + x, y, color);
                         }
                      }
                   }
@@ -538,17 +542,20 @@
                   for (let y = previewy; previewy != posy && y < tetromino.length + previewy && y < gridheight; ++y) {
                      for (let x = posx; x < tetromino.length + posx && x < gridwidth; ++x) {
                         if (tetromino[y - previewy][x - posx]) {
-                           ctx.strokeRect(x * tilesize, y * tilesize, tilesize, tilesize);
+                           ctx.strokeRect((boardOffsetX + x) * tilesize, y * tilesize, tilesize, tilesize);
                         }
                      }
                   }
 
                   ctx.fillStyle = '#fff';
                   ctx.font = "8px Pixel";
-                  ctx.fillText("NEXT:", (gridwidth + 2) * tilesize, 20);
-                  ctx.fillText("SCORE:" + score, (gridwidth + 2) * tilesize, 90);
-                  ctx.fillText("HI-SCORE:" + highscore, (gridwidth + 2) * tilesize, 105);
-                  ctx.fillText("LEVEL:" + level, (gridwidth + 2) * tilesize, 120);
+                  ctx.fillText("NEXT", nextOffsetX * tilesize, 20);
+                  ctx.fillText("SCORE", 4, 36);
+                  ctx.fillText(score, 4, 48);
+                  ctx.fillText("HI-SCORE", 4, 72);
+                  ctx.fillText(Math.max(score, highscore), 4, 84);
+                  ctx.fillText("LEVEL", 4, 108);
+                  ctx.fillText(level, 4, 120);
 
                   if (!focused || died) {
                      ctx.fillStyle = '#000a';
