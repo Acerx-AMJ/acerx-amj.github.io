@@ -6,7 +6,8 @@
       "date": "Jan 2026 to present",
       "status": "working on",
       "tags": ["website"],
-      "tech": ["HTML"]
+      "tech": ["HTML"],
+      "start": "2026-01"
    }, {
       "title": "Dodge the Wraiths",
       "description": "Dodge the wraiths coming at you. Features 4 game modes.",
@@ -15,7 +16,8 @@
       "date": "Aug 2026",
       "status": "finished",
       "tags": ["game"],
-      "tech": ["Godot"]
+      "tech": ["Godot"],
+      "start": "2026-08"
    }, {
       "titleImage": "/assets/sandbox2d/logo.png",
       "description": "Sandbox-2D is a sandbox survival game where you can build, destroy and explore.",
@@ -25,7 +27,8 @@
       "status": "working on",
       "font": "andy",
       "tags": ["game"],
-      "tech": ["C++", "Raylib", "SRUlib"]
+      "tech": ["C++", "Raylib", "SRUlib"],
+      "start": "2025-10-02"
    }, {
       "title": "3D Toy Renderer",
       "description": "3D toy renderer capable of rendering 3D models from a list of vertices, lines and triangles.",
@@ -34,7 +37,8 @@
       "date": "Dec 2025",
       "status": "finished",
       "tags": ["simulation"],
-      "tech": ["C", "Raylib"]
+      "tech": ["C", "Raylib"],
+      "start": "2025-12"
    }, {
       "titleImage": "/assets/bp/logo.png",
       "description": "Block placer is a game heavily inspired by Tetris. Play solo, battle against friends in versus or work together in co-op mode!",
@@ -44,7 +48,8 @@
       "date": "Oct 2025 & Nov 2026",
       "status": "finished",
       "tags": ["game", "demo"],
-      "tech": ["C++", "Raylib", "HTML"]
+      "tech": ["C++", "Raylib", "HTML"],
+      "start": "2025-10-01"
    }, {
       "title": "Screen Simulation",
       "description": "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. It simulates each pixel of the screen.",
@@ -53,7 +58,8 @@
       "date": "Sep 2025",
       "status": "finished",
       "tags": ["simulation"],
-      "tech": ["C++", "SFML"]
+      "tech": ["C++", "SFML"],
+      "start": "2025-09"
    }, {
       "title": "CLL Interpreter",
       "description": "A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use.",
@@ -62,7 +68,8 @@
       "date": "Aug 2025 to Sep 2025",
       "status": "unfinished",
       "tags": ["interpreter", "system"],
-      "tech": ["C++"]
+      "tech": ["C++"],
+      "start": "2025-08-02"
    }, {
       "description": "DFunge and CFunge are 2D esoteric programming languages based off Befunge-93 with file I/O, functions and other QOL elements.",
       "custom": "<pre class=\"code\" style=\"font-weight:900\">v<f>%mod</f>   vQ,-*  3i  t*  H+  2t   DIQxo  X,,\\<\n<t>'</t>2  >,  x6     -H  ,8  -H, 3/  ,t      ,E\n<t>7</t>#  HX  ><t>\",\"</t>,  sq  QS  <t>'32</t>+1*  >Q HH,  +vxEH\n<t>2</t>a  ^+  3,     Hi  +t  *t t,+  ++  3t  t<\n>,tt*   i,      r>ro   qr  t2   <f>%pow</f>   42*+^</pre>",
@@ -70,7 +77,8 @@
       "date": "Aug 2025 & Dec 2025",
       "status": "finished",
       "tags": ["interpreter", "system"],
-      "tech": ["C++"]
+      "tech": ["C++"],
+      "start": "2025-08-01"
    }, {
       "title": "Kahnaroc",
       "description": "Kahnaroc is a minimalist conlang designed as a lighter and simpler alternative to English with unique punctuation, constant pronunciation and its own writing.",
@@ -78,7 +86,8 @@
       "date": "Jun 2025",
       "status": "finished",
       "tags": ["conlang", "website"],
-      "tech": ["HTML"]
+      "tech": ["HTML"],
+      "start": "2025-06"
    }, {
       "titleImage": "/assets/cx.png",
       "description": "CX is a graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user.",
@@ -86,7 +95,8 @@
       "date": "Dec 2024 to Jun 2025",
       "status": "finished",
       "tags": ["library"],
-      "tech": ["C++", "SFML"]
+      "tech": ["C++", "SFML"],
+      "start": "2024-12"
    }, {
       "titleImage": "/assets/as/logo.png",
       "description": "Astral Surge is a speedrunning game focused on collecting all coins in time while evading traps and enemies. Features a fully-fledged level editor and endless mode.",
@@ -94,7 +104,8 @@
       "date": "Nov 2024 to Jun 2025",
       "status": "unfinished",
       "tags": ["game"],
-      "tech": ["C++", "SFML", "CX"]
+      "tech": ["C++", "SFML", "CX"],
+      "start": "2024-11"
    }, {
       "title": "Pong",
       "description": "Three different Pong clones. Battle against a friend or go against a bot of varying difficulties.",
@@ -104,7 +115,8 @@
       "status": "finished",
       "font": "pixel",
       "tags": ["game", "demo"],
-      "tech": ["C++", "SFML", "CX", "HTML"]
+      "tech": ["C++", "SFML", "CX", "HTML"],
+      "start": "2024-10"
    }, {
       "title": "Bank Simulation",
       "description": "Local bank simulation capable of deposits, withdrawals and transactions between accounts.",
@@ -113,7 +125,8 @@
       "image": "/assets/bank/1.png",
       "status": "finished",
       "tags": ["system", "simulation"],
-      "tech": ["C++", "SQLite"]
+      "tech": ["C++", "SQLite"],
+      "start": "2024-09-02"
    }, {
       "titleImage": "/assets/aa1/logo.png",
       "description": "Abyss Ascendant - terminal coin-collecting story game about curing Earth from an apocalypse. Includes a level editor.",
@@ -121,11 +134,13 @@
       "date": "Sep 2024 to Oct 2024",
       "status": "finished",
       "tags": ["game"],
-      "tech": ["C++", "SFML", "CX", "HTML", "SQLite", "Lua"]
+      "tech": ["C++", "SFML", "CX", "HTML", "SQLite", "Lua"],
+      "start": "2024-09-01"
    }, {
       "title": "Lost Media",
       "description": "Vague memories of lost projects prior to September 2024.",
       "link": "/projects/lost_media.html",
-      "date": "Dec 2020 to Aug 2024"
+      "date": "Dec 2020 to Aug 2024",
+      "start": "2020-12"
    }]
 }

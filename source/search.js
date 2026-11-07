@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const FIELD = { tag: 'tags', tech: 'tech' };
     const selected = { tag: new Set(), tech: new Set() };
     const summaryText = 'More search options';
-    const entries = [];
+    let entries = [];
     let summary = null;
     let page = 0;
+    let ascending = true;
 
     // restore the search from the url
     const params = new URLSearchParams(location.search);
@@ -40,15 +41,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return node;
     }
 
-    fetch(jsonpath)
-        .then(response => {
+    fetch(jsonpath).then(response => {
         if (!response.ok) {
             throw new Error(response.status);
         }
         return response.json();
-        }).then(json => {
+    }).then(json => {
+        const data = [...json.data];
+        if (data.length && data.every(e => e.start)) {
+            data.sort((a, b) => b.start.localeCompare(a.start));
+        }
+
         // cards
-        for (const d of json.data) {
+        for (const d of data) {
             const card = document.createElement('a');
             card.href = d.link;
             if (d.font) {
@@ -96,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tags: new Set((d.tags ?? []).map(v => v.toLowerCase())),
                 tech: new Set((d.tech ?? []).map(v => v.toLowerCase())),
                 haystack: [d.title, d.description, d.date, d.status, ...(d.tags ?? []), ...(d.tech ?? [])].filter(Boolean).join(' ').toLowerCase(),
+                start: d.start,
             });
         }
 
@@ -149,6 +155,20 @@ document.addEventListener('DOMContentLoaded', () => {
         constructSearchOptions('tag', 'Type:');
         constructSearchOptions('tech', 'Made with:');
 
+        const filterRow = el('div', undefined, 'filter-row');
+        filterRow.appendChild(el('span', 'Sorting: ', 'filter-label'));
+        const sortButton = el('button', 'ascending', 'filter-chip sort-button');
+        sortButton.addEventListener('click', () => {
+            ascending = !ascending;
+            sortButton.textContent = (ascending ? 'ascending' : 'descending');
+            entries.sort((a, b) => (ascending ? b.start.localeCompare(a.start) : a.start.localeCompare(b.start)));
+            list.append(...entries.map(entry => entry.card));
+            page = 0;
+            update();
+        });
+        filterRow.appendChild(sortButton);
+        details.appendChild(filterRow);
+
         if (details.children.length > 1) {
             details.open = (selected.tag.size + selected.tech.size > 0);
             searchbar.after(details);
@@ -157,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         update();
-        }).catch(error => {
+    }).catch(error => {
         console.error(`Failed to fetch ${jsonpath}:`, error);
         list.textContent = 'Failed to load the list.';
     });
@@ -181,17 +201,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // search and filters
         const terms = searchbar.value.toLowerCase().split(/\s+/).filter(Boolean);
         const filtered = entries.filter(entry => {
-        if (!terms.every(term => entry.haystack.includes(term))) {
-            return false;
-        }
-        for (const kind of ['tag', 'tech']) {
-            for (const key of selected[kind]) {
-                if (!entry[FIELD[kind]].has(key)) {
-                    return false;
+            if (!terms.every(term => entry.haystack.includes(term))) {
+                return false;
+            }
+            for (const kind of ['tag', 'tech']) {
+                for (const key of selected[kind]) {
+                    if (!entry[FIELD[kind]].has(key)) {
+                        return false;
+                    }
                 }
             }
-        }
-        return true;
+            return true;
         });
 
         // show the current page
@@ -241,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // filter chips and the details label
-        for (const chip of document.querySelectorAll('.filter-chip')) {
+        for (const chip of document.querySelectorAll('.filter-chip:not(.sort-button)')) {
             chip.setAttribute('aria-pressed', selected[chip.dataset.kind].has(chip.dataset.key));
         }
         if (summary) {
