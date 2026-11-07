@@ -58,6 +58,7 @@
    --code-type: rgb(20, 20, 255);
    --code-string: rgb(0, 150, 0);
    --code-comment: rgb(125, 125, 125);
+   --code-number: rgb(186, 124, 0);
 
    --table-checker: #f2f2f2;
    --table-border: #ddd;
@@ -84,6 +85,7 @@
    --code-type: rgb(104, 113, 243);
    --code-string: rgb(114, 253, 114);
    --code-comment: rgb(125, 125, 125);
+   --code-number: rgb(255, 203, 98);
    
    --table-checker: rgb(20, 20, 20);
    --table-border: rgb(30, 30, 30);
@@ -103,7 +105,8 @@
    --code-function: rgb(255, 0, 255);
    --code-type: rgb(0, 0, 255);
    --code-string: rgb(0, 255, 0);
-   --code-comment: rgb(255, 125, 0);
+   --code-comment: rgb(125, 125, 125);
+   --code-number: rgb(255, 125, 0);
    
    --table-checker: rgb(0, 0, 0);
    --table-border: rgb(0, 0, 255);
@@ -130,6 +133,7 @@
    --code-type: rgb(87, 98, 251);
    --code-string: rgb(87, 252, 87);
    --code-comment: rgb(125, 125, 125);
+   --code-number: rgb(242, 182, 62);
    
    --table-checker: rgb(30, 30, 40);
    --table-border: rgb(50, 50, 66);
@@ -678,6 +682,7 @@ f { color: var(--code-function) }
 y { color: var(--code-type) }
 t { color: var(--code-string) }
 c { color: var(--code-comment) }
+n { color: var(--code-number) }
 
 /*
    Cards

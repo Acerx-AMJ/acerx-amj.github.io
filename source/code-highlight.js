@@ -9,13 +9,14 @@ const cpp_data = {
    ]),
    types: new Set([
       'Vector2', 'Vector3', 'Vector4', 'Rectangle', 'Color', 'RatioType', 'Map2D', 'Map1D', 'LoadingState', 'RenderWindow', 'VideoMode',
-      'EventHandler', 'AssetManager', 'Text', 'vector', 'string'
+      'EventHandler', 'AssetManager', 'Text', 'vector', 'string', 'Circle', 'Rect', 'Key', 'Ray', 'Vec2f'
    ]),
    line_comment: /\/\/.*/,
    block_comment: /\/\*[\s\S]*?\*\//,
    scope: true,
    directive: /(?<=^[ \t]*)#[ \t]*[A-Za-z_]\w*/,
    include_path: /(?<=^[ \t]*#[ \t]*include[ \t]*)<[^>\n]*>/,
+   number: /(?<![\w.])(?:0[xX][\da-fA-F]+(?:'[\da-fA-F]+)*|0[bB][01]+(?:'[01]+)*|(?:\d+(?:'\d+)*(?:\.(?:\d+(?:'\d+)*)?)?|\.\d+(?:'\d+)*)(?:[eE][+-]?\d+)?)[uUlLfF]{0,3}(?!\w)/, // horrific
 };
 
 const cll_data = {
@@ -26,6 +27,7 @@ const cll_data = {
    types: new Set([]),
    line_comment: /\/\/.*/,
    block_comment: /\/\*[\s\S]*?\*\//,
+   number: /(?<![\w.])(?:\d+(?:\.\d*)?|\.\d+)(?!\w)/,
 };
 
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -38,6 +40,7 @@ function highlight(code, language) {
       ['path', language.include_path],
       ['str', /"(?:\\.|[^"\\])*"/],
       ['qualified', language.scope && /\b[A-Za-z_]\w*(?:::[A-Za-z_]\w*)+/],
+      ['number', language.number],
       ['func', /\b[A-Za-z_]\w*(?=\()/],
       ['ident', /\b[A-Za-z_]\w*\b/],
    ].filter(([name, regex]) => regex).map(([name, regex]) => `(?<${name}>${regex.source})`).join('|'), 'gm');
@@ -59,18 +62,18 @@ function highlight(code, language) {
          result += `<k>${esc(text)}</k>`;
       } else if (groups.qualified !== undefined) {
          const parts = text.split('::');
-         if (language.types.has(text) || language.types.has(parts[parts.length - 1])) {
-            result += `<y>${esc(text)}</y>`;
-         } else {
-            result += parts.map((part, i) => {
-               if (language.types.has(part)) {
-                  return `<y>${esc(part)}</y>`;
-               } else if (i === parts.length - 1 && code[end] === '(') {
-                  return `<f>${esc(part)}</f>`;
-               }
-               return esc(part);
-            }).join('::');
+         const last_type = parts.findLastIndex(part => language.types.has(part));
+         const head = parts.slice(0, last_type + 1).join('::');
+         const tail = parts.slice(last_type + 1).map((part, i, rest) => {
+            return (i === rest.length - 1 && code[end] === '(' ? `<f>${esc(part)}</f>` : esc(part));
+         });
+
+         if (head) {
+            result += `<y>${esc(head)}</y>` + (tail.length ? '::' : '');
          }
+         result += tail.join('::');
+      } else if (groups.number !== undefined) {
+         result += `<n>${esc(text)}</n>`;
       } else if (language.types.has(text)) {
          result += `<y>${esc(text)}</y>`;
       } else if (language.keywords.has(text)) {
@@ -102,8 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
          await navigator.clipboard.writeText(code);
          button.className ='copy-button copy-green';
          setTimeout(() => button.className = 'copy-button', 1500);
-
-         // button.textContent = 'V';
       });
       pre.appendChild(button);
    }

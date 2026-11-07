@@ -39,7 +39,10 @@ void LoadingState::setup_styles() {
          <p><span></span>The library gives the user multiple options for positioning - either position elements by the top-left corner, the center or the bottom-right corner. You can also position elements by a single side. Each UI element had loads of small utility functions that make life easier. There are also saveable styles for each element.</p>
 
          <div class="side-sprite-r"><div style="width:96px;height:96px;background-color:green;transform: rotate(-9deg);"></div></div>
- 
+
+         <p><span></span>Here's an old trailer I made for it:</p>
+         <div class="youtube-video"><iframe src="https://www.youtube.com/embed/Oag2J0dAz-U?si=V2H9RkAVZIKBGEdh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
          <h2>Hello, World!</h2>
          <pre class="code code-cpp copy">
 #include &lt;CX/AssetManager.hpp&gt;
@@ -65,6 +68,121 @@ int main() {
    }
 }
 </pre>
+         <h2>Collisions</h2>
+
+         <div class="side-sprite-r"><div style="width:64px;height:64px;background-color:#0f0;transform: rotate(30deg);"></div></div>
+         <div class="side-sprite-r"><div style="margin-top:70px;margin-left:15px;width:96px;height:96px;background-color:#0f0;border-radius:100%;"></div></div>
+
+         <pre class="code code-cpp copy">
+#include &lt;CX/EventHandler/EventHandler.hpp&gt;
+#include &lt;CX/Circle/Circle.hpp&gt;
+#include &lt;CX/Rect/Rect.hpp&gt;
+
+int main() {
+   sf::RenderWindow window (sf::VideoMode(800, 600), "CX Library");
+   window.setFramerateLimit(60);
+
+   cx::EventHandler event (window);
+   cx::Circle circle (50.0f, event.get_center(), cx::Color::red());
+   cx::Rect rectangle ({50.0f}, {}, cx::Color::red());
+
+   while (window.isOpen()) {
+      event.update();
+
+      rectangle.set_center(event.get_mouse_pos());
+      rectangle.rotate(event.get_axis(cx::Key::q, cx::Key::e));
+
+      if (rectangle.colliding(circle)) {
+         rectangle.set_color(cx::Color::green());
+         circle.set_color(cx::Color::green());
+      }
+      else {
+         rectangle.set_color(cx::Color::red());
+         circle.set_color(cx::Color::red());
+      }
+
+      window.clear();
+      circle.render(window);
+      rectangle.render(window);
+      window.display();
+   }
+}</pre>
+         <div class="side-sprite-l"><div style="width:104px;height:104px;background-color:#0f0;"></div></div>
+         <div class="side-sprite-l"><div style="margin-top:-160px;margin-left:-60px;width:2px;height:300px;background-color:#999;transform:rotate(-23deg);"></div></div>
+         <div class="side-sprite-l"><div style="margin-top:-150px;margin-left:-121px;width:10px;height:10px;background-color:#999;transform:rotate(-23deg);"></div></div>
+
+         <h2>Raycasts</h2>
+         <pre class="code code-cpp copy">
+#include &lt;CX/EventHandler/EventHandler.hpp&gt;
+#include &lt;CX/Ray/Ray.hpp&gt;
+#include &lt;CX/Rect/Rect.hpp&gt;
+
+int main() {
+   sf::RenderWindow window (sf::VideoMode(800, 600), "CX Library");
+   window.setFramerateLimit(60);
+
+   cx::EventHandler event (window);
+   cx::Rect rectangle ({50.0f}, event.get_center(), cx::Color::red());
+   cx::Ray ray ({}, {0.0f, 1.0f}, 200.0f);
+
+   while (window.isOpen()) {
+      event.update();
+
+      ray.set_origin(event.get_mouse_pos());
+      ray.rotate(event.get_axis(cx::Key::q, cx::Key::e) * event.get_dt());
+
+      rectangle.set_color((ray.colliding(rectangle) ? cx::Color::green() : cx::Color::red()));
+      const auto reflected = ray.reflect(rectangle);
+
+      window.clear();
+      rectangle.render(window);
+      ray.render(window);
+      if (reflected.has_value()) {
+         reflected->render(window, cx::Color::gray());
+      }
+      window.display();
+   }
+}</pre>
+
+         <div class="side-sprite-r"><div style="width:104px;height:104px;background-color:#ff0;border-radius:100%;"></div></div>
+         <div class="side-sprite-r"><div style="margin-top:68px;margin-left:-32px;width:56px;height:56px;background-color:#0f0;border-radius:100%;"></div></div>
+         <div class="side-sprite-r"><div style="margin-top:10px;margin-left:108px;width:32px;height:32px;background-color:#f00;border-radius:100%;"></div></div>
+
+         <h2>Planets</h2>
+         <pre class="code code-cpp copy">
+#include &lt;CX/EventHandler/EventHandler.hpp&gt;
+#include &lt;CX/Circle/Circle.hpp&gt;
+#include &lt;CX/Math/Trigonometry.hpp&gt;
+
+int main() {
+   sf::RenderWindow window (sf::VideoMode(800, 600), "CX Library");
+   window.setFramerateLimit(60);
+
+   cx::EventHandler event (window);
+   cx::Circle star (100.0f, event.get_center(), cx::Color::yellow());
+   cx::Circle planet1 (20.0f, star.get_center() - cx::Vec2f(0.0f, 150.0f), cx::Color::green());
+   cx::Circle planet2 (10.0f, star.get_center() - cx::Vec2f(0.0f, 125.0f), cx::Color::red());
+   float frame = 0.0f;
+
+   while (window.isOpen()) {
+      event.update();
+      frame += event.get_dt();
+
+      star.set_scale(cx::Vec2f(1.0f + cx::sin(frame * 0.6f) * 2.0f * event.get_dt()));
+
+      planet1.set_scale(1.0f + (planet1.get_center_y() / event.get_width()) * 3.0f);
+      planet1.move(3.0f * cx::cos(frame * 0.6f), 1.6f * cx::sin(frame * 0.6f));
+
+      planet2.set_scale(1.0f + (planet2.get_center_y() / event.get_width()) * 3.0f);
+      planet2.move(4.0f * cx::cos(frame * 1.2f), 2.0f * cx::sin(frame * 1.2f));
+
+      window.clear();
+      star.render(window);
+      planet1.render(window);
+      planet2.render(window);
+      window.display();
+   }
+}</pre>
 
          <div class="side-sprite-l"><div style="width:64px;height:64px;background-color:blue;transform: rotate(11deg);"></div></div>
 
