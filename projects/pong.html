@@ -21,7 +21,6 @@
             width: 100%;
             height: auto;
             margin-inline: auto;
-            image-rendering: pixelated;
          }
       </style>
    </head>
@@ -31,12 +30,15 @@
          <h1>Pong</h1>
          <h3>Daniel Vishnevsky</h3>
 
-         <p>Move with W/S and UP/DOWN. ESC - pause</p>
+         <p>Move - W/S and UP/DOWN. fullscreen - F</p>
          <canvas id="pong"></canvas>
          <script>
             document.addEventListener('DOMContentLoaded', () => {
                const c = document.getElementById('pong');
                const ctx = c.getContext('2d');
+
+               const defaultWidth = c.width;
+               const defaultHeight = c.height;
 
                const maxBounceAngle = 5 * Math.PI / 12;
                const ballCounter = 3000; // in ms
@@ -45,11 +47,11 @@
                const paddleHeight = 24;
                const ballSize = 6;
 
-               let paddle1 = c.height / 2.0 - paddleHeight / 2.0;
-               let paddle2 = c.height / 2.0 - paddleHeight / 2.0;
+               let paddle1 = defaultHeight / 2.0 - paddleHeight / 2.0;
+               let paddle2 = defaultHeight / 2.0 - paddleHeight / 2.0;
 
-               let ballx = c.width / 2.0 - ballSize / 2.0;
-               let bally = c.height / 2.0 - ballSize / 2.0;
+               let ballx = defaultWidth / 2.0 - ballSize / 2.0;
+               let bally = defaultHeight / 2.0 - ballSize / 2.0;
                let balldirx = (Math.random() > 0.5 ? 1.0 : -1.0);
                let balldiry = (Math.random() * 3.0) - 2.0;
                let hit = (balldirx > 0); // 1 - right, 0 - left
@@ -60,31 +62,59 @@
                let score2 = 0;
 
                let focused = false;
-               let wDown = false;
-               let sDown = false;
-               let iDown = false;
-               let kDown = false;
+               const keys = {
+                  KeyW: {down: false},
+                  KeyS: {down: false},
+                  ArrowUp: {down: false},
+                  ArrowDown: {down: false},
+               };
 
                c.addEventListener('click', () => {
                   focused = !focused;
                });
 
                window.addEventListener('keydown', (e) => {
-                  if (e.keyCode == 83) wDown = true;
-                  if (e.keyCode == 87) sDown = true;
-                  if (e.keyCode == 40) iDown = true;
-                  if (e.keyCode == 38) kDown = true;
-                  if (focused) e.preventDefault();
+                  const key = keys[e.code];
+                  if (!key || !focused) return;
+                  e.preventDefault();
+                  key.down = true;
                });
 
                window.addEventListener('keyup', (e) => {
-                  if (e.keyCode == 83) wDown = false;
-                  if (e.keyCode == 87) sDown = false;
-                  if (e.keyCode == 40) iDown = false;
-                  if (e.keyCode == 38) kDown = false;
-                  if (e.keyCode == 27) focused = !focused;
-                  if (focused) e.preventDefault();
+                  if (keys[e.code]) {
+                     keys[e.code].down = false;
+                  }
+
+                  if (e.code === 'Escape') {
+                     focused = !focused;
+                  }
+
+                  if (e.code === 'KeyF') {
+                     (document.fullscreenElement ? document.exitFullscreen() : c.requestFullscreen());
+                  }
                });
+
+               function releaseKeys() {
+                  for (const key of Object.values(keys)) {
+                     key.down = key.pressed = false;
+                     key.timer = 0;
+                  }
+               }
+
+               window.addEventListener('blur', () => {
+                  focused = false;
+                  releaseKeys();
+               });
+
+               function resize() {
+                  const scale = Math.min(c.clientWidth / defaultWidth, c.clientHeight / defaultHeight) * devicePixelRatio;
+                  const width = Math.round(defaultWidth * scale);
+                  if (width !== c.width) {
+                     c.width = width;
+                     c.height = Math.round(defaultHeight * scale);
+                  }
+               }
+               new ResizeObserver(resize).observe(c);
 
                function clamp(x, lo, hi) {
                   return (x < lo ? lo : x > hi ? hi : x);
@@ -105,8 +135,8 @@
                      else {
                         score2 += 1;
                      }
-                     ballx = c.width / 2.0 - ballSize / 2.0;
-                     bally = c.height / 2.0 - ballSize / 2.0;
+                     ballx = defaultWidth / 2.0 - ballSize / 2.0;
+                     bally = defaultHeight / 2.0 - ballSize / 2.0;
                      balldirx = (hit ? 1.0 : -1.0);
                      balldiry = (Math.random() * 3.0) - 2.0;
                      ballSpeed = 1.0;
@@ -117,8 +147,8 @@
                function updateGame() {
                   // update the game
                   if (focused) {
-                     paddle1 = clamp(paddle1 + (wDown - sDown), 0, c.height - paddleHeight);
-                     paddle2 = clamp(paddle2 + (iDown - kDown), 0, c.height - paddleHeight);
+                     paddle1 = clamp(paddle1 + (keys.KeyS.down - keys.KeyW.down), 0, defaultHeight - paddleHeight);
+                     paddle2 = clamp(paddle2 + (keys.ArrowDown.down - keys.ArrowUp.down), 0, defaultHeight - paddleHeight);
 
                      counter += updateTime;
                      if (counter >= ballCounter) {
@@ -127,51 +157,52 @@
                         bally += (mag === 0 ? 0 : balldiry / mag) * ballSpeed;
                      }
 
-                     if (bally <= 0 || bally + ballSize >= c.height) {
+                     if (bally <= 0 || bally + ballSize >= defaultHeight) {
                         balldiry = -balldiry;
                      }
 
                      handleSide((!hit && bally + ballSize >= paddle1 && bally <= paddle1 + paddleHeight && ballx <= paddleWidth), (ballx <= 0), paddle1, false);
-                     handleSide((hit && bally + ballSize >= paddle2 && bally <= paddle2 + paddleHeight && ballx + ballSize >= c.width - paddleWidth), (ballx + ballSize >= c.width), paddle2, true);
+                     handleSide((hit && bally + ballSize >= paddle2 && bally <= paddle2 + paddleHeight && ballx + ballSize >= defaultWidth - paddleWidth), (ballx + ballSize >= defaultWidth), paddle2, true);
                   }
 
                   // render the game
+                  ctx.setTransform(c.width / defaultWidth, 0, 0, c.height / defaultHeight, 0, 0);
                   ctx.fillStyle = '#000';
-                  ctx.fillRect(0, 0, c.width, c.height);
+                  ctx.fillRect(0, 0, defaultWidth, defaultHeight);
                   ctx.fillStyle = '#fff';
 
                   ctx.beginPath();
-                  ctx.moveTo(c.width / 2, 0);
-                  ctx.lineTo(c.width / 2, c.height);
+                  ctx.moveTo(defaultWidth / 2, 0);
+                  ctx.lineTo(defaultWidth / 2, defaultHeight);
                   ctx.strokeStyle = '#fff';
                   ctx.stroke();
 
                   ctx.fillRect(0, paddle1, paddleWidth, paddleHeight);                  
-                  ctx.fillRect(c.width - paddleWidth, paddle2, paddleWidth, paddleHeight);                  
+                  ctx.fillRect(defaultWidth - paddleWidth, paddle2, paddleWidth, paddleHeight);                  
                   ctx.fillRect(ballx, bally, ballSize, ballSize);
 
                   if (!focused) {
                      ctx.fillStyle = '#000a';
-                     ctx.fillRect(0, 0, c.width, c.height);
+                     ctx.fillRect(0, 0, defaultWidth, defaultHeight);
 
                      ctx.fillStyle = '#fff';
                      ctx.font = "24px Pixel";
                      const string = "PAUSED";
                      const size = ctx.measureText(string);
-                     ctx.fillText(string, c.width / 2 - size.width / 2, c.height / 2);
+                     ctx.fillText(string, defaultWidth / 2 - size.width / 2, defaultHeight / 2);
 
                      ctx.font = "8px Pixel";
                      const smallString = "CLICK TO RESUME";
                      const smallSize = ctx.measureText(smallString);
-                     ctx.fillText(smallString, c.width / 2 - smallSize.width / 2, c.height / 2 + 20);
+                     ctx.fillText(smallString, defaultWidth / 2 - smallSize.width / 2, defaultHeight / 2 + 20);
                   }
                   else {
                      ctx.font = "8px Pixel";
                      const score1Size = ctx.measureText(score1);
                      const score2Size = ctx.measureText(score2);
 
-                     ctx.fillText(score1, c.width / 4 - score1Size.width / 2, c.height / 3);
-                     ctx.fillText(score2, (c.width / 4) * 3 - score2Size.width / 2, c.height / 3);
+                     ctx.fillText(score1, defaultWidth / 4 - score1Size.width / 2, defaultHeight / 3);
+                     ctx.fillText(score2, (defaultWidth / 4) * 3 - score2Size.width / 2, defaultHeight / 3);
                   }
                }
                setInterval(updateGame, updateTime);

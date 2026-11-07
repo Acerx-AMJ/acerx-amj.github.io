@@ -41,7 +41,7 @@
       "link": "../projects/block_placer.html",
       "date": "Oct 2025",
       "status": "finished",
-      "tags": ["game"],
+      "tags": ["game", "demo"],
       "tech": ["C++", "Raylib", "HTML"]
    }, {
       "title": "Screen Simulation",
@@ -101,7 +101,7 @@
       "image": "../assets/pong/html.png",
       "status": "finished",
       "font": "pixel",
-      "tags": ["game"],
+      "tags": ["game", "demo"],
       "tech": ["C++", "SFML", "CX", "HTML"]
    }, {
       "title": "Bank Simulation",
