@@ -41,7 +41,7 @@
       "image": "../assets/bp/3.png",
       "link": "../projects/block_placer.html",
       "font": "pixel",
-      "date": "Oct 2025",
+      "date": "Oct 2025 & Nov 2026",
       "status": "finished",
       "tags": ["game", "demo"],
       "tech": ["C++", "Raylib", "HTML"]

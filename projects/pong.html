@@ -41,11 +41,15 @@
                const defaultHeight = c.height;
 
                const maxBounceAngle = 5 * Math.PI / 12;
-               const ballCounter = 3000; // in ms
+               const ballCounter = 2000; // in ms
                const updateTime = 20;
                const paddleWidth = 6;
                const paddleHeight = 24;
                const ballSize = 6;
+
+               const hitSound = new Audio('/assets/sfx/hit.wav');
+               const clickSound = new Audio('/assets/sfx/click.wav');
+               const scoreSound = new Audio('/assets/sfx/score.wav');
 
                let paddle1 = defaultHeight / 2.0 - paddleHeight / 2.0;
                let paddle2 = defaultHeight / 2.0 - paddleHeight / 2.0;
@@ -87,12 +91,20 @@
 
                   if (e.code === 'Escape') {
                      focused = !focused;
+                     playSound(clickSound);
                   }
 
                   if (e.code === 'KeyF') {
                      (document.fullscreenElement ? document.exitFullscreen() : c.requestFullscreen());
+                     playSound(clickSound);
                   }
                });
+
+               function playSound(sound) {
+                  sound.pause();
+                  sound.currentTime = 0;
+                  sound.play();
+               }
 
                function releaseKeys() {
                   for (const key of Object.values(keys)) {
@@ -127,6 +139,7 @@
                      balldirx = -balldirx;
                      ballSpeed *= 1.1;
                      hit = !hit;
+                     playSound(hitSound);
                   }
                   else if (outOfBounds) {
                      if (isRightSide) {
@@ -141,6 +154,7 @@
                      balldiry = (Math.random() * 3.0) - 2.0;
                      ballSpeed = 1.0;
                      counter = 0;
+                     playSound(scoreSound);
                   }
                }
 
@@ -159,6 +173,7 @@
 
                      if (bally <= 0 || bally + ballSize >= defaultHeight) {
                         balldiry = -balldiry;
+                        playSound(hitSound);
                      }
 
                      handleSide((!hit && bally + ballSize >= paddle1 && bally <= paddle1 + paddleHeight && ballx <= paddleWidth), (ballx <= 0), paddle1, false);
@@ -170,12 +185,9 @@
                   ctx.fillStyle = '#000';
                   ctx.fillRect(0, 0, defaultWidth, defaultHeight);
                   ctx.fillStyle = '#fff';
-
-                  ctx.beginPath();
-                  ctx.moveTo(defaultWidth / 2, 0);
-                  ctx.lineTo(defaultWidth / 2, defaultHeight);
                   ctx.strokeStyle = '#fff';
-                  ctx.stroke();
+                  ctx.strokeRect(0, 0, defaultWidth, defaultHeight);
+                  ctx.strokeRect(defaultWidth / 2, 0, 0, defaultHeight);
 
                   ctx.fillRect(0, paddle1, paddleWidth, paddleHeight);                  
                   ctx.fillRect(defaultWidth - paddleWidth, paddle2, paddleWidth, paddleHeight);                  

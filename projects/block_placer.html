@@ -88,6 +88,10 @@
                   Space: {down: false, pressed: false, timer: 0},
                };
 
+               const placeSound = new Audio('/assets/sfx/place.wav');
+               const lostSound = new Audio('/assets/sfx/lost.wav');
+               const backToBackSound = new Audio('/assets/sfx/combo.wav');
+
                let nextGrid, grid, bag, rotation, tetromino, nextTetromino, color, nextColor, posx, posy, previewy, totalClears, level, combo, difficultCount, softDrop, hardDrop, downAfter, downTimer, score;
 
                let focused = false;
@@ -193,6 +197,12 @@
                   }
                   focused = !focused;
                });
+
+               function playSound(sound) {
+                  sound.pause();
+                  sound.currentTime = 0;
+                  sound.play();
+               }
 
                function held(key) {
                   let fire = key.pressed;
@@ -355,6 +365,7 @@
                      }
                   }
 
+                  let lastDifficult = difficultCount;
                   if (cleared.length === 4) {
                      difficultCount += 1;
                   }
@@ -381,6 +392,10 @@
                   }
                   else if (cleared.length === 4) {
                      addScore(perfect ? 2600 : 800);
+                  }
+
+                  if (difficultCount >= 2 && lastDifficult != difficultCount) {
+                     playSound(backToBackSound);
                   }
                }
 
@@ -448,6 +463,7 @@
                               softDrop = hardDrop = false;
                            }
 
+                           playSound(placeSound);
                            drawTetromino();
                            clearClearedRows();
                            rotation = 0;
@@ -466,6 +482,7 @@
                                  localStorage.setItem('highscore', score);
                                  highscore = score;
                               }
+                              playSound(lostSound);
                               died = true;
                            }
                         }
