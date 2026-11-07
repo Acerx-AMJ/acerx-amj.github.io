@@ -38,7 +38,9 @@
    }, {
       "titleImage": "../assets/bp/logo.png",
       "description": "Block placer is a game heavily inspired by Tetris. Play solo, battle against friends in versus or work together in co-op mode!",
+      "image": "../assets/bp/3.png",
       "link": "../projects/block_placer.html",
+      "font": "pixel",
       "date": "Oct 2025",
       "status": "finished",
       "tags": ["game", "demo"],
