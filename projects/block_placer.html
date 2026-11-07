@@ -9,12 +9,550 @@
       <title>Block Placer</title>
       <link rel="stylesheet" href="../style/style.css">
       <script src="../source/common.js"></script>
+
+      <style>
+         article h1, article h2, article h3, article p, article a {
+            font-family: 'Pixel', sans-serif;
+         }
+
+         #block {
+            border: 1px solid var(--text);
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-inline: auto;
+         }
+      </style>
    </head>
 
    <body>
       <article>
          <img class="img-no-click" src="../assets/bp/logo.png"/>
          <h3>Daniel Vishnevsky</h3>
+         <p>Move - A/S/D, rotate - W, send - SPACE, go fullscreen - F</p>
+         <canvas id="block"></canvas>
+         <script>
+            document.addEventListener('DOMContentLoaded', () => {
+               const c = document.getElementById('block');
+               const ctx = c.getContext('2d');
+
+               const defaultWidth = c.width;
+               const defaultHeight = c.height;
+
+               const updateTime = 20;
+               const deathTime = 1000;
+               const keyDownForPress = 325;
+               const keyDownTime = 40;
+
+               const nextgridsize = 6;
+               const gridwidth = 12;
+               const gridheight = 22;
+               const tilesize = defaultHeight / gridheight;
+               const startx = gridwidth / 2 - 1;
+               const starty = 1;
+
+               const rowsForLevelUp = 8;
+               const maxLevel = 15;
+               const levelSpeeds = [1100, 1000, 900, 800, 700, 600, 550, 500, 450, 400, 350, 300, 250, 200, 150, 100];
+
+               const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff'];
+               const tetrominoes = [
+                  [[1, 1], [1, 1]], // cube
+                  [[0, 0, 1], [1, 1, 1], [0, 0, 0]], // j
+                  [[1, 0, 0], [1, 1, 1], [0, 0, 0]], // l
+                  [[0, 1, 1], [1, 1, 0], [0, 0, 0]], // s
+                  [[1, 1, 0], [0, 1, 1], [0, 0, 0]], // z
+                  [[0, 1, 0], [1, 1, 1], [0, 0, 0]], // t
+                  [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]], // i
+               ];
+
+               const wallKickJLSTX = [
+                  [[ 0,  0], [-1,  0], [-1, -1], [ 0,  2], [-1,  2]],
+                  [[ 0,  0], [ 1,  0], [ 1,  1], [ 0, -2], [ 1, -2]],
+                  [[ 0,  0], [ 1,  0], [ 1, -1], [ 0,  2], [ 1,  2]],
+                  [[ 0,  0], [-1,  0], [-1,  1], [ 0, -2], [-1, -2]],
+               ];
+
+               const wallKickI = [
+                  [[ 0,  0], [-2,  0], [ 1,  0], [-2,  1], [ 1, -2]],
+                  [[ 0,  0], [-1,  0], [ 2,  0], [-1, -2], [ 2,  1]],
+                  [[ 0,  0], [ 2,  0], [-1,  0], [ 2, -1], [-1,  2]],
+                  [[ 0,  0], [ 1,  0], [-2,  0], [ 1,  2], [-2, -1]],
+               ];
+
+               const keys = {
+                  KeyA: {down: false, pressed: false, timer: 0},
+                  KeyS: {down: false, pressed: false, timer: 0},
+                  KeyD: {down: false, pressed: false, timer: 0},
+                  KeyW: {down: false, pressed: false, timer: 0},
+                  Space: {down: false, pressed: false, timer: 0},
+               };
+
+               let nextGrid, grid, bag, rotation, tetromino, nextTetromino, color, nextColor, posx, posy, previewy, totalClears, level, combo, difficultCount, softDrop, hardDrop, downAfter, downTimer, score;
+
+               let focused = false;
+               let died = false;
+               let diedTimer = 0;
+               let highscore = localStorage.getItem('highscore') ?? 0;
+
+               function resetGame() {
+                  releaseKeys();
+                  nextGrid = [];
+                  grid = [];
+                  bag = [];
+                  rotation = 0;
+                  tetromino = getRandomTetromino();
+                  nextTetromino = getRandomTetromino();
+                  color = getRandomColor();
+                  nextColor = getRandomColor();
+                  posx = startx;
+                  posy = starty;
+                  previewy = posy;
+                  totalClears = 0;
+                  level = 0;
+                  combo = -1;
+                  difficultCount = 0;
+                  softDrop = false;
+                  hardDrop = false;
+                  downAfter = levelSpeeds[0];
+                  downTimer = 0;
+                  score = 0;
+                  died = false;
+                  diedTimer = 0;
+
+                  for (let y = 0; y < gridheight; ++y) {
+                     let row = []
+                     for (let x = 0; x < gridwidth; ++x) {
+                        if (y === 0 || y === gridheight - 1 || x === 0 || x === gridwidth - 1) {
+                           row.push({empty: 0, border: 1, color: '#888888'});
+                        }
+                        else {
+                           row.push({empty: 1, border: 0, color: '#000000'});
+                        }
+                     }
+                     grid.push(row);
+                  }
+
+                  for (let y = 0; y < nextgridsize; ++y) {
+                     let row = [];
+                     for (let x = 0; x < nextgridsize; ++x) {
+                        if (y === 0 || y === nextgridsize - 1 || x === 0 || x === nextgridsize - 1) {
+                           row.push({empty: 0, border: 1, color: '#888888'});
+                        }
+                        else {
+                           row.push({empty: 1, border: 0, color: '#000000'});
+                        }
+                     }
+                     nextGrid.push(row);
+                  }
+                  drawNextTetromino();
+               }
+               resetGame();
+
+               window.addEventListener('keydown', (e) => {
+                  const key = keys[e.code];
+                  if (!key || !focused || died) return;
+                  e.preventDefault();
+                  if (!e.repeat) {
+                     key.down = true;
+                     key.pressed = true;
+                  }
+               });
+
+               window.addEventListener('keyup', (e) => {
+                  if (died && diedTimer >= deathTime) {
+                     resetGame();
+                     return;
+                  }
+                  
+                  if (keys[e.code]) {
+                     keys[e.code].down = false;
+                  }
+
+                  if (e.code === 'Escape') {
+                     focused = !focused;
+                  }
+
+                  if (e.code === 'KeyF') {
+                     (document.fullscreenElement ? document.exitFullscreen() : c.requestFullscreen());
+                  }
+               });
+
+               window.addEventListener('beforeunload', (_) => {
+                  if (score >= highscore) {
+                     localStorage.setItem('highscore', score);
+                  }
+               });
+
+               c.addEventListener('click', () => {
+                  if (died) {
+                     if (diedTimer >= deathTime) {
+                        resetGame();
+                     }
+                     return;
+                  }
+                  focused = !focused;
+               });
+
+               function held(key) {
+                  let fire = key.pressed;
+                  key.pressed = false;
+                  key.timer = (key.down ? key.timer + updateTime : 0);
+                  if (key.timer >= keyDownForPress) {
+                     key.timer -= keyDownTime;
+                     fire = true;
+                  }
+                  return fire;
+               }
+
+               function releaseKeys() {
+                  for (const key of Object.values(keys)) {
+                     key.down = key.pressed = false;
+                     key.timer = 0;
+                  }
+               }
+
+               window.addEventListener('blur', () => {
+                  focused = false;
+                  releaseKeys();
+               });
+
+               function resize() {
+                  const scale = Math.min(c.clientWidth / defaultWidth, c.clientHeight / defaultHeight) * devicePixelRatio;
+                  const width = Math.round(defaultWidth * scale);
+                  if (width !== c.width) {
+                     c.width = width;
+                     c.height = Math.round(defaultHeight * scale);
+                  }
+               }
+               new ResizeObserver(resize).observe(c);
+
+               function getRandomColor() {
+                  return colors[Math.floor(Math.random() * colors.length)];
+               }
+
+               function shuffleArray(array) {
+                  for (let i = array.length - 1; i > 0; i--) {
+                     const j = Math.floor(Math.random() * (i + 1));
+                     [array[i], array[j]] = [array[j], array[i]];
+                  }
+               }
+
+               function getRandomTetromino() {
+                  if (bag.length === 0) {
+                     bag = tetrominoes.slice();
+                     shuffleArray(bag);
+                  }
+                  return JSON.parse(JSON.stringify(bag.pop()));
+               }
+
+               function drawTetromino() {
+                  for (let y = posy; y < gridheight && y < posy + tetromino.length; ++y) {
+                     for (let x = posx; x < gridwidth && x < posx + tetromino.length; ++x) {
+                        if (tetromino[y - posy][x - posx] && !grid[y][x].border) {
+                           grid[y][x].empty = false;
+                           grid[y][x].color = color;
+                        }
+                     }
+                  }
+               }
+
+               function drawNextTetromino() {
+                  for (let y = 1; y < nextgridsize - 1; ++y) {
+                     for (let x = 1; x < nextgridsize - 1; ++x) {
+                        nextGrid[y][x].empty = 1;
+                     }
+                  }
+
+                  const ox = 1 + (nextTetromino.length != 4);
+                  const oy = 1 + (nextTetromino.length == 2);
+
+                  for (let y = oy; y < nextTetromino.length + oy; ++y) {
+                     for (let x = ox; x < nextTetromino.length + ox; ++x) {
+                        if (nextTetromino[y - oy][x - ox]) {
+                           nextGrid[y][x].empty = 0;
+                           nextGrid[y][x].color = nextColor;
+                        }
+                     }
+                  }
+               }
+
+               function canMove(sx, sy) {
+                  for (let y = posy; y < gridheight && y < posy + tetromino.length; ++y) {
+                     for (let x = posx; x < gridwidth && x < posx + tetromino.length; ++x) {
+                        if (!tetromino[y - posy][x - posx]) {
+                           continue;
+                        }
+
+                        const dx = x + sx;
+                        const dy = y + sy;
+                        if (dx >= 0 && dx < gridwidth && dy >= 0 && dy < gridheight && !grid[dy][dx].empty) {
+                           return false;
+                        }
+                     }
+                  }
+                  return true;
+               }
+
+               function rotate() {
+                  if (tetromino.length === 2) return;
+                  const ox = posx;
+                  const oy = posy;
+                  const old = tetromino;
+                  const data = (tetromino.length === 3 ? wallKickJLSTX[rotation] : wallKickI[rotation]);
+                  tetromino = old.map((row, y) => row.map((_, x) => old[old.length - x - 1][y]));
+
+                  for (const offset of data) {
+                     posx = ox + offset[0];
+                     posy = oy + offset[1];
+                     if (canMove(0, 0)) {
+                        rotation = (rotation + 1) % 4;
+                        return;
+                     }
+                  }
+                  tetromino = old;
+                  posx = ox;
+                  posy = oy;
+               }
+
+               function clearClearedRows() {
+                  let cleared = [];
+                  for (let y = 1; y < gridheight - 1; ++y) {
+                     for (let x = 1; x < gridwidth - 1; ++x) {
+                        if (grid[y][x].empty) {
+                           break;
+                        }
+                        if (x === gridwidth - 2) {
+                           cleared.push(y);
+                        }
+                     }
+                  }
+
+                  for (const cy of cleared) {
+                     for (let y = cy; y >= 1; --y) {
+                        for (let x = 1; x < gridwidth - 1; ++x) {
+                           if (y === 1) {
+                              grid[y][x].empty = 1;
+                           }
+                           else {
+                              grid[y][x].empty = grid[y - 1][x].empty;
+                              grid[y][x].color = grid[y - 1][x].color;
+                           }
+                        }
+                     }
+                  }
+                  totalClears += cleared.length;
+                  level = Math.min(Math.floor(totalClears / rowsForLevelUp), maxLevel);
+                  downAfter = levelSpeeds[level];
+
+                  let perfect = true;
+                  loop1: for (let y = 1; y < gridheight - 1; ++y) {
+                     for (let x = 1; x < gridwidth - 1; ++x) {
+                        if (!grid[y][x].empty) {
+                           perfect = false;
+                           break loop1;
+                        }
+                     }
+                  }
+
+                  if (cleared.length === 4) {
+                     difficultCount += 1;
+                  }
+                  else if (cleared.length !== 0) {
+                     difficultCount = 0;
+                  }
+
+                  if (cleared.length === 0) {
+                     combo = -1;
+                  }
+                  else {
+                     combo += 1;
+                     addScore(50 * combo);
+                  }
+
+                  if (cleared.length === 1) {
+                     addScore(perfect ? 800 : 100);
+                  }
+                  else if (cleared.length === 2) {
+                     addScore(perfect ? 1200 : 300);
+                  }
+                  else if (cleared.length === 3) {
+                     addScore(perfect ? 1800 : 500);
+                  }
+                  else if (cleared.length === 4) {
+                     addScore(perfect ? 2600 : 800);
+                  }
+               }
+
+               function addDropScore(hard) {
+                  for (let y = 0; y < tetromino.length; ++y) {
+                     for (let x = 0; x < tetromino.length; ++x) {
+                        score += (tetromino[y][x] * (hard + 1));
+                     }
+                  }
+               }
+
+               function addScore(plus) {
+                  const levelMultiplier = Math.max(1, level);
+                  const difficultMultiplier = (difficultCount >= 2 ? 1.5 : 1);
+                  score += plus * levelMultiplier * difficultMultiplier;
+               }
+
+               function adjust(color, amount) {
+                  return '#' + color.replace(/^#/, '').replace(/../g, color => ('0'+Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
+               }
+
+               function drawTile(x, y, color) {
+                  ctx.fillStyle = color;
+                  ctx.fillRect(x * tilesize, y * tilesize, tilesize, tilesize);
+                  ctx.strokeStyle = adjust(color.substr(1), -50);
+                  ctx.strokeRect(x * tilesize, y * tilesize, tilesize, tilesize);
+               }
+
+               function updateGame() {
+                  // update the game
+                  if (died) {
+                     diedTimer += updateTime;
+                  }
+
+                  if (focused && !died) {
+                     if (keys.KeyW.pressed) {
+                        rotate();
+                     }
+
+                     if (held(keys.KeyS) && canMove(0, 1)) {
+                        posy += 1;
+                        downTimer = 0;
+                        softDrop = true;
+                     }
+
+                     posx += (held(keys.KeyD) && canMove( 1, 0));
+                     posx -= (held(keys.KeyA) && canMove(-1, 0));
+
+                     if (keys.Space.pressed) {
+                        while (canMove(0, 1)) posy += 1;
+                        downTimer = downAfter;
+                        hardDrop = true;
+                     }
+
+                     downTimer += updateTime;
+                     if (downTimer >= downAfter) {
+                        downTimer -= downAfter;
+
+                        if (canMove(0, 1)) {
+                           posy += 1;
+                        }
+                        else {
+                           if (softDrop || hardDrop) {
+                              addDropScore(hardDrop);
+                              softDrop = hardDrop = false;
+                           }
+
+                           drawTetromino();
+                           clearClearedRows();
+                           rotation = 0;
+                           tetromino = nextTetromino;
+                           color = nextColor;
+                           nextTetromino = getRandomTetromino();
+                           nextColor = getRandomColor();
+                           drawNextTetromino();
+
+                           posx = startx;
+                           posy = starty;
+                           downTimer = 0;
+
+                           if (!canMove(0, 0)) {
+                              if (score >= highscore) {
+                                 localStorage.setItem('highscore', score);
+                                 highscore = score;
+                              }
+                              died = true;
+                           }
+                        }
+                     }
+
+                     let originaly = posy;
+                     previewy = posy;
+
+                     while (canMove(0, 1)) posy = previewy = posy + 1;
+                     posy = originaly;
+
+                     keys.KeyW.pressed = false;
+                     keys.KeyA.pressed = false;
+                     keys.KeyS.pressed = false;
+                     keys.KeyD.pressed = false;
+                     keys.Space.pressed = false;
+                  }
+
+                  // render the game
+                  ctx.setTransform(c.width / defaultWidth, 0, 0, c.height / defaultHeight, 0, 0);
+                  ctx.lineWidth = 0.5;
+                  ctx.fillStyle = '#000';
+                  ctx.fillRect(0, 0, defaultWidth, defaultHeight);
+                  ctx.fillStyle = '#fff';
+
+                  for (let y = 0; y < gridheight; ++y) {
+                     for (let x = 0; x < gridwidth; ++x) {
+                        const tile = grid[y][x];
+                        if (!tile.empty) {
+                           drawTile(x, y, tile.color);
+                        }
+                     }
+                  }
+
+                  for (let y = 0; y < nextgridsize; ++y) {
+                     for (let x = 0; x < nextgridsize; ++x) {
+                        const tile = nextGrid[y][x];
+                        if (!tile.empty) {
+                           drawTile(gridwidth + 2 + x, 4 + y, tile.color);
+                        }
+                     }
+                  }
+
+                  for (let y = posy; y < tetromino.length + posy && y < gridheight; ++y) {
+                     for (let x = posx; x < tetromino.length + posx && x < gridwidth; ++x) {
+                        if (tetromino[y - posy][x - posx]) {
+                           drawTile(x, y, color);
+                        }
+                     }
+                  }
+
+                  ctx.strokeStyle = color;
+                  for (let y = previewy; previewy != posy && y < tetromino.length + previewy && y < gridheight; ++y) {
+                     for (let x = posx; x < tetromino.length + posx && x < gridwidth; ++x) {
+                        if (tetromino[y - previewy][x - posx]) {
+                           ctx.strokeRect(x * tilesize, y * tilesize, tilesize, tilesize);
+                        }
+                     }
+                  }
+
+                  ctx.fillStyle = '#fff';
+                  ctx.font = "8px Pixel";
+                  ctx.fillText("NEXT:", (gridwidth + 2) * tilesize, 20);
+                  ctx.fillText("SCORE:" + score, (gridwidth + 2) * tilesize, 90);
+                  ctx.fillText("HI-SCORE:" + highscore, (gridwidth + 2) * tilesize, 105);
+                  ctx.fillText("LEVEL:" + level, (gridwidth + 2) * tilesize, 120);
+
+                  if (!focused || died) {
+                     ctx.fillStyle = '#000a';
+                     ctx.fillRect(0, 0, defaultWidth, defaultHeight);
+
+                     ctx.fillStyle = '#fff';
+                     ctx.font = "24px Pixel";
+                     const string = (died ? "GAME OVER" : "PAUSED");
+                     const size = ctx.measureText(string);
+                     ctx.fillText(string, defaultWidth / 2 - size.width / 2, defaultHeight / 2);
+
+                     ctx.font = "8px Pixel";
+                     const smallString = (died ? "PRESS ANY KEY TO RESTART" : "CLICK TO RESUME");
+                     const smallSize = ctx.measureText(smallString);
+                     ctx.fillText(smallString, defaultWidth / 2 - smallSize.width / 2, defaultHeight / 2 + 20);
+                  }
+               }
+               setInterval(updateGame, updateTime);
+            });
+         </script>
+
          <h2>About</h2>
          <p><span></span>Block Placer is a game heavily inspired by Tetris. But unlike most Tetris clones, this one features 3 different game modes - solo, versus and co-op. In co-op mode you can play with your friend on a larger map or challenge yourself to control two tetrominoes at the same time. Or play the classic versus mode.</p>
          <div class="iframe-container youtube-video"><iframe src="https://www.youtube.com/embed/jty4y1evj1k?si=x2oPlItcyMOkaHit" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
@@ -27,6 +565,7 @@
          <h2>Development</h2>
          <p><span></span>This game was made for the sole reason of transitioning from SFML to Raylib and it served its purpose well. This is a great project to make. I originally wanted to just make the Tetris logic but making it was so fun that I just had to add more game-modes. I think that the biggest challenge was to unify the logic of all 3 game-modes in a single state. I had some interesting errors in the process.</p>
          <p><span></span>I had no idea how to use Raylib prior to making this. Something about throwing myself into the unknown feels right at home. Reminds me of the first time playing Terraria. At first it was weird to draw things in immediate mode instead of with objects like in SFML but I got used to it and in my opinion, it is a much better way to handle graphics.</p>
+         <p><span></span>Later on I decided to remake it in HTML Canvas. You can play it above.</p>
 
          <h2>Play</h2>
          <p><span></span>The game is available for free on Windows, Linux and MacOS.</p>

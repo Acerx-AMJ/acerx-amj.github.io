@@ -42,7 +42,7 @@
       "date": "Oct 2025",
       "status": "finished",
       "tags": ["game"],
-      "tech": ["C++", "Raylib"]
+      "tech": ["C++", "Raylib", "HTML"]
    }, {
       "title": "Screen Simulation",
       "description": "2D screen simulator and sprite renderer capable of drawing rectangles and sprites. It simulates each pixel of the screen.",

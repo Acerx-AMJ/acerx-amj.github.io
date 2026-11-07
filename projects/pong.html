@@ -35,7 +35,6 @@
          <canvas id="pong"></canvas>
          <script>
             document.addEventListener('DOMContentLoaded', () => {
-               const info = document.getElementById('pong-info');
                const c = document.getElementById('pong');
                const ctx = c.getContext('2d');
 
@@ -152,18 +151,22 @@
                   ctx.fillRect(ballx, bally, ballSize, ballSize);
 
                   if (!focused) {
-                     ctx.font = "24px Pixel"
+                     ctx.fillStyle = '#000a';
+                     ctx.fillRect(0, 0, c.width, c.height);
+
+                     ctx.fillStyle = '#fff';
+                     ctx.font = "24px Pixel";
                      const string = "PAUSED";
                      const size = ctx.measureText(string);
                      ctx.fillText(string, c.width / 2 - size.width / 2, c.height / 2);
 
-                     ctx.font = "8px Pixel"
+                     ctx.font = "8px Pixel";
                      const smallString = "CLICK TO RESUME";
                      const smallSize = ctx.measureText(smallString);
                      ctx.fillText(smallString, c.width / 2 - smallSize.width / 2, c.height / 2 + 20);
                   }
                   else {
-                     ctx.font = "8px Pixel"
+                     ctx.font = "8px Pixel";
                      const score1Size = ctx.measureText(score1);
                      const score2Size = ctx.measureText(score2);
 
