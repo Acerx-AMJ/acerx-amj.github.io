@@ -30,6 +30,17 @@ const cll_data = {
    number: /(?<![\w.])(?:\d+(?:\.\d*)?|\.\d+)(?!\w)/,
 };
 
+const ssl_data = {
+   keywords: new Set([
+      'and', 'or', 'not', 'if', 'elif', 'else', 'end', 'match', 'case', 'enum', 'fn', 'lambda', 'struct', 'for', 'in', 'to', 'until',
+      'loop', 'while', 'do', 'reversed', 'continue', 'break', 'return', 'unless', 'pub', 'prv', 'import', 'all', 'from', 'as', 'is'
+   ]),
+   types: new Set([]),
+   line_comment: /\/\/.*/,
+   block_comment: /\/\*[\s\S]*?\*\//,
+   number: /(?<![\w.])(?:\d+(?:\.\d*)?|\.\d+)(?!\w)/,
+};
+
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 function highlight(code, language) {
@@ -38,7 +49,7 @@ function highlight(code, language) {
       ['block', language.block_comment],
       ['directive', language.directive],
       ['path', language.include_path],
-      ['str', /"(?:\\.|[^"\\])*"/],
+      ['str', /"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/],
       ['qualified', language.scope && /\b[A-Za-z_]\w*(?:::[A-Za-z_]\w*)+/],
       ['number', language.number],
       ['func', /\b[A-Za-z_]\w*(?=\()/],
@@ -93,6 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
    }
    for (const cll of document.querySelectorAll('.code-cll')) {
       cll.innerHTML = highlight(cll.textContent, cll_data);
+   }
+   for (const ssl of document.querySelectorAll('.code-ssl')) {
+      ssl.innerHTML = highlight(ssl.textContent, ssl_data);
    }
 
    for (const pre of document.querySelectorAll('.code.copy')) {

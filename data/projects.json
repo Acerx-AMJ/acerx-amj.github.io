@@ -61,11 +61,11 @@
       "tech": ["C++", "SFML"],
       "start": "2025-09"
    }, {
-      "title": "CLL Interpreter",
-      "description": "A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use.",
+      "title": "CLL/SSL Interpreter",
+      "description": "CLL is a high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use. SSL is a sequel made to be even easier to use.",
       "custom": "<pre class=\"code\"><k>fn</k> <f>fibonacci</f>(n) {\n   <k>return</k> n <k>unless</k> n > 1\n   <f>fibonacci</f>(n - 1) + <f>fibonacci</f>(n - 2)\n}\n\n<k>fn</k> <f>main</f>() {\n   <f>println</f>(<f>fibonacci</f>(5))\n}</pre>",
       "link": "/projects/cll.html",
-      "date": "Aug 2025 to Sep 2025",
+      "date": "Aug 2025 to Sep 2025 & Mar 2026",
       "status": "unfinished",
       "tags": ["interpreter", "system"],
       "tech": ["C++"],

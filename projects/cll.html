@@ -3,107 +3,118 @@
 <html lang="en">
    <head>
       <meta name="author" content="Daniel Vishnevsky">
-      <meta name="description" content="A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use">
+      <meta name="description" content="A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use. SSL is a sequel made to be even easier to use">
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>CLL</title>
+      <title>CLL/SSL</title>
       <link rel="stylesheet" href="/style/style.css">
       <script src="/source/common.js"></script>
    </head>
 
    <body>
       <article>
-         <h1>CLL</h1>
+         <h1>CLL/SSL</h1>
          <h3>Daniel Vishnevsky</h3>
+         <h2>CLL</h2>
+         <p><span></span>CLL A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use. It is a C-like language with a basic standard library that supports functions, loops and arrays. Everything is an expression in the language which makes it pretty unique. You can put a for loop in a variable.</p>
+         <p><span></span>The infamous "Hello, World!" looks like this:</p>
+         <pre class="code code-cll copy">
+fn main() {
+   println("Hello, World!")
+}</pre>
+         <p>Factorial example:</p>
+         <pre class="code code-cll copy">
+fn factorial(n) {
+   return n unless n > 1
+   n * factorial(n - 1)
+}
+
+fn factorial_iterative(n) {
+   return for let i = n - 1; i > 1; i-- do n *= i
+}</pre>
+         <p>Nth fibonacci number:</p>
          <pre class="code code-cll copy">
 fn fibonacci(n) {
    return n unless n > 1
    fibonacci(n - 1) + fibonacci(n - 2)
 }
 
+fn fibonacci_iterative(n) {
+   return n unless n > 1
+   let prev1, prev2, curr = 1, 0
+
+   for let i = 2; i <= n; i++ {
+      curr = prev1 + prev2
+      prev2 = prev1
+      prev1 = curr
+   }
+   return curr
+}</pre>
+         <p>Simple input application:</p>
+         <pre class="code code-cll copy">
 fn main() {
-   println(fibonacci(5))
+   let name = input("Input your name: ")
+   let age = inputnum("Input your age: ")
+   printfln("Hi, {}! You will be {} next year!", name, age + 1)
 }</pre>
+         <p>Grade standard deviation calculator:</p>
+         <pre class="code code-cll copy">
+fn main() {
+   let grades = []
+   let num = 0
+   let sum = 0
 
-         <h2>About</h2>
-         <p><span></span>A high-level interpreted scripting language inspired by Python and C++ made to be comfortable to use. Made with C++.</p>
+   // input all grades
+   while {
+      num = inputnum("Input grade (-1 to stop): ")
+      break unless num != -1
+      grades.push(num)
+      sum += num
+   }
 
-         <h2>Features</h2>
-         <p><span></span>CLL is a C like language with a basic standard library that supports functions, loops and arrays. It is really simple. Everything is an expression in the language which makes it really unique. It looks like an imperial language but is a functional one under the hood.</p>
-         <p><span></span>The infamous "Hello, World!" is really easy to write:</p>
-         <pre class="code code-cll copy">println("Hello, World!")
+   let average = sum / grades.size()
+   let squareSum = 0
 
-</pre>
-         <p><span></span>Or if you want to be more correct:</p>
-         <pre class="code code-cll copy">fn main() {
-   println("Hello, World!")
-}</pre>
-         <p>I don't feel like coding a bunch of examples, so here is a huge file of everything found in CLL:</p>
-<pre class="code code-cll copy">// This is a single-line comment
-/*
-   This is a
-   multi-line
-   comment
-*/
-
-let x, y, z = 29, -6.12, null
-let name = "John"
-printfln("Hello, {}!", name) // Hello, John!
-
-assert(1 + 1 == 2, "Something's really wrong...")
-name = input("Input your name: ") // Input your name: [INPUT]
-printfln("Hello, {}!", name) // Hello, [INPUT]!
-
-con myconstant = {
-   return 86
-}
-
-delete x, y, z // They're not allocated, just delete the variables
-let x // Assign a completely new variable
-println(exists x, exists y, exists z) // true, false ,false
-
-do {
-   let localvar = 20
-}
-println(exists localvar) // false
-
-if 1 + 1 == 2 do
-   println("1 + 1 is 2") // 1 + 1 is 2
-else do
-   println("1 + 1 is not 2") // won't execute!
+   // calculate variance and standard deviation
+   for grade in grades do
+      squareSum += (grade - average) ** 2
    
-let i = 10
-while i-- > 0 do
-   println(i) // 9, 8, 7, 6, 5, 4, 3, 2, 1
+   let variance = squareSum / grades.size()
+   let stddev = variance ** 0.5
 
-for let i = 1; i <= 10; i++ do
-   println(i) // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+   // output everything
+   printfln("Grades: {}", grades)
+   printfln("Average: {}", average)
+   printfln("Variance: {}", variance)
+   printfln("Standard deviation: {}", stddev)
+}</pre>
+         <h2>SSL</h2>
+         <p><span></span>The sequel to CLL - an even simplier scripting language. Although, this one isn't in an usable state like CLL is. One major difference is that CLL is functional-ish while SSL is imperial.</p>
+         <p><span></span>"Hello, World!" example:</p>
+         <pre class="code code-ssl copy">
+fn main()
+   println('Hello, World!')
+end</pre>
+         <p><span></span>Factorial example:</p>
+         <pre class="code code-ssl copy">
+fn factorial(n)
+   if n <= 1 return 1 end
+   return n * factorial(n - 1)
+end
 
-for break // do nothing
+fn factorial_iterative(n)
+   z := n // n is constant
+   for i in 2 until n
+      z = z * i
+   end
+   return z
+end</pre>
 
-while {
-   let ch = inputch()
-   break unless ch != 'y'= // equivalent to if ch == 'y' do break
-}
-
-do println("This will not print.") unless true
-
-println("\e[31m This is red text! \e[0m")
-println("\e[32m This is green text! \e[0m")
-println("\e[34m This is blue text! \e[0m")
-
-for i in 0..10 do
-   println(i) // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-
-let a = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-for i in a do   
-   println(i) // 1, 2, 3, 4, 5, 6, 7, 8, 9
-println(a.size()) // 9</pre>
-         <p><span></span>As can be seen in the example above CLL is a small scripting language that includes most of the necessary features for writing a quick little script.</p>
          <h2>Development</h2>
-         <p><span></span>Started it out to achieve my dream of having my own real usable programming language and experimented a lot along the way, making it quite unique from the rest. I love how it came out but I would be more proud if I got references to work right. Because I couldn't, I quit making this.</p>
-         <p><span></span>I would count this as a half-successful language. I'm still far away from making a real working language that could be used in real-life situations but one day I might come back to this and upgrade it to finally have all features I want and to have a bigger standard library. Until then this is my best attemp at creating my own programming language.</p>
-         <p><span></span>The source code and documentation is available on <a href="https://github.com/Acerx-AMJ/CLL_Interpreter">Github</a>. It's not the best language implementation but it's good enough in my book.</p>
+         <p><span></span>I started developing CLL in August 2025 to achieve my dream of a real usable programming language and I experimented a lot along the way, making it quite unique from the rest. I love how it turned out but I would be more proud if I got references to work right. Because I failed to get them right, I quit making it.</p>
+         <p><span></span>That happened in September 2025. But somewhere in March 2026 I got the urge again. To create another programming language. And that's when I started working on SSL - it was supposed to be CLL but better. And with references.</p>
+         <p><span></span>And I kind of did achieve that goal. SSL had working references. But I didn't get it in an usable state in the end because I quit. I'm not sure why, but I have a hunch that it was because of <a href="sandbox2d.html">Sandbox-2D</a> or AA3.</p>
+         <p><span></span>If you're interested in playing around with these two languages, check out their source code: <a href="https://github.com/Acerx-AMJ/CLL_Interpreter">CLL</a>, <a href="https://github.com/Acerx-AMJ/SSL-Interpreter">SSL</a>. CLL is documented but 8 months have passed since I last touched SSL's source code, so I was too lazy to document it.</p>
       </article>
 
       <script src="/source/code-highlight.js"></script>
