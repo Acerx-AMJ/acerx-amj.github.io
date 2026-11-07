@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
    const pathname = location.pathname;
    const isDiscussion = (here === 'discussion.html');
 
-   if (article && here !== '404.html' && (pathname.includes('/blogs/') || pathname.includes('/projects/') || isDiscussion)) {
+   if (article && document.title !== '404' && (pathname.includes('/blogs/') || pathname.includes('/projects/') || isDiscussion)) {
       const container = document.createElement('div');
       container.className = 'giscus';
       article.appendChild(container);
