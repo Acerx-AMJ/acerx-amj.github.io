@@ -21,7 +21,6 @@
 @font-face {
    font-family: "Monaspace Neon";
    font-style: normal;
-   font-weight: 400;
    font-display: swap;
    src: url('/assets/fonts/MonaspaceNeon-Regular.otf');
 }
@@ -38,6 +37,13 @@
    font-style: normal;
    font-display: swap;
    src: url('/assets/fonts/andy.ttf');
+}
+
+@font-face {
+   font-family: 'Slackey';
+   font-style: normal;
+   font-display: swap;
+   src: url('/assets/fonts/slackey.ttf');
 }
 
 /*
@@ -284,6 +290,28 @@ body:has(.img-fullscreen) #menu-toggle {
    --h: 128;
    --frames: 2;
    --fps: 10;
+}
+
+.sprite-hungry-eye {
+   background-image: url('/assets/sprites/eye1.png');
+   --frames: 2;
+   --fps: 8;
+}
+
+.sprite-eye-large {
+   background-image: url('/assets/sprites/eye_large2.png');
+   --frames: 2;
+   --fps: 6;
+   --w: 128;
+   --h: 128;
+}
+
+.sprite-fish-large {
+   background-image: url('/assets/sprites/fish_large1.png');
+   --frames: 2;
+   --fps: 6;
+   --w: 128;
+   --h: 128;
 }
 
 .sprite-slime {
@@ -600,11 +628,6 @@ th {
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.flex-row {
-   display: flex;
-   justify-content: center;
-}
-
 .youtube-video, .itch-link {
    position: relative;
    overflow: hidden;
@@ -718,13 +741,17 @@ n { color: var(--code-number) }
    text-decoration: none;
 }
 
-#projects a.font-pixel :is(h2, p) {
+#projects a.font-pixel :is(h2, p, pre) {
    font-family: 'Pixel', var(--font);
 }
 
-#projects a.font-andy :is(h2, p) {
+#projects a.font-andy :is(h2, p, pre) {
    font-family: 'Andy', var(--font);
    font-size-adjust: 0.66;
+}
+
+#projects a.font-slackey :is(h2, p, pre) {
+   font-family: 'Slackey', var(--font);
 }
 
 #projects .card-meta {
