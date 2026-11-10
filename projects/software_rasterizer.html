@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta name="author" content="Daniel Vishnevsky">
+      <meta name="description" content="Small CPU-based 3D software rasterizer featuring textures, depth buffer, near plane clipping and basic fog and lighting">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>3D Software rasterizer</title>
+      <link rel="stylesheet" href="/style/style.css">
+      <script src="/source/common.js"></script>
+   </head>
+
+   <body>
+      <article>
+         <h1>3D Software rasterizer</h1>
+         <h3>Daniel Vishnevsky</h3>
+
+         <div class="side-sprite-r"><div class="sprite" style="background-image:url('/assets/3dsr/bricks.png');width: 8px;height:8px;zoom:15;transform:rotate(17deg)"></div></div>
+
+         <h2>About</h2>
+         <p><span></span>Small CPU-based 3D software rasterizer featuring textures, depth buffer, near plane clipping and basic fog and lighting</p>
+         <div class="youtube-video"><iframe src="https://www.youtube.com/embed/XFL_Xg6LKtc?si=ExjhbDV6hqJogplg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+         <div class="side-sprite-l"><div class="sprite" style="background-image:url('/assets/3dsr/rainbow.png');width: 64px;height:64px;zoom:2;transform:rotate(-12deg)"></div></div>
+
+         <h2>Development</h2>
+         <p><span></span>I started developing this project in February of 2026 under a differnt name - 3D engine. Due to an upcoming game jam (didn't participate in the end), I decided to give Lua and Love2D a try and the first project idea to pop up in my head was a 3D engine. Because it's the best project to make when you have no idea how to use a library (although, I had a lot of prior Lua experience).</p>
+
+         <div class="side-sprite-r"><div class="sprite" style="background-image:url('/assets/3dsr/tile.png');width: 64px;height:64px;zoom:2;transform:rotate(5deg)"></div></div>
+
+         <p><span></span>And since it originally wasn't a software rasterizer, it drew 3D geometry using 2D triangles. It used math to convert the 3D points to 2D and do all kinds of other stuff (like rotate and move the geometry in 3D space). It was super basic and couldn't sort triangles properly since it was using the painter's algorithm. And it couldn't handle textures, lighting and fog like the current software rasterizer can.</p>
+         <p><span></span>But in November of 2026 I came back to this project to give it a massive overhaul and turn it into something more interesting - a software rasterizer. Now, instead of using triangles to draw geometry, it uses pure pixels. And since it uses pixels, it unlocks a plethora of cool things that can be done to it.</p>
+         <p><span></span>Firstly, I played around with the triangle weights to create the rainbow triangle (you probably know this from OpenGL), after that I implemented the UVs, which are responsible for mapping the texture to the screen. And textures were the next step. Rendering 3D textured geometry only using the CPU was mind-blowing to me.</p>
+
+         <div class="side-sprite-l"><div class="sprite" style="background-image:url('/assets/3dsr/industrial_floor5.png');width: 64px;height:64px;zoom:2;transform:rotate(-15deg)"></div></div>
+         <div class="side-sprite-l"><div class="sprite" style="background-image:url('/assets/3dsr/industrial_floor9.png');width: 64px;height:64px;zoom:1.5;transform:rotate(-4deg);margin-top:110px"></div></div>
+         <div class="side-sprite-r"><div class="sprite" style="background-image:url('/assets/3dsr/industrial_wall8.png');width: 64px;height:64px;zoom:2;transform:rotate(12deg);margin-top:250px"></div></div>
+         <div class="side-sprite-l"><div class="sprite" style="background-image:url('/assets/3dsr/bricks.png');width: 8px;height:8px;zoom:16;transform:rotate(-8deg);margin-top:80px"></div></div>
+         
+         <p><span></span>But I didn't stop there, I implemented the near plane clipping (which was the hardest feature for me to implement, I just couldn't grep it at first) and the depth buffer (a nice break after the near plane clipping). Played with FFI optimizations and corrupted my textures (oops). And ended it off with fog and per-triangle lighting.</p>
+         <p><span></span>I love this project. I was joking to my friends about implementing Half Life 3 in it. It uses upscaled 200x200 resolution. It can handle more but I wanted everyone to be able to try it out out of the box. And it's single-threaded. But whatever, it runs at like 400-500 FPS on my integrated graphics for this simple scene. Source is on <a href="https://github.com/Acerx-AMJ/3D-software-rasterizer">Github</a>.</p>
+
+         <h2>Gallery</h2>
+         <p><span></span>Hover over an image for more information on what the hell you're looking at. It's recommended to start with the first column, go down and then wrap back to the second column and go down again.</p>
+         <div class="col2">
+            <img title="First version. 3D engine (not a software rasterizer). Handled basic shapes" src="/assets/3dsr/1.png"/>
+            <img title="The same first version, but this time with more than a single shape" src="/assets/3dsr/2.png"/>
+            <img title="Here, the geometry was able to be manipulated by code" src="/assets/3dsr/3.png"/>
+            <img title="Another screenshot of the first version..." src="/assets/3dsr/4.png"/>
+            <img title="Now, instead of using Love2D's triangle method, the triangles are drawn programmatically pixel by pixel. Colors represent the blend of the three triangle edges" src="/assets/3dsr/5.png"/>
+            <img title="Another screenshot of triangle edge blend" src="/assets/3dsr/6.png"/>
+            <img title="Triangle edge blend using only the red color" src="/assets/3dsr/7.png"/>
+            <img title="Here, each vertice could be assigned its own color and the weights could be used to blend them (triangle 1 - green, blue, red, triangle 2 - yellow, yellow, yellow)" src="/assets/3dsr/8.png"/>
+            <img title="Another edge blend. Or weight blend" src="/assets/3dsr/9.png"/>
+            <img title="The same concept now with a full rectangle" src="/assets/3dsr/10.png"/>
+            <img title="Now, instead of blending weights, blend the UVs. U is red and V is green. UVs are used for texture mapping, but this version contains distortion at certain angles" src="/assets/3dsr/11.png"/>
+            <img title="UV with fixed distortion. Checkered pattern was made programmatically and used for testing, since using the UV gradient it's hard to notice the distortion" src="/assets/3dsr/12.png"/>
+            <img title="Fully working texture rendering! On the side is a plain red face as a symbol of friendship and unity" src="/assets/3dsr/13.png"/>
+            <img title="Near plane clipping implementation. What this means is that when the triangle is partly outside of the camera, instead of disappearing, it fixes it so it can still be rendered. The small black triangle cut out is intended" src="/assets/3dsr/14.png"/>
+            <img title="Here, the depth buffer is implemented, meaning pixels are sorted in the correct way. Before, the painter's algorithm was used, where triangles were sorted by depth. But it was fragile and didn't handle intersecting triangles well. Here, the depth buffer handles them correctly" src="/assets/3dsr/15.png"/>
+            <img title="Another screenshot of the depth buffer in action" src="/assets/3dsr/16.png"/>
+            <img title="Various optimizations. One of them corrupted the texture output, creating this acid-like texture" src="/assets/3dsr/17.png"/>
+            <img title="Implemented correct UVs for cubes. And so I added a textured cube (in the back)" src="/assets/3dsr/18.png"/>
+            <img title="Implemented correct UVs for wedges as well, which was a little more tricky. Here's a wedge next to a cube" src="/assets/3dsr/19.png"/>
+            <img title="Implemented fog. It was surprisingly easy and makes everything look nicer (or scarier)" src="/assets/3dsr/20.png"/>
+            <img title="Also added basic lighting. Like really basic. Per-triangle lighting (nice lighting is per-pixel)" src="/assets/3dsr/21.png"/>
+            <img title="Added some rotating, scaling and moving elements for a more interesting environment" src="/assets/3dsr/22.png"/>
+         </div>
+      </article>
+
+      <script src="/source/image_click.js"></script>
+   </body>
+</html>

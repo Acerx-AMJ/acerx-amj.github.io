@@ -1,5 +1,15 @@
 {
    "data": [{
+      "title": "3D Software Rasterizer",
+      "description": "Small CPU-based 3D software rasterizer featuring textures, depth buffer, near plane clipping and basic fog and lighting.",
+      "image": "/assets/3dsr/22.png",
+      "link": "/projects/software_rasterizer.html",
+      "date": "Feb 2026 & Nov 2026",
+      "status": "finished",
+      "tags": ["system", "graphics"],
+      "tech": ["Lua", "Love2D"],
+      "start": "2026-02"
+   },{
       "title": "Paint Together",
       "description": "Simple paint program capable of collaboration in a LAN.",
       "image": "/assets/paint/1.png",
