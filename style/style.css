@@ -467,6 +467,13 @@ article h3 {
    color: var(--text-light);
 }
 
+article h4 {
+   font-family: var(--font-heading);
+   font-size: 1.2rem;
+   margin-block: 0.8rem;
+   color: var(--text);
+}
+
 article pre {
    font-family: var(--font);
    font-size: 0.9rem;
@@ -570,7 +577,9 @@ img.img-fullscreen {
    left: 0;
    right: 0;
    top: 0;
-   margin: auto;
+   margin: auto !important;
+   border: none !important;
+   border-radius: 0 !important;
    object-fit: contain;
    position: fixed;
    z-index: 1000;
