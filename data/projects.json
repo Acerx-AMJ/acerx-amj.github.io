@@ -1,5 +1,14 @@
 {
    "data": [{
+      "titleImage": "/assets/sru/sru.png",
+      "description": "Simple Raylib Utility Library - based on utilities developed for Sandbox-2D and AA3. Made to reduce boilerplate for different Raylib projects",
+      "link": "/projects/sru.html",
+      "date": "Jun 2026 to present",
+      "status": "working on",
+      "tags": ["library"],
+      "tech": ["C++", "Raylib"],
+      "start": "2026-06"
+   },{
       "title": "3D Software Rasterizer",
       "description": "Small CPU-based 3D software rasterizer featuring textures, depth buffer, near plane clipping and basic fog and lighting.",
       "image": "/assets/3dsr/22.png",
@@ -113,7 +122,7 @@
       "tech": ["HTML"],
       "start": "2025-06"
    }, {
-      "titleImage": "/assets/cx.png",
+      "titleImage": "/assets/cx/cx.png",
       "description": "CX is a graphics library based on SFML to make writing SFML easier and more comfortable. It handles event boilerplate, a lot of the math and element positioning for the user.",
       "link": "/projects/cx_lib.html",
       "date": "Dec 2024 to Jun 2025",

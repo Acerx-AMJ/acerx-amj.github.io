@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta name="author" content="Daniel Vishnevsky">
+      <meta name="description" content="Simple Raylib Utility Library - based on utilities developed for Sandbox-2D and AA3. Made to reduce boilerplate for different Raylib projects">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>SRU Library</title>
+      <link rel="stylesheet" href="/style/style.css">
+      <script src="/source/common.js"></script>
+   </head>
+
+   <body>
+      <article>
+         <img class="img-no-click" src="/assets/sru/sru.png"/>
+
+         <div class="side-sprite-r"><div class="sprite" style="background-image:url('/assets/3dsr/bricks.png');width: 8px;height:8px;zoom:15;transform:rotate(11deg)"></div></div>
+   
+         <h3>Daniel Vishnevsky</h3>
+         <h2>About</h2>
+         <p><span></span>Simple Raylib Utility Library - based on utilities developed for Sandbox-2D and AA3. Made to reduce boilerplate for different Raylib projects.</p>
+
+         <div class="side-sprite-l"><div style="width:84px;height:84px;background-color:green;border-radius:100%;"></div></div>
+         <div class="side-sprite-r"><div class="sprite" style="background-image:url('/assets/3dsr/jungle_grass.png');margin-top:3px;width:8px;height:8px;zoom:13;transform:rotate(6deg)"></div></div>
+
+         <pre class="code code-cpp copy">
+#include "SRU/sru.hpp"
+
+int main() {
+   SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+   InitWindow(960, 540, "SRU-Lib Test");
+   SetTargetFPS(60);
+
+   while (!WindowShouldClose()) {
+      BeginDrawing();
+      drawTextResponsive(GetFontDefault(), {0.5f, 0.5f}, "Hello, SRU-Lib!", 125.0f);
+      EndDrawing();
+   }
+   CloseWindow();
+}</pre>
+         <p><span></span>That is not pseudo-code and it doesn't leave anything out of it. That's how easy Raylib + SRU-Lib is to use. That's the main goal of this library.</p>
+
+         <h2>Features</h2>
+         <p><span></span>This library is not supposed to replace Raylib, but to be used alongside it. And for that reason it is easily integratable with Raylib. It features standard boilerplate managers such as asset, audio and particle manager.</p>
+
+         <div class="side-sprite-r"><div class="sprite" style="background-image:url('/assets/3dsr/lamp.png');width:8px;height:8px;zoom:11;transform:rotate(6deg);box-shadow: 0 0 10px yellow;"></div></div>
+
+         <p><span></span>There are super handy utilities, like file functions for easily saving game's config and data. And utilities for parsing these values to integers, vectors, arrays and even key, value pairs. There are also handy wrappers for random numbers (both C's rand and C++'s &lt;random&gt; header) and various string operations, like trimming, splitting, joining and etc.</p>
+         <p><span></span>However, this library is mostly focused on the rendering part, making it extremely easy to make responsive UI and positioning elements only using constants. SRU-Lib also provides easy tweens and animations.</p>
+
+         <div class="side-sprite-l"><div class="sprite sprite-demon" style="margin-top:160px;--row: 2"></div></div>
+         <div class="side-sprite-l"><div class="sprite sprite-demon-large" style="--row: 0;transform: rotate(9deg)"></div></div>
+
+         <h2>Animated Demon</h2>
+         <img style="shape-outside:margin-box;float:right;width:257px;" class="img-no-click" src="/assets/sru/demon.png"/>
+         <p><span></span>Save the demon sprite as "demon.png" in the same directory as the cpp file. This example not only shows how to render and animate sprites, but also how to make sprites responsive. The demon sprite will be sized accordingly to the screen size.</p>
+
+         <div class="side-sprite-r"><div class="sprite sprite-demon-large" style="--flip-x:-1;transform: rotate(-23deg);margin-top:128px;--row:1"></div></div>
+         <div class="side-sprite-r"><div class="sprite sprite-demon" style="--flip-x:-1;transform: rotate(-17deg);--fps:5;--row:3;margin-top:256px"></div></div>
+         <div class="side-sprite-r"><div class="sprite sprite-demon" style="--flip-x:-1;transform: rotate(12deg);margin-top:340px;margin-left:24px;"></div></div>
+         
+         <pre class="code code-cpp copy">
+#include "SRU/sru.hpp"
+
+int main() {
+   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+   SetTraceLogLevel(LOG_ERROR);
+   InitWindow(800, 600, "SRU-Lib");
+
+   AnimationID animationId = pushAnimation({loadTexture("demon", "demon.png"), 128, 1, 0, 2, 0.1f, true});
+   Animation animation (animationId);
+
+   while (!WindowShouldClose()) {
+      animate(animation, GetFrameTime());
+      
+      BeginDrawing();
+      ClearBackground(BLACK);
+      drawTextureAnimatedResponsive(animation, {0.5f, 0.5f, 1.0f, 1.0f}, CENTER, WHITE, WINDOW_AREA, CUBIC_RATIO);
+      EndDrawing();
+   }
+   CloseWindow();
+}</pre>
+         <div class="side-sprite-l"><div class="sprite" style="background-image:url('/assets/3dsr/obsidian.png');margin-top:3px;width:8px;height:8px;zoom:12;transform:rotate(-6deg)"></div></div>
+         <div class="side-sprite-r"><div style="margin-top:180px;width:64px;height:64px;background-color:red;transform: rotate(9deg);"></div></div>
+
+         <h2>Player Controller</h2>
+         <pre class="code code-cpp copy">
+#include "SRU/sru.hpp"
+
+constexpr float SPEED = 250.0f;
+constexpr float ACCELERATION = 1000.0f;
+constexpr float DECELERATION = 2000.0f;
+
+int main() {
+   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+   SetTraceLogLevel(LOG_ERROR);
+   InitWindow(800, 600, "SRU-Lib");
+
+   Vector2 position = getWindowCenter();
+   Vector2 velocity = V2();
+
+   while (!WindowShouldClose()) {
+      Vector2 direction = V2(IsKeyDown(KEY_D) - IsKeyDown(KEY_A), IsKeyDown(KEY_S) - IsKeyDown(KEY_W));
+      Vector2 target = Vector2Normalize(direction) * SPEED;
+      float acceleration = (direction.x != 0.0f && direction.y != 0.0f ? ACCELERATION : DECELERATION);
+      velocity = Vector2MoveTowards(velocity, target, acceleration * GetFrameTime());
+      position += velocity * GetFrameTime();
+
+      BeginDrawing();
+      ClearBackground(BLACK);
+      drawRect(position, V2(50.0f));
+      EndDrawing();
+   }
+   CloseWindow();
+}</pre>
+         <div class="side-sprite-l"><div class="sprite" style="background-image:url('/assets/3dsr/lava.png');width:8px;height:8px;zoom:11;transform:rotate(-4deg);box-shadow: 0 0 10px orange;"></div></div>
+
+         <h2>Development</h2>
+         <p><span></span>I originally made this library because while making <a href="/projects/sandbox2d.html">Sandbox-2D</a> I noticed the amount of origin and positioning boilerplate and the lack of utilities for creating responsive layouts (my game really only worked on 1920x1080 screens) and so I created a separate header for all of these utilities. Some point later, I remembered <a href="/projects/cx_lib.html">CX</a> and <a href="/projects/astral_surge.html">Astral Surge</a> development cycle, where I switched from one to the other. It was fun.</p>
+
+         
+         <div class="side-sprite-r"><div class="sprite sprite-player-sandbox2d" style="--row: 0"></div></div>
+         <div class="side-sprite-r"><div class="sprite sprite-player-sandbox2d" style="--row: 1"></div></div>
+
+         <p><span></span>And so, I decided to relive it and create a handy library for simplifying the development for future projects. And, in fact, I did relive my previous dream and it was all fun (except for restructuring the whole Sandbox-2D's source code for SRU-Lib. That was hell). While there are missing utilities, I think that it is a successful library.</p>
+         <p><span></span>You can include it with CMake's FetchContent module (there's an example) and it's fully documented. Source code is available on <a href="https://github.com/Acerx-AMJ/SRU-Library">Github</a>.</p>
+
+         <h2>Gallery</h2>
+         <p><span></span>Here are some screenshots of what has been made with SRU-Lib.</p>
+
+         <div class="col2">
+            <img src="/assets/sru/1.png"/>
+            <img src="/assets/sru/2.png"/>
+            <img src="/assets/sru/3.png"/>
+            <img src="/assets/sru/4.png"/>
+            <img src="/assets/sru/5.png"/>
+            <img src="/assets/sru/6.png"/>
+            <img src="/assets/sru/7.png"/>
+            <img src="/assets/sru/8.png"/>
+         </div>
+      </article>
+
+      <script src="/source/image_click.js"></script>
+      <script src="/source/code-highlight.js"></script>
+   </body>
+</html>
