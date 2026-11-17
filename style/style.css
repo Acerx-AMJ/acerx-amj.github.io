@@ -544,7 +544,7 @@ article img:not(#x):not(.img-fullscreen) {
    cursor: pointer;
 }
 
-.col2 {
+.col2, .col2-simple {
    column-count: 2;
    column-gap: 1rem;
 
@@ -731,7 +731,11 @@ n { color: var(--code-number) }
    gap: 15px;
 }
 
-#projects a, #pages a {
+#mycreations a {
+   display: inline-block;
+}
+
+#projects a, #pages a, #mycreations a {
    margin: 0;
    margin-bottom: 5px;
    padding: 20px;
@@ -742,7 +746,7 @@ n { color: var(--code-number) }
    transition: transform 0.1s, border 0.1s, box-shadow 0.1s;
 }
 
-#projects a:hover, #pages a:hover {
+#projects a:hover, #pages a:hover, #mycreations a:hover {
    transform: translateY(-5px);
    border: 1px solid var(--link);
    background-color: var(--link-light);
@@ -750,16 +754,16 @@ n { color: var(--code-number) }
    text-decoration: none;
 }
 
-#projects a.font-pixel :is(h2, p, pre) {
+:is(#mycreations, #projects) a.font-pixel :is(h2, p, pre) {
    font-family: 'Pixel', var(--font);
 }
 
-#projects a.font-andy :is(h2, p, pre) {
+:is(#mycreations, #projects) a.font-andy :is(h2, p, pre) {
    font-family: 'Andy', var(--font);
    font-size-adjust: 0.66;
 }
 
-#projects a.font-slackey :is(h2, p, pre) {
+:is(#mycreations, #projects) a.font-slackey :is(h2, p, pre) {
    font-family: 'Slackey', var(--font);
 }
 

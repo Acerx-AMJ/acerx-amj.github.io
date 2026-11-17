@@ -9,6 +9,54 @@
       <title>Home</title>
       <link rel="stylesheet" href="/style/style.css">
       <script src="/source/common.js"></script>
+
+      <script>
+         document.addEventListener('DOMContentLoaded', () => {
+            const list = document.getElementById('mycreations');
+            function el(tag, text, className) {
+               const node = document.createElement(tag);
+               if (text !== undefined) node.textContent = text;
+               if (className) node.className = className;
+               return node;
+            }
+
+            fetch('/data/home.json').then(response => {
+               if (!response.ok) throw new Error(response.status);
+               return response.json();
+            }).then(json => {
+               const data = [...json.data];
+               for (const d of data) {
+                  const card = document.createElement('a');
+                  card.href = d.link;
+                  if (d.font) {
+                     card.classList.add(`font-${d.font}`);
+                  }
+
+                  if (d.title) {
+                     card.appendChild(el('h2', d.title))
+                  }
+                  else if (d.image) {
+                     const img = el('img', undefined, 'img-no-click');
+                     img.src = d.image;
+                     card.appendChild(img);
+                  }
+                  else if (d.custom) {
+                     const custom = el('div');
+                     custom.innerHTML = d.custom;
+                     card.appendChild(custom);
+                  }
+
+                  if (d.description) {
+                     card.appendChild(el('p', d.description));
+                  }
+                  list.appendChild(card);
+               }
+            }).catch(error => {
+               console.error(`Failed to fetch /data/home.json:`, error);
+               list.textContent = 'Failed to load the list.';
+            });
+         });
+      </script>
    </head>
 
    <body>
@@ -22,15 +70,7 @@
 
          <h2>My creations</h2>
          <p>I have a lot of projects. You can see a lot of them on my <a href="https://github.com/Acerx-AMJ">Github</a>. Or down here.</p>
-         <div class="col2">
-            <a href=""><img class="img-no-click" style="cursor:pointer !important;" src="/assets/pil.png"/></a>
-            <a href="/projects/sru.html"><img class="img-no-click" style="cursor:pointer !important;" src="/assets/sru/sru.png"/></a>
-            <a href="/projects/sandbox2d.html"><img class="img-no-click" style="cursor:pointer !important;" src="/assets/sandbox2d/logo.png"/></a>
-            <a href="/projects/astral_surge.html"><img class="img-no-click" style="cursor:pointer !important;" src="/assets/as/logo.png"/></a>
-            <a href="/projects/cx_lib.html"><img class="img-no-click" style="cursor:pointer !important;" src="/assets/cx/cx.png"/></a>
-            <a href="/projects/abyss_ascendant.html"><img class="img-no-click" style="cursor:pointer !important;" src="/assets/aa1/logo.png"/></a>
-            <a href="/projects/block_placer.html"><img class="img-no-click" style="cursor:pointer !important;" src="/assets/bp/logo.png"/></a>
-         </div>
+         <div id="mycreations" class="col2-simple"></div>
 
          <div class="side-sprite-r"><div class="sprite sprite-demon" style="--row: 1;--flip-x: -1;transform: rotate(-12deg)"></div></div>
 
@@ -78,7 +118,6 @@
             <img loading="lazy" title="Another screen simulation, this time it uses a single color instead of RGB and is focused on bitmap font rendering instead" src="/assets/screen_sim/8.png"/>
             <img loading="lazy" title="A simple 3D engine made using C and Raylib. It can render any model (albeit untextured and semi-transparent) given the list of vertices, lines and triangles. Here's a model of a duck I quickly threw together in Blender. Uses no 3D methods or camera" src="/assets/toyrender/6.png"/>
             <img loading="lazy" title="Arduino sketch of a 4bit binary adder. Controllable only using 4 buttons" src="/assets/index/4bit_alu.png"/>
-            <img loading="lazy" title="Another screenshot of my library CX, specifically the particle manager" src="/assets/cx/4.png"/>
             <img loading="lazy" title="Pong made using my CX library. It supports games against other players and games against AI of varying difficulty" src="/assets/pong/2.png"/>
             <img loading="lazy" title="Simple chatting game where you can connect to friends in LAN (you'd need a dedicated server for anything more, which I simply don't have)" src="/assets/index/multiplayer_demo.png"/>
             <img loading="lazy" title="Another screenshot of Block Placer, this time of the co-op mode" src="/assets/bp/3.png"/>
