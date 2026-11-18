@@ -1,5 +1,11 @@
 {
    "data": [{
+      "title": "Quick Guide to Becoming Great",
+      "description": "Quick guide to becoming great at almost anything.",
+      "link": "/blogs/quick_guide_to_becoming_great.html",
+      "date": "2026-11-18",
+      "start": "2026-11-18"
+   },{
       "title": "LLMs Can't Problem-solve",
       "description": "My personal issues with LLMs in code writing/problem-solving.",
       "link": "/blogs/ai_suggests_bad_solutions.html",
