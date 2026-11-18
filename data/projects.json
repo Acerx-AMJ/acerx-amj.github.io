@@ -5,7 +5,7 @@
       "link": "/projects/sru.html",
       "date": "Jun 2026 to present",
       "status": "working on",
-      "tags": ["library"],
+      "tag": ["library"],
       "tech": ["C++", "Raylib"],
       "start": "2026-06"
    },{
@@ -14,8 +14,8 @@
       "image": "/assets/3dsr/16.png",
       "link": "/projects/software_rasterizer.html",
       "date": "Feb 2026 & Nov 2026",
-      "status": "finished",
-      "tags": ["system", "graphics"],
+      "status": "working on",
+      "tag": ["system", "graphics"],
       "tech": ["Lua", "Love2D", "C++", "Raylib"],
       "start": "2026-02"
    },{
@@ -25,7 +25,7 @@
       "link": "/projects/paint_together.html",
       "date": "Apr 2026",
       "status": "finished",
-      "tags": ["system", "network", "graphics", "demo"],
+      "tag": ["system", "network", "graphics", "demo"],
       "tech": ["C++", "SFML", "Raylib", "HTML"],
       "start": "2026-04"
    },{
@@ -36,7 +36,7 @@
       "date": "Jan 2026 to present",
       "font": "andy",
       "status": "working on",
-      "tags": ["website"],
+      "tag": ["website"],
       "tech": ["HTML"],
       "start": "2026-01"
    }, {
@@ -47,7 +47,7 @@
       "date": "Aug 2026",
       "font": "slackey",
       "status": "finished",
-      "tags": ["game", "graphics"],
+      "tag": ["game", "graphics"],
       "tech": ["Godot"],
       "start": "2026-08"
    }, {
@@ -58,7 +58,7 @@
       "date": "Nov 2025 to Apr 2026",
       "status": "working on",
       "font": "andy",
-      "tags": ["game", "graphics"],
+      "tag": ["game", "graphics"],
       "tech": ["C++", "Raylib", "SRUlib"],
       "start": "2025-10-02"
    }, {
@@ -69,7 +69,7 @@
       "date": "Dec 2025",
       "font": "pixel",
       "status": "finished",
-      "tags": ["simulation", "graphics"],
+      "tag": ["simulation", "graphics"],
       "tech": ["C", "Raylib"],
       "start": "2025-12"
    }, {
@@ -80,7 +80,7 @@
       "font": "pixel",
       "date": "Oct 2025 & Nov 2026",
       "status": "finished",
-      "tags": ["game", "demo", "graphics"],
+      "tag": ["game", "demo", "graphics"],
       "tech": ["C++", "Raylib", "HTML"],
       "start": "2025-10-01"
    }, {
@@ -90,7 +90,7 @@
       "link": "/projects/screen_sim.html",
       "date": "Sep 2025",
       "status": "finished",
-      "tags": ["simulation", "graphics"],
+      "tag": ["simulation", "graphics"],
       "tech": ["C++", "SFML"],
       "start": "2025-09"
    }, {
@@ -100,7 +100,7 @@
       "link": "/projects/cll.html",
       "date": "Aug 2025 to Sep 2025 & Mar 2026",
       "status": "unfinished",
-      "tags": ["interpreter", "system"],
+      "tag": ["interpreter", "system"],
       "tech": ["C++"],
       "start": "2025-08-02"
    }, {
@@ -109,7 +109,7 @@
       "link": "/projects/dfunge.html",
       "date": "Aug 2025 & Dec 2025",
       "status": "finished",
-      "tags": ["interpreter", "system"],
+      "tag": ["interpreter", "system"],
       "tech": ["C++"],
       "start": "2025-08-01"
    }, {
@@ -118,7 +118,7 @@
       "link": "/projects/kahnaroc.html",
       "date": "Jun 2025",
       "status": "finished",
-      "tags": ["conlang", "website"],
+      "tag": ["conlang", "website"],
       "tech": ["HTML"],
       "start": "2025-06"
    }, {
@@ -127,7 +127,7 @@
       "link": "/projects/cx_lib.html",
       "date": "Dec 2024 to Jun 2025",
       "status": "finished",
-      "tags": ["library"],
+      "tag": ["library"],
       "tech": ["C++", "SFML"],
       "start": "2024-12"
    }, {
@@ -136,7 +136,7 @@
       "link": "/projects/astral_surge.html",
       "date": "Nov 2024 to Jun 2025",
       "status": "unfinished",
-      "tags": ["game", "graphics"],
+      "tag": ["game", "graphics"],
       "tech": ["C++", "SFML", "CX"],
       "start": "2024-11"
    }, {
@@ -147,7 +147,7 @@
       "image": "/assets/pong/html.png",
       "status": "finished",
       "font": "pixel",
-      "tags": ["game", "demo", "graphics"],
+      "tag": ["game", "demo", "graphics"],
       "tech": ["C++", "SFML", "CX", "HTML"],
       "start": "2024-10"
    }, {
@@ -157,7 +157,7 @@
       "date": "Sep 2024",
       "image": "/assets/bank/1.png",
       "status": "finished",
-      "tags": ["system", "simulation"],
+      "tag": ["system", "simulation"],
       "tech": ["C++", "SQLite"],
       "start": "2024-09-02"
    }, {
@@ -166,8 +166,8 @@
       "link": "/projects/abyss_ascendant.html",
       "date": "Sep 2024 to Oct 2024",
       "status": "finished",
-      "tags": ["game"],
-      "tech": ["C++", "SFML", "CX", "HTML", "SQLite", "Lua"],
+      "tag": ["game"],
+      "tech": ["C++", "SFML", "HTML", "SQLite", "Lua"],
       "start": "2024-09-01"
    }, {
       "title": "Lost Media",

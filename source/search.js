@@ -1,18 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     const script = document.getElementById('search');
-    const jsonpath = script.dataset.json;
-    const simple = (script.dataset.simpleFormat === 'true');
-    const perPage = 5;
-    const maxButtons = 7; // changing this will break it
-
     const list = document.getElementById('projects');
     const searchbar = document.getElementById('search-bar');
     const badsearch = document.getElementById('bad-search');
     const buttons = document.getElementById('project-buttons');
 
-    const FIELD = { tag: 'tags', tech: 'tech' };
+    const jsonpath = script.dataset.json;
+    const perPage = 5;
+    const maxButtons = 7; // changing this will break it
     const selected = { tag: new Set(), tech: new Set() };
     const summaryText = 'More search options';
+
     let entries = [];
     let summary = null;
     let page = 0;
@@ -23,28 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
     searchbar.value = params.get('q') ?? '';
 
     for (const value of params.getAll('tag')) {
-        selected['tag'].add(value.toLowerCase());
+        selected.tag.add(value.toLowerCase());
     }
     for (const value of params.getAll('tech')) {
-        selected['tech'].add(value.toLowerCase());
+        selected.tech.add(value.toLowerCase());
     }
     page = Math.max(0, (parseInt(params.get('page')) || 1) - 1);
 
+    // create a new element
     function el(tag, text, className) {
         const node = document.createElement(tag);
-        if (text !== undefined) {
-            node.textContent = text;
-        }
-        if (className) {
-            node.className = className;
-        }
+        if (text !== undefined) node.textContent = text;
+        if (className) node.className = className;
         return node;
     }
 
+    // fetch the data
     fetch(jsonpath).then(response => {
-        if (!response.ok) {
-            throw new Error(response.status);
-        }
+        if (!response.ok) throw new Error(response.status);
         return response.json();
     }).then(json => {
         const data = [...json.data];
@@ -67,19 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (d.titleImage) {
                 const logo = el('img', undefined, 'img-no-click');
                 logo.src = d.titleImage;
-                logo.alt = d.title ?? '';
                 card.appendChild(logo);
             } else if (d.title) {
                 card.appendChild(el('h2', d.title));
             }
 
-            if (!simple && d.image) {
+            if (d.image) {
                 const image = el('img');
                 image.src = d.image;
-                image.alt = '';
                 image.loading = 'lazy';
                 card.appendChild(image);
-            } else if (!simple && d.custom) {
+            } else if (d.custom) {
                 const custom = el('div');
                 custom.innerHTML = d.custom;
                 card.appendChild(custom);
@@ -89,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.appendChild(el('p', d.description));
             }
 
-            const meta = [d.status, (d.tags ?? []).join(', '), (d.tech ?? []).join(', ')].filter(Boolean).join(' / ');
+            const meta = [d.status, (d.tag ?? []).join(', '), (d.tech ?? []).join(', ')].filter(Boolean).join(' / ');
             if (meta) {
                 card.appendChild(el('pre', meta, 'card-meta'));
             }
@@ -98,9 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
             entries.push({
                 data: d,
                 card: card,
-                tags: new Set((d.tags ?? []).map(v => v.toLowerCase())),
+                tag: new Set((d.tag ?? []).map(v => v.toLowerCase())),
                 tech: new Set((d.tech ?? []).map(v => v.toLowerCase())),
-                haystack: [d.title, d.description, d.date, d.status, ...(d.tags ?? []), ...(d.tech ?? [])].filter(Boolean).join(' ').toLowerCase(),
+                haystack: [d.title, d.description, d.date, d.status, ...(d.tag ?? []), ...(d.tech ?? [])].filter(Boolean).join(' ').toLowerCase(),
                 start: d.start,
             });
         }
@@ -113,14 +105,13 @@ document.addEventListener('DOMContentLoaded', () => {
         function constructSearchOptions(kind, label) {
             const values = new Map();
             for (const entry of entries) {
-                for (const value of entry.data[FIELD[kind]] ?? []) {
+                for (const value of entry.data[kind] ?? []) {
                     if (!values.has(value.toLowerCase())) {
                         values.set(value.toLowerCase(), value);
                     }
                 }
             }
 
-            // forget values from a hand-edited url
             for (const key of [...selected[kind]]) {
                 if (!values.has(key)) {
                     selected[kind].delete(key);
@@ -141,7 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 chip.addEventListener('click', () => {
                     if (selected[kind].has(key)) {
                         selected[kind].delete(key);
-                    } else {
+                    }
+                    else {
                         selected[kind].add(key);
                     }
                     page = 0;
@@ -172,28 +164,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (details.children.length > 1) {
             details.open = (selected.tag.size + selected.tech.size > 0);
             searchbar.after(details);
-        } else {
+        }
+        else {
             summary = null;
         }
-
         update();
     }).catch(error => {
         console.error(`Failed to fetch ${jsonpath}:`, error);
         list.textContent = 'Failed to load the list.';
     });
 
-    function goTo(target) {
-        const fromBottom = document.documentElement.scrollHeight - window.scrollY;
-        page = target;
-        update();
-        window.scrollTo(0, document.documentElement.scrollHeight - fromBottom);
-    }
-
     function arrow(text, label, target, disabled) {
         const button = el('button', text);
         button.setAttribute('aria-label', label);
         button.disabled = disabled;
-        button.addEventListener('click', () => goTo(target));
+        button.addEventListener('click', () => {
+            page = target;
+            update();
+            window.scrollTo(0, 0);
+        });
         buttons.appendChild(button);
     }
 
@@ -204,11 +193,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!terms.every(term => entry.haystack.includes(term))) {
                 return false;
             }
-            for (const kind of ['tag', 'tech']) {
-                for (const key of selected[kind]) {
-                    if (!entry[FIELD[kind]].has(key)) {
-                        return false;
-                    }
+            for (const key of selected.tag) {
+                if (!entry.tag.has(key)) {
+                    return false;
+                }
+            }
+            for (const key of selected.tech) {
+                if (!entry.tech.has(key)) {
+                    return false;
                 }
             }
             return true;
@@ -251,7 +243,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (p === page) {
                     button.setAttribute('aria-current', 'page');
                 }
-                button.addEventListener('click', () => goTo(p));
+                button.addEventListener('click', () => {
+                    page = p;
+                    update();
+                    window.scrollTo(0, 0);
+                });
                 buttons.appendChild(button);
             }
 
@@ -274,10 +270,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (searchbar.value.trim()) {
             query.set('q', searchbar.value.trim());
         }
-        for (const kind of ['tag', 'tech']) {
-            for (const key of selected[kind]) {
-                query.append(kind, key);
-            }
+        for (const key of selected.tag) {
+            query.append('tag', key);
+        }
+        for (const key of selected.tech) {
+            query.append('tech', key);
         }
         if (page > 0) {
             query.set('page', page + 1);
