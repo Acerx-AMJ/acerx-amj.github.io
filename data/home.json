@@ -1,5 +1,9 @@
 {
    "data": [{
+      "image": "/assets/pil.png",
+      "description": "PIL is a primitive assembly-like esolang. It is a loosely-typed language with no GC",
+      "link": "/projects/pil.html"
+   },{
       "image": "/assets/sru/sru.png",
       "description": "Library for Raylib that handles a lot of the boilerplate and utilities",
       "link": "/projects/sru.html"

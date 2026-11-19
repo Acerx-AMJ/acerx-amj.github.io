@@ -1,4 +1,5 @@
-const cpp_data = {
+const languageData = [{
+   class: '.code-cpp',
    keywords: new Set([
       'alignas', 'alignof', 'asm', 'auto', 'bool', 'break', 'case', 'catch', 'char', 'class', 'concept', 'const', 'consteval',
       'constexpr', 'constinit', 'const_cast', 'continue', 'decltype', 'default', 'delete', 'do', 'double', 'dynamic_cast',
@@ -17,9 +18,8 @@ const cpp_data = {
    directive: /(?<=^[ \t]*)#[ \t]*[A-Za-z_]\w*/,
    include_path: /(?<=^[ \t]*#[ \t]*include[ \t]*)<[^>\n]*>/,
    number: /(?<![\w.])(?:0[xX][\da-fA-F]+(?:'[\da-fA-F]+)*|0[bB][01]+(?:'[01]+)*|(?:\d+(?:'\d+)*(?:\.(?:\d+(?:'\d+)*)?)?|\.\d+(?:'\d+)*)(?:[eE][+-]?\d+)?)[uUlLfF]{0,3}(?!\w)/, // horrific
-};
-
-const cll_data = {
+},{
+   class: '.code-cll',
    keywords: new Set([
       'let', 'con', 'delete', 'exists', 'if', 'elif', 'else', 'while', 'for', 'fn', 'do', 'break', 'continue', 'return', 'unless', 'and',
       'or', 'not', 'in', 'is', 'isnot', 'list', 'array', 'map'
@@ -28,9 +28,8 @@ const cll_data = {
    line_comment: /\/\/.*/,
    block_comment: /\/\*[\s\S]*?\*\//,
    number: /(?<![\w.])(?:\d+(?:\.\d*)?|\.\d+)(?!\w)/,
-};
-
-const ssl_data = {
+},{
+   class: '.code-ssl',
    keywords: new Set([
       'and', 'or', 'not', 'if', 'elif', 'else', 'end', 'match', 'case', 'enum', 'fn', 'lambda', 'struct', 'for', 'in', 'to', 'until',
       'loop', 'while', 'do', 'reversed', 'continue', 'break', 'return', 'unless', 'pub', 'prv', 'import', 'all', 'from', 'as', 'is'
@@ -39,11 +38,25 @@ const ssl_data = {
    line_comment: /\/\/.*/,
    block_comment: /\/\*[\s\S]*?\*\//,
    number: /(?<![\w.])(?:\d+(?:\.\d*)?|\.\d+)(?!\w)/,
-};
+},{
+   class: '.code-pil',
+   keywords: new Set(['local', 'const', 'global', 'struct', 'array', 'enum', 'return', 'make', 'free']),
+   types: new Set([
+      'leeq', 'jmp', 'sub', 'call', 'mul', 'factorial', 'println', 'set', 'printfln', 'Vec2', 'PermissionFlags', 'None', 'File',
+      'Environment', 'OsExec', 'Network', 'get-some', 'print', 'read', 'file-open', 'file-read', 'file-close', 'string-free',
+      'dir-list-recursive', 'array-size', 'greq', 'array-at', 'incr', 'goto', 'array-deep-free', 'cat', 'ls', 'mv', 'cp', 'rm',
+      'err', '_exit', 'path-move', 'path-copy', 'path-remove-all', 'help', 'valtable', 'func-call', 'error'
+   ]),
+   line_comment: /#.*/,
+   directive: /(?<=^[ \t]*)\@[ \t]*[A-Za-z_]\w*/,
+   number: /(((r|R)\$)|\$)?(?<![\w.])(?:\d+(?:\.\d*)?|\.\d+)(?!\w)/,
+   identifier: /(?<![\w-])[A-Za-z_]\w*(?:-[A-Za-z_]\w*)*(?![\w-])/,
+}]
 
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 function highlight(code, language) {
+   const ident = (language.identifier ?? /\b[A-Za-z_]\w*\b/).source;
    const pattern = new RegExp([
       ['comment', language.line_comment],
       ['block', language.block_comment],
@@ -52,8 +65,8 @@ function highlight(code, language) {
       ['str', /"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/],
       ['qualified', language.scope && /\b[A-Za-z_]\w*(?:::[A-Za-z_]\w*)+/],
       ['number', language.number],
-      ['func', /\b[A-Za-z_]\w*(?=\()/],
-      ['ident', /\b[A-Za-z_]\w*\b/],
+      ['func', new RegExp(`${ident}(?=\\()`)],
+      ['ident', new RegExp(ident)],
    ].filter(([name, regex]) => regex).map(([name, regex]) => `(?<${name}>${regex.source})`).join('|'), 'gm');
 
    let result = '';
@@ -99,14 +112,10 @@ function highlight(code, language) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-   for (const cpp of document.querySelectorAll('.code-cpp')) {
-      cpp.innerHTML = highlight(cpp.textContent, cpp_data);
-   }
-   for (const cll of document.querySelectorAll('.code-cll')) {
-      cll.innerHTML = highlight(cll.textContent, cll_data);
-   }
-   for (const ssl of document.querySelectorAll('.code-ssl')) {
-      ssl.innerHTML = highlight(ssl.textContent, ssl_data);
+   for (const data of languageData) {
+      for (const code of document.querySelectorAll(data.class)) {
+         code.innerHTML = highlight(code.textContent, data);
+      }
    }
 
    for (const pre of document.querySelectorAll('.code.copy')) {

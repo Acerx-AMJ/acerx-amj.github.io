@@ -1,5 +1,14 @@
 {
    "data": [{
+      "titleImage": "/assets/pil.png",
+      "description": "PIL is a primitive esoteric programming language based off COBOL and assembly. It is a loosely-typed language with no GC.",
+      "link": "/projects/pil.html",
+      "date": "Sep 2026 to present",
+      "status": "working on",
+      "tag": ["interpreter", "system"],
+      "tech": ["C++"],
+      "start": "2026-09"
+   },{
       "titleImage": "/assets/sru/sru.png",
       "description": "Simple Raylib Utility Library - based on utilities developed for Sandbox-2D and AA3. Made to reduce boilerplate for different Raylib projects",
       "link": "/projects/sru.html",

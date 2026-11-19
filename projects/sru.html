@@ -29,7 +29,6 @@
 
 int main() {
    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
-   SetTraceLogLevel(LOG_ERROR);
    InitWindow(800, 600, "SRU-Lib");
 
    while (!WindowShouldClose()) {
@@ -65,7 +64,6 @@ int main() {
 
 int main() {
    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
-   SetTraceLogLevel(LOG_ERROR);
    InitWindow(800, 600, "SRU-Lib");
 
    AnimationID animationId = pushAnimation({loadTexture("demon", "demon.png"), 128, 1, 0, 2, 0.1f, true});
@@ -94,7 +92,6 @@ constexpr float DECELERATION = 2000.0f;
 
 int main() {
    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
-   SetTraceLogLevel(LOG_ERROR);
    InitWindow(800, 600, "SRU-Lib");
 
    Vector2 position = getWindowCenter();

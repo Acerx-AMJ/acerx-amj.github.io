@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <meta name="author" content="Daniel Vishnevsky">
+      <meta name="description" content="PIL is a primitive esoteric programming language based off COBOL and assembly. It is a loosely-typed language with no GC">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>PIL</title>
+      <link rel="stylesheet" href="/style/style.css">
+      <script src="/source/common.js"></script>
+   </head>
+
+   <body>
+      <article>
+         <img class="img-no-click" src="/assets/pil.png"/>
+         <h3>Daniel Vishnevsky</h3>
+         <h2>About</h2>
+         <p><span></span>PIL is a primitive esoteric programming language based off COBOL and assembly. It is a loosely-typed language with no GC. It is fully documented and has a large standard library. All of the PIL projects are open-source on <a href="https://github.com/pil-esolang">Github</a>.</p>
+
+         <h2>Factorial Example</h2>
+         <pre class="code code-pil copy">
+# calculates the factorial of N
+factorial(n)
+   local result;                 # define a new variable
+   leeq n, 1, $0;                # check if N is smaller or equal to 1
+   jmp $0, factorial-end;        # if it is, jump to end, where we return 1
+
+   sub n, 1, $1;                 # calculate n-1
+   call result, factorial, $1;   # call factorial and store in result
+   mul result, n, result;        # calculate the factorial of N
+   return result;                # return the result
+
+factorial-end:
+   return 1;
+
+main()                           # main is called on start
+   factorial 5.0;                # calculate 5!
+   println r$0;                  # 120</pre>
+
+         <h2>Language</h2>
+         <p><span></span>The interpreter uses bytecode (same as Lua and Python) and is relatively fast for an interpreted language. It is possible to make larger-scale projects using it (<a href="https://github.com/pil-esolang/PIL/tree/main/examples/ascii-game">ASCII game</a>). The full documentation of the language and library can be found online <a href="https://pil-esolang.github.io/">here</a>.</p>
+         <h4>Variables</h4>
+         <p><span></span>The language contains three different types of variables: globals, locals and registers (globals). Constants don't count as variables as they are optimized away before runtime.</p>
+         <pre class="code code-pil copy">
+const magic-number 1337;
+global g;
+
+main()
+   local x;
+   set 60, x;
+   set 42, g;
+   println magic-number, ' ', g, ' ', x;</pre>
+         <h4>Functions</h4>
+         <p><span></span>Functions can be defined using parentheses and an optional parameter list. Returned values do not have to be listed as a function can return an arbitrary amount of values based on different conditions. Functions are called by their names followed by the arguments (unlike other languages, parentheses are excluded).</p>
+         <pre class="code code-pil copy">
+get-some(condition)
+   jmp condition, get-some-more;
+   return 1, 2;
+get-some-more:
+   return 1, 2, 3, 4;</pre>
+         <h4>Structures</h4>
+         <p><span></span>Structures are arrays with named indices under the hood and all are allocated. Again, somewhat similar to Lua. But unlike arrays, structure fields can be accessed without calling any functions.</p>
+         <pre class="code code-pil copy">
+struct Vec2 ( x, y )
+
+main()
+   local v1, v2;
+   make Vec2, v1, 1.0, 2.0;
+   printfln "({}, {})", v1.x, v1.y;
+   make Vec2, v2, 3.0, 4.0;
+   printfln "({}, {})", v2.x, v2.y;
+   free v1, v2;
+   </pre>
+         <h4>Enumerations/Constants</h4>
+         <p><span></span>The language also contains enumerations. Enumerations are constants and are completely replaced at runtime. There's also the constant evaluator for calculating complex constants at parse-time.</p>
+         <pre class="code code-pil copy">
+enum PermissionFlags (
+   None        = 0,        # 0
+   File        = [1 << 0], # 1
+   Environment = [1 << 1], # 2
+   OsExec      = [1 << 2], # 4
+   Network     = [1 << 3], # 8
+)
+
+main()
+   local permission;
+   set PermissionFlags.OsExec, permission;</pre>
+         <h4>Standard library</h4>
+         <p><span></span>PIL has a large standard library. In total it contains almost 300 different built-ins that help with math, file I/O and string, array and map usage. Here's a shell example containing string, array and file I/O built-ins (it's ripped straight from the interpreter's examples, hence the comments):</p>
+         <pre class="code code-pil copy">
+# If you are getting a bunch of errors, try running with
+# the --allow-fileio flag.
+
+# Little shell that can execute a command. Value table
+# can be found in main. Currently there are a lot of
+# file-related commands, but feel free to add any other
+# commands you like.
+
+# Another thing you could add is the REPL. Have fun
+# experimenting! That is what these examples are for.
+cat()
+   local file, content, path;
+   print "Input file to read: ";
+   read path;
+   file-open path, 'r', file;
+   file-read file, content;
+   println content;
+   file-close file;
+   string-free c, path;
+
+ls()
+   local dir, entry, entries, i, n, condition;
+   print "Input directory to list: ";
+   read dir;
+   dir-list-recursive dir, entries;
+
+   array-size entries, n;
+   set 0, i;
+ls-loop-begin:
+   greq i, n, condition;
+   jmp condition, ls-loop-end;
+
+   array-at entries, i, entry;
+   println entry;
+   incr i;
+   goto ls-loop-begin;
+ls-loop-end:
+   string-free dir;
+   array-deep-free entries;
+
+mv()
+   local source, destination;
+   print "Input file to move: ";
+   read source;
+   print "Input destination: ";
+   read destination;
+   path-move source, destination;
+   string-free source, destination;
+
+cp()
+   local source, destination;
+   print "Input file to copy: ";
+   read source;
+   print "Input destination: ";
+   read destination;
+   path-copy source, destination;
+   string-free source, destination;
+
+rm()
+   local path;
+   print "Input path to remove: ";
+   read path;
+   path-remove-all path;
+   string-free path;
+
+err()
+   error "Invalid command";
+
+# exit is already taken
+_exit()
+   return;
+
+# Don't forget to update help!
+help()
+   println "cat - output contents of a file";
+   println "ls - list directory";
+   println "mv - move file";
+   println "cp - copy file";
+   println "rm - remove file/directory";
+   println "exit - exit shell";
+   println "help - list commands";
+
+main()
+   local command, function;
+   print "Input command: ";
+   read command;
+   # After implementing a new command, add it to this list.
+   # err needs to be the last argument. That is the default
+   # one whenever there are no matches.
+   valtable command, function,
+      "cat",   cat,
+      "ls",    ls,
+      "mv",    mv,
+      "cp",    cp,
+      "rm",    rm,
+      "exit", _exit,
+      "help",  help,
+               err;
+
+   string-free command;
+   func-call function;</pre>
+         <h2>Development</h2>
+         <p><span></span>I wanted to create an assembly and COBOL mishmash esoteric language. And so I did. The language started out pretty simple with just functions and function calls, but I kept writing little projects in it and adding whatever felt useful. The variables have been redone many times and I like the current approach, although I'm thinking of removing registers entirely (as of writing this) and that would also make directives mostly useless (except for the lone @include). I'll think about it.</p>
+         <p><span></span>The project that shaped this language the most was the ASCII game I linked before. It's a multi-file project with hundreds of lines of code. It's a coin-collecting game with various enemies with different AI. Because of it, I decided to create structures and enumerations. I was using arrays to save level data with constants as indices and that was super tedious. Structures easily made PIL a better and a more usable language.</p>
+         <p><span></span>Oh, and PIL stands for Primitive Interpreted Language.</p>
+      </article>
+      <script src="/source/code-highlight.js"></script>
+   </body>
+</html>
