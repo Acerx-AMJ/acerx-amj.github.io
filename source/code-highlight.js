@@ -45,11 +45,10 @@ const languageData = [{
       'leeq', 'jmp', 'sub', 'call', 'mul', 'factorial', 'println', 'set', 'printfln', 'Vec2', 'PermissionFlags', 'None', 'File',
       'Environment', 'OsExec', 'Network', 'get-some', 'print', 'read', 'file-open', 'file-read', 'file-close', 'string-free',
       'dir-list-recursive', 'array-size', 'greq', 'array-at', 'incr', 'goto', 'array-deep-free', 'cat', 'ls', 'mv', 'cp', 'rm',
-      'err', '_exit', 'path-move', 'path-copy', 'path-remove-all', 'help', 'valtable', 'func-call', 'error'
+      'err', '_exit', 'path-move', 'path-copy', 'path-remove-all', 'help', 'valtable', 'func-call', 'error', 'add'
    ]),
    line_comment: /#.*/,
-   directive: /(?<=^[ \t]*)\@[ \t]*[A-Za-z_]\w*/,
-   number: /(((r|R)\$)|\$)?(?<![\w.])(?:\d+(?:\.\d*)?|\.\d+)(?!\w)/,
+   number: /(?<![\w.])(?:\d+(?:\.\d*)?|\.\d+)(?!\w)/,
    identifier: /(?<![\w-])[A-Za-z_]\w*(?:-[A-Za-z_]\w*)*(?![\w-])/,
 }]
 

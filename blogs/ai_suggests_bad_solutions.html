@@ -33,8 +33,8 @@
          <p><span></span>I just reasked this question to Claude Sonnet 5.5 and it did give me what I hoped for. But for something so simple (slimes in video games!) you'd think it would give a single definitive answer that doesn't use more state than needed and isn't fragile. If that wasn't the case, I wouldn't be making this blog. Or it could be that by that time my public repository was scraped and included in the training data and all Claude had to do was identify where I took the snippet from and just fill in the blank. Can't comment on that.</p>
 
          <h2>Snippet directive demo</h2>
-         <p><span></span>This was more recently - about 1 or 2 weeks ago (late September 2026). I was creating an esoteric programming language PIL and wanted to know how snippets would feel. It's an assembly-like language and loops have to be written by hand using gotos and jumps. The translator has to take something like this:</p>
-         <pre class="code">
+         <p><span></span>This was more recently - about 1 or 2 weeks ago (late September 2026). I was creating an esoteric programming language PIL and wanted to know how snippets would feel. It's an assembly-like language and loops have to be written by hand using gotos and jumps. The translator has to take something like this (all PIL code here is old and won't compile):</p>
+         <pre class="code code-pil copy">
 set 0, i
 set 10, n
 
@@ -44,7 +44,7 @@ set 10, n
 @end
 </pre>
          <p>And turn it into this:</p>
-         <pre class="code">
+         <pre class="code code-pil copy">
    set 0, i
    set 10, n
 
@@ -66,7 +66,7 @@ loop-end:
 
          <h2>Structure denial</h2>
          <p><span></span>I started creating a bigger project in PIL - the same esoteric language I was just writing about. And I noticed how I had to resort to using arrays with named indices to create structures and organize my data. It was error-prone and I had to change code in multiple places to add a new field. Well, I made the language, so I decided to add structures. Here was my proposal of how they could look like:</p>
-         <pre class="code">
+         <pre class="code code-pil copy">
 struct Vec2 x, y
 
 vec2-add(v1, v2)
@@ -106,5 +106,6 @@ main()
       </article>
 
       <script src="/source/image_click.js"></script>
+      <script src="/source/code-highlight.js"></script>
    </body>
 </html>

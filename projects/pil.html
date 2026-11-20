@@ -22,26 +22,27 @@
          <pre class="code code-pil copy">
 # calculates the factorial of N
 factorial(n)
-   local result;                 # define a new variable
-   leeq n, 1, $0;                # check if N is smaller or equal to 1
-   jmp $0, factorial-end;        # if it is, jump to end, where we return 1
+   local result, cond, minus1;      # define new variables
+   leeq n, 1, cond;                 # check if N is smaller or equal to 1
+   jmp cond, factorial-end;         # if it is, jump to end, where we return 1
 
-   sub n, 1, $1;                 # calculate n-1
-   call result, factorial, $1;   # call factorial and store in result
-   mul result, n, result;        # calculate the factorial of N
-   return result;                # return the result
+   sub n, 1, minus1;                # calculate n-1
+   call result, factorial, minus1;  # call factorial and store in result
+   mul result, n, result;           # calculate the factorial of N
+   return result;                   # return the result
 
 factorial-end:
    return 1;
 
-main()                           # main is called on start
-   factorial 5.0;                # calculate 5!
-   println r$0;                  # 120</pre>
+main()                              # main is called on start
+   local result;                    # define a new variable
+   call result, factorial, 5.0;     # calculate 5!
+   println result;                  # 120</pre>
 
          <h2>Language</h2>
          <p><span></span>The interpreter uses bytecode (same as Lua and Python) and is relatively fast for an interpreted language. It is possible to make larger-scale projects using it (<a href="https://github.com/pil-esolang/PIL/tree/main/examples/ascii-game">ASCII game</a>). The full documentation of the language and library can be found online <a href="https://pil-esolang.github.io/">here</a>.</p>
          <h4>Variables</h4>
-         <p><span></span>The language contains three different types of variables: globals, locals and registers (globals). Constants don't count as variables as they are optimized away before runtime.</p>
+         <p><span></span>The language contains two different types of variables: globals and locals. Constants don't count as variables as they are optimized away before runtime.</p>
          <pre class="code code-pil copy">
 const magic-number 1337;
 global g;
@@ -191,7 +192,7 @@ main()
    string-free command;
    func-call function;</pre>
          <h2>Development</h2>
-         <p><span></span>I wanted to create an assembly and COBOL mishmash esoteric language. And so I did. The language started out pretty simple with just functions and function calls, but I kept writing little projects in it and adding whatever felt useful. The variables have been redone many times and I like the current approach, although I'm thinking of removing registers entirely (as of writing this) and that would also make directives mostly useless (except for the lone @include). I'll think about it.</p>
+         <p><span></span>I wanted to create an assembly and COBOL mishmash esoteric language. And so I did. The language started out pretty simple with just functions and function calls, but I kept writing little projects in it and adding whatever felt useful.</p>
          <p><span></span>The project that shaped this language the most was the ASCII game I linked before. It's a multi-file project with hundreds of lines of code. It's a coin-collecting game with various enemies with different AI. Because of it, I decided to create structures and enumerations. I was using arrays to save level data with constants as indices and that was super tedious. Structures easily made PIL a better and a more usable language.</p>
          <p><span></span>Oh, and PIL stands for Primitive Interpreted Language.</p>
       </article>
