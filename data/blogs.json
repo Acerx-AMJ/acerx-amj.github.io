@@ -1,33 +1,3 @@
 {
-   "data": [{
-      "title": "Quick Guide to Becoming Great",
-      "description": "Quick guide to becoming great at almost anything.",
-      "link": "/blogs/quick_guide_to_becoming_great.html",
-      "date": "2026-11-18",
-      "start": "2026-11-18"
-   },{
-      "title": "LLMs Can't Problem-solve",
-      "description": "My personal issues with LLMs in code writing/problem-solving.",
-      "link": "/blogs/ai_suggests_bad_solutions.html",
-      "date": "2026-10-10",
-      "start": "2026-10-10"
-   }, {
-      "title": "Responsive Design 2",
-      "description": "How to make your game UI responsive. The sequel.",
-      "link": "/blogs/responsive_design2.html",
-      "date": "2026-08-22",
-      "start": "2026-08-22"
-   },{
-      "title": "Basic C++ Optimizations",
-      "description": "Basic C++ optimizations that work wonders.",
-      "link": "/blogs/basic_cpp_optimizations.html",
-      "date": "2026-06-14",
-      "start": "2026-06-14"
-   },{
-      "title": "Responsive Design in Raylib",
-      "description": "How I made my game look great on all desktop screen sizes.",
-      "link": "/blogs/responsive_design.html",
-      "date": "2026-04-05",
-      "start": "2026-04-05"
-   }]
+   "data": []
 }

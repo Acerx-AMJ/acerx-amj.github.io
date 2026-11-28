@@ -1,5 +1,15 @@
 {
    "data": [{
+      "title": "Chatroom",
+      "description": "CLI chatroom that you can use to chat with your friends in a LAN",
+      "image": "/assets/chatroom/1.png",
+      "link": "/projects/chatroom.html",
+      "date": "Feb 2025",
+      "status": "finished",
+      "tag": ["network", "system"],
+      "tech": ["C++", "SFML"],
+      "start": "2025-02-07"
+   },{
       "titleImage": "/assets/pil.png",
       "description": "PIL is a primitive esoteric programming language based off COBOL and assembly. It is a loosely-typed language with no GC.",
       "link": "/projects/pil.html",
